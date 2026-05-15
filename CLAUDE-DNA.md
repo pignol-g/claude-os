@@ -1,9 +1,11 @@
 # CLAUDE-DNA — Convention Claude de Guillaume Pignolet
 
 <!-- MASTER FILE — Source de vérité unique pour tous les projets Claude de Guillaume -->
-<!-- Version : 2026-05-15 v1.1 -->
+<!-- Version : 2026-05-15 v1.3 -->
 <!-- GitHub canonique : github.com/pignol-g/claude-os — branche main (public) -->
-<!-- Drive (chemin Mac réel) : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/CLAUDE-DNA.md -->
+<!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA.md -->
+<!-- Drive (chemin Mac réel) : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA.md -->
+<!-- Note : claude-os est un repo git dans Drive — Drive sync = master local, GitHub = master cloud -->
 <!--
   Ce fichier est l'ADN de la convention Claude de Guillaume.
   Il est agnostique à tout domaine et à tout projet.
@@ -174,7 +176,7 @@ Rappeler : "Dépose ce fichier dans `from-chat/YYYY-MM-DD-session.md` du repo pr
 # ~/.claude/CLAUDE.md — CC Global Guillaume
 
 Avant toute action, lire le fichier DNA global :
-/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/CLAUDE-DNA.md
+/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA.md
 
 Ce fichier contient toutes les conventions globales, l'architecture CC↔Chat,
 et les comportements attendus pour tous les projets.
@@ -227,8 +229,9 @@ ARCHITECTURE CC↔Chat :
 DÉBUT DE SESSION : lis la Project Knowledge du projet, annonce l'état en 1 phrase.
 FIN DE SESSION : génère l'export Chat→CC automatiquement si infos utiles échangées.
 
-FICHIER DNA COMPLET : Drive/Claude/CLAUDE-DNA.md sur mon Mac, et github.com/pignol-g/claude-os.
-Je peux te le fournir en début de session si besoin d'accès au détail.
+DNA COMPLET : github.com/pignol-g/claude-os (public) — raw : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA.md
+Drive local : Drive/Claude/claude-os/CLAUDE-DNA.md
+Je peux te le fournir en session (ou tu peux le fetcher via l'URL raw si web access activé).
 ```
 
 ### 4.4 Template knowledge/CONNAISSANCE-PROJET.md
@@ -252,9 +255,11 @@ Structure minimale :
 
 | Emplacement | Rôle | Mis à jour par |
 |---|---|---|
-| `github.com/pignol-g/claude-os` | Master canonique | CC (session claude-os) |
-| `/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/CLAUDE-DNA.md` | Mirror Drive Mac | CC Mac après chaque modif du master |
+| `github.com/pignol-g/claude-os` (public) | Master canonique + source sync CC cloud | CC (session claude-os) |
+| `/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA.md` | Master local Mac — même fichier, Drive sync git | Automatique via Drive sync + git push |
 | `CLAUDE-DNA.md` à la racine de chaque repo projet | Copie projet | CC via commande "sync DNA" |
+
+**Relation Drive ↔ GitHub** : claude-os est un repo git **dans Drive**. Drive sync gère la copie locale. `git push` depuis claude-os sur Mac met à jour GitHub. Les deux sont en sync automatiquement.
 
 ### 5.2 Modifier le DNA (processus complet)
 
@@ -263,9 +268,8 @@ CC fait tout ce qui est automatisable. Guillaume fait uniquement les actions sig
 **Étapes CC (automatiques) :**
 1. Ouvrir session CC dans repo `pignol-g/claude-os`
 2. Éditer `CLAUDE-DNA.md` (incrémenter Version + date dans l'en-tête)
-3. Commiter + pusher dans claude-os
-4. Si session Mac locale : `cp CLAUDE-DNA.md "/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/CLAUDE-DNA.md"`
-5. Générer le texte mis à jour pour Chat Memory (section 4.3)
+3. Commiter + pusher dans claude-os → Drive sync met à jour le fichier local automatiquement
+4. Générer le texte mis à jour pour Chat Memory (section 4.3)
 6. Lister les repos projets à synchroniser
 
 **Actions Guillaume (manuelles) :**
@@ -274,9 +278,10 @@ CC fait tout ce qui est automatisable. Guillaume fait uniquement les actions sig
 
 ### 5.3 Synchroniser une copie projet (Guillaume dit "sync DNA")
 
-CC exécute automatiquement l'une des deux commandes selon le contexte :
+**Règle critique : la source de sync est TOUJOURS claude-os. Jamais depuis un autre projet.**
+claude-os est public → curl sans auth fonctionne depuis CC cloud et CC Mac.
 
-**Décision actée : claude-os est public** — sync via curl simple, sans auth.
+CC exécute automatiquement l'une des deux méthodes :
 
 **Méthode 1 — curl depuis GitHub (CC cloud ou Mac, marche partout) :**
 ```bash
@@ -286,13 +291,15 @@ git commit -m "sync: update CLAUDE-DNA from canonical (claude-os)"
 git push
 ```
 
-**Méthode 2 — copie depuis Drive (Mac local uniquement, si offline GitHub) :**
+**Méthode 2 — copie depuis Drive (Mac local uniquement, si hors ligne) :**
 ```bash
-cp "/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/CLAUDE-DNA.md" ./CLAUDE-DNA.md
+cp "/Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA.md" ./CLAUDE-DNA.md
 git add CLAUDE-DNA.md
-git commit -m "sync: update CLAUDE-DNA from Drive"
+git commit -m "sync: update CLAUDE-DNA from Drive (claude-os)"
 git push
 ```
+
+**⚠ Ne jamais curl depuis `ClaudeAchatMaison` ou un autre repo projet** — ce sont des copies, pas le master. Même si un projet contient une version plus récente (ex : session de travail), elle doit d'abord être pushée dans claude-os avant d'être propagée ailleurs.
 
 ### 5.4 Bootstrap d'un nouveau projet (checklist complète)
 
@@ -364,3 +371,5 @@ claude.ai ne supporte pas l'upload de fichiers au niveau utilisateur global — 
 |---|---|---|
 | v1 | 2026-05-15 | Création initiale — extrait et généralisé depuis CLAUDE.md ClaudeAchatMaison |
 | v1.1 | 2026-05-15 | Chemins Drive Mac réels intégrés. Décision actée : claude-os public. Chat Memory raccourcie (path court). |
+| v1.2 | 2026-05-15 | claude-os confirmé repo git dans Drive. Chemins corrigés (claude-os/CLAUDE-DNA.md). Raw URL GitHub ajoutée. Section 5.1 clarifiée (Drive sync automatique via git). Chat Memory : URL raw pour fetch manuel. |
+| v1.3 | 2026-05-15 | Copie racine Drive/Claude/CLAUDE-DNA.md supprimée (redondante). Règle sync 5.3 clarifiée : source = claude-os uniquement, jamais depuis un projet. Avertissement curl repo privé documenté. |
