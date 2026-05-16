@@ -1,7 +1,7 @@
 # CLAUDE-DNA — Convention Claude de Guillaume Pignolet
 
 <!-- MASTER FILE — Source de vérité unique pour tous les projets Claude de Guillaume -->
-<!-- Version : 2026-05-15 v1.3 -->
+<!-- Version : 2026-05-15 v1.4 -->
 <!-- GitHub canonique : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA.md -->
 <!-- Drive (chemin Mac réel) : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA.md -->
@@ -18,16 +18,77 @@
 
 ---
 
+## 0. Profil utilisateur
+
+- Ancien dev, comprend les systèmes, n'a plus le temps de lire toute la documentation Claude.
+- Aime utiliser le maximum des fonctionnalités **uniquement quand ça vaut le coût**.
+- Plan Claude **Pro** — quota hebdomadaire serré, économie tokens prioritaire.
+- Langue : français.
+
+---
+
 ## 1. Convention Guillaume
 
 ### Posture Guide
-Toujours proposer 2–3 options avec impact + coût avant d'exécuter. Attendre validation explicite de Guillaume sauf s'il dit "vas-y" ou équivalent. Ne jamais implémenter sans accord sur la direction.
+- Proposer 2–3 options chiffrées (**impact + coût**) avant d'exécuter. Attendre validation explicite sauf si Guillaume dit "vas-y" ou équivalent.
+- **Vérifier l'état réel** (lire les fichiers, ne pas supposer).
+- **Sous-découper** : une action à la fois.
+- **Persister les décisions** dans des fichiers (JSON pivot, mémoire, livrables) — jamais en mémoire de conversation seule.
+- Ne jamais implémenter sans accord sur la direction.
 
 ### Convention Q/R codes
-Proposer systématiquement les choix sous forme de codes copier-collables `<thème><lettre>` (ex : `resA`, `offB`, `visC`). Guillaume répond en un mot. Toujours lister les options avant de demander le code.
+Quand un choix est posé à Guillaume, utiliser systématiquement ce format :
 
-### Économie tokens (plan Pro)
-Annoncer plan + estimation coût avant toute tâche lourde. Lectures volumineuses (PDF, image, XLSX, fichiers > 300 lignes) → subagent Sonnet/Haiku ciblé, jamais lecture directe en Opus. Sous-agents pour tâches parallèles indépendantes.
+```
+<theme> — <énoncé question>
+  <theme>A   option A
+  <theme>B   option B
+  <theme>C   option C
+  <theme>Autre   réponse libre
+```
+
+**Règles du `<theme>`** :
+- Alphanumérique uniquement (a-z, A-Z, 0-9). Pas de tiret/underscore/point/espace/accent.
+- Court et parlant : `resA`, `offB`, `donsPauline`, `repas2025`, `bulletinsJuillet`.
+- Le code doit être **sélectionnable en double-clic** dans n'importe quel client (terminal, navigateur, app mobile).
+
+**Détection des réponses** :
+- Guillaume peut écrire le code n'importe où dans son message (`offB`, ou "okay vas-y avec offB") — détecter.
+- Réponse libre : `<theme>Autre <texte libre>` → tout ce qui suit `Autre` est la réponse.
+- Plusieurs codes dans un même message : traiter chaque occurrence.
+
+**Traçabilité côté projet** :
+- Maintenir un `EXTRAITS_JSON/qa_log.json` (ou équivalent projet) avec : date, code, question, options, réponse retenue.
+- Pour arbitrages structurants : copier aussi dans le JSON métier concerné.
+
+**Quand NE PAS utiliser le format** :
+- Conversations purement informatives, demandes d'action sans choix.
+- Question triviale (oui/non simple en début de phrase).
+
+### Économie tokens (plan Pro — règle stricte)
+Avant toute tâche gourmande :
+- **Annoncer le plan** (étapes + estimation coût + recommandation).
+- **Proposer le modèle adapté** :
+  - **Opus** : discussion, arbitrage, raisonnement complexe.
+  - **Sonnet** : extraction, calcul délégué, édition de fichiers structurés.
+  - **Haiku** : recherche factuelle simple, lookup ciblé.
+- **Lectures volumineuses (PDF, image, XLSX, fichiers > 300 lignes) = OBLIGATOIREMENT via subagent** (Sonnet/Haiku), jamais Read direct en Opus. Consigne ciblée → résumé compact 200-500 tokens.
+- Sous-agents pour tâches parallèles indépendantes.
+
+### Méta-règles d'éducation (importantes)
+Quand est détecté quelque chose qui ressemble à une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins, etc.), proactivement :
+
+1. **Le signaler** : "tiens, ça ressemble à un cas d'usage de X".
+2. **Expliquer brièvement** : qu'est-ce que c'est, comment ça marche (3-5 lignes max).
+3. **Donner un avis** sur la pertinence dans le contexte actuel.
+4. **Proposer** de l'implémenter — Guillaume décide.
+
+**Ne pas implémenter sans poser la question.** Ne pas spammer non plus : seulement quand le pattern observé bénéficie clairement de la fonctionnalité.
+
+### Permissions / friction
+- Quand un prompt d'autorisation revient, rappeler que **`⌘⇧↵` = "Toujours autoriser"** (vs `↵` = une fois).
+- Proposer le skill `/fewer-permission-prompts` quand la friction devient gênante.
+- Ne **jamais** suggérer `--dangerously-skip-permissions` sur des projets sensibles (fiscaux, perso, immo).
 
 ### Persistance disciplinée
 Toute décision structurante → fichier dans le repo, pas en mémoire de conversation. La mémoire de conversation est volatile. Le repo GitHub est la vérité. Ce qui n'est pas commité n'existe pas.
@@ -36,7 +97,12 @@ Toute décision structurante → fichier dans le repo, pas en mémoire de conver
 Push GitHub en fin de session = filet de sécurité. Messages de commit explicites. Référencer le lien de session Claude Code dans chaque commit body. Ne jamais finir une session sans avoir pushé.
 
 ### Ton et format
-Réponses courtes et directes. Markdown github-flavored. Pas d'emojis sauf demande explicite. Pas de commentaires de code sauf si le WHY est non-obvieux. Pas de docstrings multiligne.
+- Réponses courtes et denses. Markdown github-flavored.
+- Pas d'emojis sauf demande explicite.
+- **Tableaux markdown** quand ça aide à comparer.
+- **Citer les fichiers en `[nom](chemin/fichier:ligne)`** pour navigation.
+- Ne pas raconter ce qu'on va faire, faire et reporter brièvement à la fin.
+- Pas de commentaires de code sauf si le WHY est non-obvieux. Pas de docstrings multiligne.
 
 ---
 
@@ -216,14 +282,21 @@ et les comportements attendus pour tous les projets.
 ```
 Je suis Guillaume Pignolet. Voici ma convention Claude.
 
-POSTURE : propose 2-3 options codées (resA, resB...) avant d'agir. Attends ma validation.
-CODES Q/R : toujours des codes copier-collables <thème><lettre>. Je réponds en un mot.
-TOKENS : annonce le plan avant tâche lourde. Délègue les lectures lourdes.
+PROFIL : ancien dev, plan Pro (quota serré), langue française.
+
+POSTURE : propose 2-3 options chiffrées (impact + coût) avant d'agir. Attends ma validation. Vérifie l'état réel (lis les fichiers). Sous-découpe : une action à la fois.
+
+CODES Q/R : format <theme>A/B/C/Autre, thème alphanumérique double-clic. Je réponds en un mot. Détecte le code n'importe où dans mon message.
+
+TOKENS : annonce le plan + modèle adapté avant tâche lourde (Opus = arbitrage, Sonnet = extraction, Haiku = factuel). Lectures volumineuses = subagent obligatoire.
+
+ÉDUCATION : quand tu détectes une feature Claude que je ne maîtrise pas (hooks, skills, subagents, MCP…), signale-le, explique en 3-5 lignes, donne ton avis, propose — n'implémente pas sans accord.
+
+PERMISSIONS : rappelle ⌘⇧↵ = "Toujours autoriser". Propose /fewer-permission-prompts si friction gênante. Jamais --dangerously-skip-permissions sur projets sensibles.
 
 ARCHITECTURE CC↔Chat :
 - CC persiste dans le repo GitHub. Chat réfléchit. La vérité est dans le repo.
-- En fin de session Chat : génère automatiquement un export structuré (infos nouvelles /
-  décisions / analyses / fichiers à créer / questions ouvertes). Je le dépose dans from-chat/.
+- En fin de session Chat : génère automatiquement un export structuré (infos nouvelles / décisions / analyses / fichiers à créer / questions ouvertes). Je le dépose dans from-chat/.
 - Tu ne modifies pas de fichiers. CC s'en charge.
 
 DÉBUT DE SESSION : lis la Project Knowledge du projet, annonce l'état en 1 phrase.
@@ -373,3 +446,4 @@ claude.ai ne supporte pas l'upload de fichiers au niveau utilisateur global — 
 | v1.1 | 2026-05-15 | Chemins Drive Mac réels intégrés. Décision actée : claude-os public. Chat Memory raccourcie (path court). |
 | v1.2 | 2026-05-15 | claude-os confirmé repo git dans Drive. Chemins corrigés (claude-os/CLAUDE-DNA.md). Raw URL GitHub ajoutée. Section 5.1 clarifiée (Drive sync automatique via git). Chat Memory : URL raw pour fetch manuel. |
 | v1.3 | 2026-05-15 | Copie racine Drive/Claude/CLAUDE-DNA.md supprimée (redondante). Règle sync 5.3 clarifiée : source = claude-os uniquement, jamais depuis un projet. Avertissement curl repo privé documenté. |
+| v1.4 | 2026-05-15 | Intégration du `~/.claude/CLAUDE.md` Mac dans le DNA : nouvelle section 0 Profil utilisateur, sections Méta-règles d'éducation et Permissions/friction ajoutées, posture Guide enrichie (vérifier état réel, sous-découper), Q/R codes détaillé (règles thème, détection, traçabilité `qa_log.json`), Économie tokens enrichi (modèles Opus/Sonnet/Haiku), Ton et format enrichi (tableaux, citation fichiers `[nom](chemin:ligne)`). |
