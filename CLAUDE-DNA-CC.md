@@ -1,5 +1,7 @@
 # CLAUDE-DNA-CC — Convention Claude Code de Guillaume Pignolet
 
+**Version : v1.5 — 2026-05-17**
+
 <!-- MASTER FILE — Destiné à Claude Code (CC). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.5 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
