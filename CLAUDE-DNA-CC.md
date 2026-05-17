@@ -1,9 +1,9 @@
 # CLAUDE-DNA-CC — Convention Claude Code de Guillaume Pignolet
 
-**Version : v1.6 — 2026-05-17**
+**Version : v1.7 — 2026-05-17**
 
 <!-- MASTER FILE — Destiné à Claude Code (CC). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.6 -->
+<!-- Version : 2026-05-17 v1.7 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC.md -->
@@ -69,6 +69,16 @@ Avant toute tâche gourmande :
   - **Haiku** : recherche factuelle simple, lookup ciblé.
 - **Lectures volumineuses (PDF, image, XLSX, fichiers > 300 lignes) = OBLIGATOIREMENT via subagent** (Sonnet/Haiku), jamais Read direct en Opus. Consigne ciblée → résumé compact 200-500 tokens.
 - Sous-agents pour tâches parallèles indépendantes.
+
+### Combo réflexion — trigger `gpose`
+Quand Guillaume écrit `gpose` n'importe où dans son message (cross-platform : CC, Chat, cloud), appliquer **systématiquement et dans cet ordre** :
+
+1. **Reformuler** ce que Guillaume veut, en 2-3 phrases, pour vérifier compréhension. **Ne pas exécuter** tant qu'il n'a pas validé la reformulation.
+2. **Expliquer le concept sous-jacent** si pertinent (3-5 lignes max) : fonctionnement, contexte, contrainte.
+3. **Proposer 2-4 options chiffrées** (impact + coût) en codes Q/R.
+4. **Poser les questions ouvertes** qui bloquent la décision, en codes Q/R.
+
+`gpose` est l'amplification de la Posture Guide. Compatible avec d'autres codes Q/R dans le même message (ex : `gpose réponds clarDNAA et propose la suite`).
 
 ### Méta-règles d'éducation
 Quand est détecté quelque chose qui ressemble à une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins…), proactivement :
@@ -250,12 +260,11 @@ Avant toute action, charger les conventions Claude de Guillaume depuis :
 
 **Aucune action requise dans les projets clients** : ils liront automatiquement la nouvelle version à leur prochaine session.
 
-### "sync DNA" (legacy)
+### "sync DNA" — déprécié (v1.7)
 
-À partir de v1.6, **"sync DNA" est obsolète**. La commande copiait DNA-CC dans le projet — c'est exactement ce qu'on ne fait plus. Si CC l'entend, il doit :
-1. Supprimer le `CLAUDE-DNA-CC.md` éventuellement présent à la racine du projet.
-2. Mettre à jour le `CLAUDE.md` projet pour utiliser le bloc fallback curl (sec 6.2).
-3. Commit "migrate: DNA via pointer (v1.6), drop local copy".
+**Le mot "sync DNA" est obsolète.** Il signifiait "copier DNA dans ce projet" — ce qu'on ne fait plus. Si Guillaume dit "sync DNA", interpréter comme un appel à `migrate-projet` (cf. section 9) et **demander confirmation avant de lancer une migration lourde**.
+
+Ne **jamais** recopier silencieusement `CLAUDE-DNA-CC.md` dans le projet.
 
 ### Bootstrap nouveau projet
 **CC automatiquement** :
@@ -293,10 +302,33 @@ from-chat/                 ← exports Chat → CC (déposés par Guillaume)
 
 ---
 
+## 9. Migration projet legacy (v1.4 → v1.7)
+
+Quand CC ouvre un projet créé sous DNA ≤ v1.4 et que Guillaume veut le mettre à jour (mot-clé "migrate-projet", ou "sync DNA" qui est l'ancien terme), suivre cette procédure. **Toujours `gpose` d'abord** : reformuler le plan, chiffrer le coût, demander confirmation avant d'exécuter.
+
+### Diagnostic
+| Présent dans le projet | Signification | Action de migration |
+|---|---|---|
+| `CLAUDE-DNA.md` (legacy v≤1.4 monolithique) à la racine | Copie obsolète du DNA monolithique | Supprimer. Le DNA-CC est lu via pointeur global / curl. |
+| `CLAUDE-DNA-CC.md` à la racine (v1.5) | Copie période transitoire | Supprimer. Pointeur suffit. |
+| `knowledge/CONNAISSANCE-PROJET.md` (legacy monolithique) | Ancien Project Knowledge unique | À découper en fichiers `from-cc/knowledge-<sujet>-vX.Y.md` OU garder en l'état et renommer en `from-cc/knowledge-projet-v1.0.md` (migration minimale). Décision à prendre avec Guillaume. |
+| Pas de `from-cc/` | Structure v1.5+ manquante | Créer depuis templates `claude-os/from-cc/_TEMPLATE-*.md`. |
+| `CLAUDE.md` sans bloc fallback curl | Ne fonctionnera pas en CC cloud | Ajouter le bloc (sec 6.2). |
+| Pas de hook global `~/.claude/hooks/check-chat-uploads.sh` | Hook absent sur ce Mac | Installer (cf. claude-os/from-cc/_TEMPLATE-hook.md ou copier depuis `~/.claude/hooks/`). |
+
+### Procédure recommandée
+1. **gpose** : reformuler ce qui sera fait, lister fichiers touchés, estimer le temps.
+2. **Proposer** 3 niveaux : `migA` minimal (suppression copies + update CLAUDE.md), `migB` complet (+ découpe knowledge en sujets + init from-cc/), `migC` aucune migration pour l'instant.
+3. **Attendre choix**.
+4. **Exécuter** dans cet ordre : (a) update CLAUDE.md avec bloc fallback, (b) supprimer copies DNA legacy, (c) créer from-cc/ depuis templates, (d) migrer knowledge legacy selon choix, (e) initialiser `_upload-status.json` / `_TODO.md` / `_track-log.md`, (f) commit "migrate: project to DNA v1.7", (g) lister les uploads pending pour Guillaume.
+
+**Règle d'or** : pas de migration lourde silencieuse. Si CC voit du legacy, il `gpose` et demande.
+
 ## Historique
 
 | Version | Date | Changements |
 |---|---|---|
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md (ce fichier) + CLAUDE-DNA-CHAT.md. Introduction du dossier `from-cc/` (instructions/knowledge versionnés à uploader sur claude.ai, status tracking, TODO miroir, track-log). Hook SessionStart global pour relance uploads pending. Section "Project Knowledge unique" remplacée par fichiers `from-cc/` multiples versionnés. |
+| v1.7 | 2026-05-17 | Trigger `gpose` (Core, cross-platform CC/Chat/cloud) — invocation du combo réflexion (reformule + explique + propose + questionne). Nouvelle section 9 "Migration projet legacy" avec procédure explicite (diagnostic + migA/migB/migC). "sync DNA" verbalement déprécié → `migrate-projet`. |
 | v1.6 | 2026-05-17 | DNA pointé, jamais copié. Suppression des copies `CLAUDE-DNA-CC.md` dans les projets. CC Mac local : pointeur `~/.claude/CLAUDE.md` → Drive. CC cloud : bloc fallback curl raw GitHub dans `CLAUDE.md` projet. "sync DNA" déprécié (devient une migration vers le pointeur). Garantie : tout projet voit toujours la dernière version sans intervention. |
 | ≤ v1.4 | 2026-05-15 | Voir historique dans CLAUDE-DNA.md legacy. |
