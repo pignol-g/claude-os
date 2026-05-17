@@ -1,9 +1,9 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v1.7 — 2026-05-17**
+**Version : v1.8 — 2026-05-17**
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.7 -->
+<!-- Version : 2026-05-17 v1.8 -->
 <!-- À COLLER DANS : claude.ai → Paramètres → Instructions globales (niveau utilisateur). -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md -->
@@ -111,9 +111,9 @@ Ne pas implémenter sans accord. Ne pas spammer.
 
 ### Flux CC → Chat (Guillaume uploade)
 Dans chaque projet Chat, Guillaume colle/uploade des fichiers versionnés produits par CC dans `from-cc/` :
-- `instructions-vX.Y.md` → Instructions du projet.
-- `knowledge-<sujet>-vX.Y.md` → Project Knowledge (un fichier par sujet).
-- Chaque fichier a en-tête `<!-- Version : YYYY-MM-DD vX.Y -->`.
+- `instructions-vX.Y.md` → Instructions du projet (un seul fichier).
+- `knowledge-projet-vX.Y.md` → Project Knowledge (**1 fichier unique par défaut**, < 15 max si multiples).
+- Chaque fichier a en-tête `<!-- Version : YYYY-MM-DD vX.Y -->` + ligne visible `**Version : ...**`.
 
 Si le contenu paraît périmé (incohérent, daté), le signaler à Guillaume : "Project Knowledge `<nom>` semble obsolète vs ce que tu décris — vérifie la version dans `from-cc/`."
 
@@ -176,4 +176,5 @@ Rappeler à Guillaume : "Dépose ce fichier dans `from-chat/YYYY-MM-DD-session.m
 |---|---|---|
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md + CLAUDE-DNA-CHAT.md (ce fichier). Chat ne lit plus les sections CC-only (hooks, permissions, git, sync). Workflow `from-cc/` documenté côté Chat (réception, signalement de versions périmées). |
 | v1.7 | 2026-05-17 | Trigger `gpose` ajouté au Core (combo réflexion : reformule + explique + propose + questionne). Cross-platform CC/Chat/cloud. |
+| v1.8 | 2026-05-17 | Project Knowledge : **1 fichier unique** `knowledge-projet-vX.Y.md` par défaut (réalignement v1.4). Multiples autorisés < 15 max (seuil RAG). |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |

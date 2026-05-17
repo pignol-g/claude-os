@@ -5,7 +5,9 @@
 
 ## En attente
 
-(rien)
+- [ ] **CLAUDE-DNA-CHAT.md** v1.8 (2026-05-17) — convention "1 fichier knowledge unique" rétablie dans Core.
+  Destination : claude.ai → Paramètres → **Instructions globales**.
+  Confirmation : `chatSyncDNAChatOk`.
 
 ## Fait
 

@@ -1,9 +1,9 @@
 # CLAUDE-DNA-CC — Convention Claude Code de Guillaume Pignolet
 
-**Version : v1.7 — 2026-05-17**
+**Version : v1.8 — 2026-05-17**
 
 <!-- MASTER FILE — Destiné à Claude Code (CC). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.7 -->
+<!-- Version : 2026-05-17 v1.8 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC.md -->
@@ -131,10 +131,12 @@ Ne pas implémenter sans accord. Ne pas spammer : seulement quand le bénéfice 
 ### Flux CC → Chat (CC produit, Guillaume uploade dans claude.ai)
 
 Dossier `from-cc/` à la racine de chaque projet contient les artefacts à uploader sur claude.ai :
-- `instructions-vX.Y.md` → **Instructions du projet** claude.ai
-- `knowledge-<sujet>-vX.Y.md` → **Project Knowledge** claude.ai (un fichier par sujet)
-- En-tête obligatoire : `<!-- Version : YYYY-MM-DD vX.Y -->`
+- `instructions-vX.Y.md` → **Instructions du projet** claude.ai (un seul fichier)
+- `knowledge-projet-vX.Y.md` → **Project Knowledge** claude.ai (**1 fichier unique par défaut**)
+- En-tête obligatoire : `<!-- Version : YYYY-MM-DD vX.Y -->` + ligne visible `**Version : vX.Y — YYYY-MM-DD**`
 - Nommage : version uniquement dans le nom de fichier (pas de date)
+
+**Règle du fichier unique knowledge** : par défaut, un seul fichier `knowledge-projet-vX.Y.md` contient tout le contexte projet. Plusieurs fichiers `knowledge-<sujet>-vX.Y.md` ne sont autorisés que **si vraiment nécessaire** (volume ingérable, sujets très distincts) et **toujours strictement < 15 fichiers au total** dans Project Knowledge. Pourquoi : claude.ai active le RAG au-delà d'environ 15 fichiers → contexte cherché par chunks, non-déterministe. Rester en injection complète = comportement fiable.
 
 **Tracking** :
 - `from-cc/_upload-status.json` : état machine-lisible (current_version vs uploaded_version par fichier, `pending: true/false`).
@@ -279,7 +281,7 @@ Ne **jamais** recopier silencieusement `CLAUDE-DNA-CC.md` dans le projet.
 **Guillaume** (CC lui dit) :
 - [ ] Créer projet claude.ai
 - [ ] Coller `from-cc/instructions-vX.Y.md` dans Instructions du projet
-- [ ] Uploader `from-cc/knowledge-*-vX.Y.md` dans Project Knowledge
+- [ ] Uploader `from-cc/knowledge-projet-vX.Y.md` (fichier unique) dans Project Knowledge
 - [ ] Vérifier que `CLAUDE-DNA-CHAT.md` à jour dans Instructions globales claude.ai
 
 ---
@@ -290,8 +292,8 @@ Ne **jamais** recopier silencieusement `CLAUDE-DNA-CC.md` dans le projet.
 CLAUDE.md                  ← instructions projet (pointe vers DNA-CC, contient fallback curl cloud)
 REPRISE.md                 ← état session courante
 from-cc/                   ← artefacts CC → Chat (à uploader sur claude.ai)
-  instructions-vX.Y.md
-  knowledge-<sujet>-vX.Y.md
+  instructions-vX.Y.md           (1 fichier — Instructions du projet)
+  knowledge-projet-vX.Y.md       (1 fichier unique par défaut — Project Knowledge)
   _upload-status.json
   _TODO.md
   _track-log.md
@@ -329,6 +331,7 @@ Quand CC ouvre un projet créé sous DNA ≤ v1.4 et que Guillaume veut le mettr
 | Version | Date | Changements |
 |---|---|---|
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md (ce fichier) + CLAUDE-DNA-CHAT.md. Introduction du dossier `from-cc/` (instructions/knowledge versionnés à uploader sur claude.ai, status tracking, TODO miroir, track-log). Hook SessionStart global pour relance uploads pending. Section "Project Knowledge unique" remplacée par fichiers `from-cc/` multiples versionnés. |
+| v1.8 | 2026-05-17 | Correction convention `from-cc/knowledge-*` : **1 fichier unique `knowledge-projet-vX.Y.md` par défaut**, multiples autorisés seulement si nécessaire et toujours < 15 (seuil RAG claude.ai). Réalignement avec la règle historique v1.4. Templates et sec 4/7/8 ajustés. |
 | v1.7 | 2026-05-17 | Trigger `gpose` (Core, cross-platform CC/Chat/cloud) — invocation du combo réflexion (reformule + explique + propose + questionne). Nouvelle section 9 "Migration projet legacy" avec procédure explicite (diagnostic + migA/migB/migC). "sync DNA" verbalement déprécié → `migrate-projet`. |
 | v1.6 | 2026-05-17 | DNA pointé, jamais copié. Suppression des copies `CLAUDE-DNA-CC.md` dans les projets. CC Mac local : pointeur `~/.claude/CLAUDE.md` → Drive. CC cloud : bloc fallback curl raw GitHub dans `CLAUDE.md` projet. "sync DNA" déprécié (devient une migration vers le pointeur). Garantie : tout projet voit toujours la dernière version sans intervention. |
 | ≤ v1.4 | 2026-05-15 | Voir historique dans CLAUDE-DNA.md legacy. |
