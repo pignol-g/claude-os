@@ -5,11 +5,8 @@
 
 ## En attente
 
-- [ ] **CLAUDE-DNA-CHAT.md** v1.5 (2026-05-17)
-  Destination : claude.ai → Paramètres → **Instructions globales** (niveau utilisateur)
-  Action : ouvrir CLAUDE-DNA-CHAT.md, tout sélectionner, coller dans les Instructions globales claude.ai.
-  Quand fait : dis `chatSyncDNAChatOk` en session CC, ou coche cette case manuellement.
+(rien)
 
 ## Fait
 
-(rien encore)
+- [x] **CLAUDE-DNA-CHAT.md** v1.5 — uploadé dans Instructions globales claude.ai le 2026-05-17.

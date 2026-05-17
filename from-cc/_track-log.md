@@ -4,4 +4,4 @@
 
 | Date | Fichier | Version | Raison du bump | Statut upload |
 |---|---|---|---|---|
-| 2026-05-17 | CLAUDE-DNA-CHAT.md | v1.5 | Split initial du DNA v1.4 en CC + CHAT. Première version Chat autonome. | pending |
+| 2026-05-17 | CLAUDE-DNA-CHAT.md | v1.5 | Split initial du DNA v1.4 en CC + CHAT. Première version Chat autonome. | uploaded 2026-05-17 |
