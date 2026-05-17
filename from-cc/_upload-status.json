@@ -1,0 +1,19 @@
+{
+  "project": "claude-os",
+  "description": "Repo master. Le seul fichier à uploader vers Chat est CLAUDE-DNA-CHAT.md (Instructions globales claude.ai, niveau utilisateur).",
+  "files": [
+    {
+      "id": "DNAChat",
+      "path": "CLAUDE-DNA-CHAT.md",
+      "destination": "claude.ai → Paramètres → Instructions globales (niveau utilisateur)",
+      "current_version": "v1.5",
+      "current_date": "2026-05-17",
+      "uploaded_version": null,
+      "uploaded_date": null,
+      "pending": true,
+      "reminders_sent": 0,
+      "qa_code_ok": "chatSyncDNAChatOk",
+      "qa_code_later": "chatSyncDNAChatLater"
+    }
+  ]
+}
