@@ -1,5 +1,7 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
+**Version : v1.5 — 2026-05-17**
+
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.5 -->
 <!-- À COLLER DANS : claude.ai → Paramètres → Instructions globales (niveau utilisateur). -->
