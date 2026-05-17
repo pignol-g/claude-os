@@ -5,3 +5,4 @@
 | Date | Fichier | Version | Raison du bump | Statut upload |
 |---|---|---|---|---|
 | 2026-05-17 | CLAUDE-DNA-CHAT.md | v1.5 | Split initial du DNA v1.4 en CC + CHAT. Première version Chat autonome. | uploaded 2026-05-17 |
+| 2026-05-17 | CLAUDE-DNA-CC.md | v1.6 | DNA pointé, jamais copié (sec 6.2, 7, 8 réécrites). Core inchangé, donc DNA-CHAT reste v1.5 (pas de re-upload Chat). | n/a (CC-only, lu via pointeur) |

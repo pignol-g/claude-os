@@ -1,9 +1,9 @@
 # CLAUDE-DNA-CC — Convention Claude Code de Guillaume Pignolet
 
-**Version : v1.5 — 2026-05-17**
+**Version : v1.6 — 2026-05-17**
 
 <!-- MASTER FILE — Destiné à Claude Code (CC). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.5 -->
+<!-- Version : 2026-05-17 v1.6 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC.md -->
@@ -194,7 +194,27 @@ Avant toute action, lire le fichier DNA-CC global :
 /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC.md
 ```
 
-### 6.2 Template `CLAUDE.md` projet — voir `from-cc/_TEMPLATE-instructions.md`
+### 6.2 Template `CLAUDE.md` projet
+
+Chaque projet a un `CLAUDE.md` à sa racine. **Pas de copie de `CLAUDE-DNA-CC.md` dans le projet** : il est lu via pointeur global (Mac local) ou curl raw GitHub (CC cloud).
+
+```markdown
+# CLAUDE.md — [Nom du projet]
+
+## DNA Claude Code (source de vérité globale)
+
+Avant toute action, charger les conventions Claude de Guillaume depuis :
+
+- **CC Mac local** : déjà lu via `~/.claude/CLAUDE.md` qui pointe vers Drive.
+- **CC cloud** : `~/.claude/` n'existe pas. Curl à chaque démarrage de session :
+  ```bash
+  curl -s https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md
+  ```
+  Lire le contenu retourné comme si c'était le DNA-CC en mémoire. Pas de fichier à écrire dans le projet.
+
+## Rôle, périmètre, méthode (spécifique projet)
+[...]
+```
 
 ### 6.3 Hook SessionStart global
 
@@ -202,45 +222,49 @@ Avant toute action, lire le fichier DNA-CC global :
 
 ---
 
-## 7. Sync DNA — workflow
+## 7. DNA pointé, jamais copié (v1.6)
+
+**Principe** : le DNA-CC vit en un seul exemplaire dans `claude-os` (master). Les projets ne le copient **jamais**. Ils le lisent via pointeur (Mac local) ou curl raw GitHub (cloud). Garantie : tout projet voit toujours la dernière version, sans "sync DNA" manuel.
 
 ### Où vit le master
 | Emplacement | Rôle |
 |---|---|
-| `github.com/pignol-g/claude-os` (public) | Master canonique cloud |
-| Drive local claude-os | Master local Mac (Drive sync git) |
-| Copies projet | À synchroniser via "sync DNA" |
+| `github.com/pignol-g/claude-os` (public, raw URL) | Master canonique, source curl pour CC cloud |
+| Drive local `claude-os/CLAUDE-DNA-CC.md` | Master local Mac (même fichier, Drive sync via git) |
 
-**Relation Drive ↔ GitHub** : claude-os est un repo git **dans Drive**. `git push` met à jour GitHub. Drive sync l'autre sens.
+**Relation Drive ↔ GitHub** : claude-os est un repo git dans Drive. `git push` met à jour GitHub. Drive sync gère le local.
+
+### Mécanisme de lecture par session CC
+
+| Contexte | Comment le DNA-CC est chargé |
+|---|---|
+| **CC Mac local** | `~/.claude/CLAUDE.md` (user-level, chargé auto) pointe vers le path Drive → lu à chaque session, toujours frais. |
+| **CC cloud** | Pas de `~/.claude/`. Le `CLAUDE.md` du projet contient l'instruction de curl `https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md` au démarrage. Lu en mémoire, pas écrit dans le projet. |
 
 ### Modifier le DNA
 1. Session CC dans `pignol-g/claude-os`.
-2. Éditer `CLAUDE-DNA-CC.md` et/ou `CLAUDE-DNA-CHAT.md` (incrémenter Version + date).
-3. Si Core touché → répliquer dans les deux fichiers.
-4. Commiter + pusher.
-5. Bumper `from-cc/_upload-status.json` du projet claude-os.
-6. Lister projets à synchroniser.
+2. Éditer `CLAUDE-DNA-CC.md` et/ou `CLAUDE-DNA-CHAT.md` (incrémenter Version + date dans l'en-tête **et** la ligne visible `**Version : ...**`).
+3. Si Core touché → répliquer dans les deux fichiers (sections marquées `[CORE]`).
+4. Commiter + pusher claude-os.
+5. Si DNA-CHAT (ou Core) touché → bumper `from-cc/_upload-status.json` du projet claude-os pour signaler upload pending dans Instructions globales claude.ai.
 
-**Actions Guillaume** : coller le nouveau `CLAUDE-DNA-CHAT.md` dans claude.ai → Paramètres → Instructions globales (si Core ou Chat touché). Dans chaque projet CC concerné : dire "sync DNA".
+**Aucune action requise dans les projets clients** : ils liront automatiquement la nouvelle version à leur prochaine session.
 
-### "sync DNA" dans un projet
-Source = TOUJOURS claude-os. Jamais depuis un autre projet.
+### "sync DNA" (legacy)
 
-```bash
-curl -s https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md > CLAUDE-DNA-CC.md
-git add CLAUDE-DNA-CC.md
-git commit -m "sync: update CLAUDE-DNA-CC from canonical (claude-os)"
-git push
-```
+À partir de v1.6, **"sync DNA" est obsolète**. La commande copiait DNA-CC dans le projet — c'est exactement ce qu'on ne fait plus. Si CC l'entend, il doit :
+1. Supprimer le `CLAUDE-DNA-CC.md` éventuellement présent à la racine du projet.
+2. Mettre à jour le `CLAUDE.md` projet pour utiliser le bloc fallback curl (sec 6.2).
+3. Commit "migrate: DNA via pointer (v1.6), drop local copy".
 
 ### Bootstrap nouveau projet
 **CC automatiquement** :
 - [ ] Créer repo + cloner
-- [ ] curl `CLAUDE-DNA-CC.md` depuis claude-os
-- [ ] Créer `CLAUDE.md` (depuis template)
+- [ ] Créer `CLAUDE.md` depuis template 6.2 (avec bloc fallback curl)
 - [ ] Créer `from-chat/README.md`
 - [ ] Créer `REPRISE.md` initial
-- [ ] Créer `from-cc/` (instructions + knowledge + status + TODO + track-log à partir des templates de claude-os)
+- [ ] Créer `from-cc/` (instructions + knowledge + status + TODO + track-log depuis templates claude-os)
+- [ ] **Ne pas créer** de `CLAUDE-DNA-CC.md` à la racine
 - [ ] Premier commit + push
 
 **Guillaume** (CC lui dit) :
@@ -254,8 +278,7 @@ git push
 ## 8. Arborescence standard d'un projet Claude
 
 ```
-CLAUDE-DNA-CC.md           ← copie du master (sync depuis claude-os)
-CLAUDE.md                  ← instructions projet
+CLAUDE.md                  ← instructions projet (pointe vers DNA-CC, contient fallback curl cloud)
 REPRISE.md                 ← état session courante
 from-cc/                   ← artefacts CC → Chat (à uploader sur claude.ai)
   instructions-vX.Y.md
@@ -275,4 +298,5 @@ from-chat/                 ← exports Chat → CC (déposés par Guillaume)
 | Version | Date | Changements |
 |---|---|---|
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md (ce fichier) + CLAUDE-DNA-CHAT.md. Introduction du dossier `from-cc/` (instructions/knowledge versionnés à uploader sur claude.ai, status tracking, TODO miroir, track-log). Hook SessionStart global pour relance uploads pending. Section "Project Knowledge unique" remplacée par fichiers `from-cc/` multiples versionnés. |
+| v1.6 | 2026-05-17 | DNA pointé, jamais copié. Suppression des copies `CLAUDE-DNA-CC.md` dans les projets. CC Mac local : pointeur `~/.claude/CLAUDE.md` → Drive. CC cloud : bloc fallback curl raw GitHub dans `CLAUDE.md` projet. "sync DNA" déprécié (devient une migration vers le pointeur). Garantie : tout projet voit toujours la dernière version sans intervention. |
 | ≤ v1.4 | 2026-05-15 | Voir historique dans CLAUDE-DNA.md legacy. |
