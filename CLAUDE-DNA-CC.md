@@ -1,9 +1,9 @@
 # CLAUDE-DNA-CC — Convention Claude Code de Guillaume Pignolet
 
-**Version : v1.8 — 2026-05-17**
+**Version : v1.9 — 2026-05-18**
 
 <!-- MASTER FILE — Destiné à Claude Code (CC). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.8 -->
+<!-- Version : 2026-05-18 v1.9 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC.md -->
@@ -228,9 +228,17 @@ Avant toute action, charger les conventions Claude de Guillaume depuis :
 [...]
 ```
 
-### 6.3 Hook SessionStart global
+### 6.3 Hook SessionStart projet (v1.9)
 
-`~/.claude/settings.json` contient un hook qui lit `$CWD/from-cc/_upload-status.json` à chaque démarrage et signale les uploads pending. Voir `from-cc/_TEMPLATE-hook.md`.
+Chaque projet contient `.claude/settings.json` + `.claude/hooks/session-start.sh` commités. Le hook :
+
+1. **Charge `CLAUDE-DNA-CC.md`** dans le contexte CC (stdout injecté en SessionStart) — local si présent, sinon curl raw GitHub. Garantit que le DNA est lu **partout, même en CC cloud** (où la simple instruction dans `CLAUDE.md` peut être ignorée).
+2. **Vérifie `from-cc/_upload-status.json`** : signale les uploads Chat pending.
+3. **Termine par une ligne marqueur** : `✓ DNA-CC chargé (source, version). [pending ou aucun]`.
+
+Référence d'implémentation : `claude-os/.claude/hooks/session-start.sh` (à copier dans chaque projet au bootstrap).
+
+**Pourquoi pas un hook global `~/.claude/settings.json` ?** `~/.claude/` n'existe pas en CC cloud (VM éphémère). Le hook projet est commité dans le repo → cloné par cloud → exécuté.
 
 ---
 
@@ -275,6 +283,7 @@ Ne **jamais** recopier silencieusement `CLAUDE-DNA-CC.md` dans le projet.
 - [ ] Créer `from-chat/README.md`
 - [ ] Créer `REPRISE.md` initial
 - [ ] Créer `from-cc/` (instructions + knowledge + status + TODO + track-log depuis templates claude-os)
+- [ ] Créer `.claude/settings.json` + `.claude/hooks/session-start.sh` (copie depuis claude-os/.claude/) → hook SessionStart projet
 - [ ] **Ne pas créer** de `CLAUDE-DNA-CC.md` à la racine
 - [ ] Premier commit + push
 
@@ -291,6 +300,9 @@ Ne **jamais** recopier silencieusement `CLAUDE-DNA-CC.md` dans le projet.
 ```
 CLAUDE.md                  ← instructions projet (pointe vers DNA-CC, contient fallback curl cloud)
 REPRISE.md                 ← état session courante
+.claude/                   ← config CC projet (commitée)
+  settings.json                  (déclare le hook SessionStart)
+  hooks/session-start.sh         (charge DNA-CC + check from-cc, marche cloud + local)
 from-cc/                   ← artefacts CC → Chat (à uploader sur claude.ai)
   instructions-vX.Y.md           (1 fichier — Instructions du projet)
   knowledge-projet-vX.Y.md       (1 fichier unique par défaut — Project Knowledge)
@@ -331,6 +343,7 @@ Quand CC ouvre un projet créé sous DNA ≤ v1.4 et que Guillaume veut le mettr
 | Version | Date | Changements |
 |---|---|---|
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md (ce fichier) + CLAUDE-DNA-CHAT.md. Introduction du dossier `from-cc/` (instructions/knowledge versionnés à uploader sur claude.ai, status tracking, TODO miroir, track-log). Hook SessionStart global pour relance uploads pending. Section "Project Knowledge unique" remplacée par fichiers `from-cc/` multiples versionnés. |
+| v1.9 | 2026-05-18 | Hook SessionStart **projet** (commité dans `.claude/`) remplace le hook global Mac. Charge DNA-CC en contexte CC (stdout injecté) + check from-cc + marqueur final. Marche en CC cloud (le hook global ne marchait pas car `~/.claude/` éphémère en cloud). Sec 6.3 réécrite, bootstrap (sec 7) et arborescence (sec 8) ajustés. |
 | v1.8 | 2026-05-17 | Correction convention `from-cc/knowledge-*` : **1 fichier unique `knowledge-projet-vX.Y.md` par défaut**, multiples autorisés seulement si nécessaire et toujours < 15 (seuil RAG claude.ai). Réalignement avec la règle historique v1.4. Templates et sec 4/7/8 ajustés. |
 | v1.7 | 2026-05-17 | Trigger `gpose` (Core, cross-platform CC/Chat/cloud) — invocation du combo réflexion (reformule + explique + propose + questionne). Nouvelle section 9 "Migration projet legacy" avec procédure explicite (diagnostic + migA/migB/migC). "sync DNA" verbalement déprécié → `migrate-projet`. |
 | v1.6 | 2026-05-17 | DNA pointé, jamais copié. Suppression des copies `CLAUDE-DNA-CC.md` dans les projets. CC Mac local : pointeur `~/.claude/CLAUDE.md` → Drive. CC cloud : bloc fallback curl raw GitHub dans `CLAUDE.md` projet. "sync DNA" déprécié (devient une migration vers le pointeur). Garantie : tout projet voit toujours la dernière version sans intervention. |
