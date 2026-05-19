@@ -1,20 +1,21 @@
 #!/bin/bash
 # SessionStart hook — projet claude-os (à dupliquer dans chaque projet Claude).
-# Rôle :
-#   1. Charger CLAUDE-DNA-CC.md dans le contexte CC (stdout injecté en SessionStart).
+# Rôle (v2.0) :
+#   1. Charger CLAUDE-DNA-CC-CORE.md dans le contexte CC (stdout injecté en SessionStart).
 #      - Local si présent (claude-os), sinon curl depuis raw GitHub.
+#      - REF (procédures rares) curlé à la demande via le sommaire CORE §5.
 #   2. Signaler les uploads from-cc/ en attente vers Chat.
 #   3. Terminer par une ligne marqueur visible de confirmation.
 
 set -e
 DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
-DNA_URL="https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md"
+DNA_URL="https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md"
 
-# === 1. Charger DNA-CC ===
+# === 1. Charger DNA-CC-CORE ===
 DNA_SRC=""
 DNA_CONTENT=""
-if [ -f "$DIR/CLAUDE-DNA-CC.md" ]; then
-    DNA_CONTENT="$(cat "$DIR/CLAUDE-DNA-CC.md")"
+if [ -f "$DIR/CLAUDE-DNA-CC-CORE.md" ]; then
+    DNA_CONTENT="$(cat "$DIR/CLAUDE-DNA-CC-CORE.md")"
     DNA_SRC="local"
 else
     DNA_CONTENT="$(curl -sf --max-time 5 "$DNA_URL" 2>/dev/null || true)"
@@ -26,7 +27,7 @@ else
 fi
 
 if [ "$DNA_SRC" = "missing" ]; then
-    echo "⚠ DNA-CC introuvable (fichier local absent + curl raw GitHub échoué). Session CC sans DNA — comportement non-déterministe."
+    echo "⚠ DNA-CC-CORE introuvable (fichier local absent + curl raw GitHub échoué). Session CC sans DNA — comportement non-déterministe."
 else
     echo "$DNA_CONTENT"
 fi
@@ -57,7 +58,7 @@ fi
 echo ""
 echo "---"
 if [ -n "$PENDING_MSG" ]; then
-    echo "✓ DNA-CC chargé ($DNA_SRC, $VERSION). ⚠ $PENDING_MSG"
+    echo "✓ DNA-CC-CORE chargé ($DNA_SRC, $VERSION). REF accessible via sommaire (curl à la demande). ⚠ $PENDING_MSG"
 else
-    echo "✓ DNA-CC chargé ($DNA_SRC, $VERSION). Aucun upload Chat pending."
+    echo "✓ DNA-CC-CORE chargé ($DNA_SRC, $VERSION). REF accessible via sommaire (curl à la demande). Aucun upload Chat pending."
 fi
