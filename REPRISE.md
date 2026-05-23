@@ -1,16 +1,15 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-05-19**
+**Dernière session : 2026-05-23**
 
 ## État courant
 
-DNA-CC v2.0 splité en CORE + REF (hot/cold split + lazy fetch via sommaire). Branche `feat/dna-v2-split-core-ref` poussée + PR ouverte.
+DNA-CC **v2.1** : ajout du trigger `gauto` (mode autonome longue durée) + `gstop` (arrêt explicite) dans la section 1 du Core, entre `gpose` et `Méta-règles d'éducation`. PR #2 mergée sur `main`.
 
-- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — ~150 lignes, injecté par hook
-- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — ~450 lignes, curl à la demande
+- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v2.1, ~190 lignes, injecté par hook
+- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — inchangé v2.0
+- [CLAUDE-DNA-CHAT.md](CLAUDE-DNA-CHAT.md) — inchangé v1.8 (gauto/gstop = CC-only, pas d'équivalent Chat)
 - [CLAUDE-DNA-CC.md](CLAUDE-DNA-CC.md) — redirect stub (compatA, à supprimer une fois tous les projets migrés)
-- [.claude/hooks/session-start.sh](.claude/hooks/session-start.sh) — `DNA_URL` pointe vers CORE
-- `CLAUDE-DNA-CHAT.md` — inchangé v1.8 (splitChatB : pas de hook claude.ai → pas de gain)
 
 ## Actions Guillaume en attente
 
@@ -22,6 +21,7 @@ DNA-CC v2.0 splité en CORE + REF (hot/cold split + lazy fetch via sommaire). Br
 
 ## Questions ouvertes pour prochaine session
 
+- Tester `gauto` en vrai sur un projet (création RECAP-AUTO, boucle pilotée, rebase auto avant push).
 - Quand supprimer `CLAUDE-DNA-CC.md` (redirect stub) ? → après migration de tous les hooks projets clients.
 - Faut-il créer un `CLAUDE.md` projet pour `claude-os` lui-même (anomalie : actuellement absent à la racine) ?
 
@@ -30,3 +30,4 @@ DNA-CC v2.0 splité en CORE + REF (hot/cold split + lazy fetch via sommaire). Br
 - `resA` — vérifier merge PR + lancer migration `ClaudeAchatMaison` (mise à jour `DNA_URL` + tests).
 - `resB` — créer `CLAUDE.md` projet manquant pour claude-os.
 - `resC` — réviser CLAUDE-DNA-CHAT.md pour ajuster les références "DNA-CC.md" → "DNA-CC-CORE/REF.md" dans le Core répliqué.
+- `resD` — premier test de `gauto` sur un projet réel (vérifier la boucle complète + RECAP-AUTO).
