@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.2 — 2026-05-27** (ajout règle `git pull` obligatoire au démarrage + hook SessionStart v2.1 avec `git pull --rebase --autostash origin main` automatique)
+**Version : v2.3 — 2026-05-27** (ajout convention inbox questions différées `q:` — fichier hybride projet + global)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -104,6 +104,23 @@ Dans tous les cas, **dernier turn obligatoire** : MAJ REPRISE.md + RECAP-AUTO fi
 - Pas de `git branch -D` ni delete branch remote
 - Pas de `--no-verify` ni skip hooks
 - Pas de modif `.claude/settings.json` ni hooks `.claude/hooks/`
+
+### Inbox questions différées — trigger `q:`
+
+Quand Guillaume commence un message par `q:`, **ne PAS exécuter** la question. L'inscrire en haut de `## ⏳ En attente` du fichier inbox approprié, répondre court : `📥 noté Q-NNN`.
+
+**Emplacement hybride** :
+- Si projet actif (CC ouvert dans un repo projet) → `INBOX-QUESTIONS.md` à la racine du projet (auto-créé au 1er `q:`).
+- Si question hors-projet (générique, méta, claude-os, perso non rattaché) → `~/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/INBOX-QUESTIONS.md` (global).
+- Heuristique : par défaut projet courant. Bascule global si Guillaume précise `q: global ...` ou si question évidemment non-projet.
+
+**Format entrée** : `### Q-NNN · YYYY-MM-DD · <contexte si applicable>` + question + contexte de capture + priorité (vide par défaut). Numérotation indépendante par fichier, jamais réutilisée.
+
+**Rappel passif** : au démarrage, après lecture `REPRISE.md`, si N≥1 question en attente (projet OU global), signaler `📥 N question(s) en attente` (1 ligne, ne pas développer).
+
+**Sessions autonomes (`gauto`)** : à la fin du plan principal, si tokens restants, piocher dans `## ⏳ En attente` (priorité haute > FIFO), traiter, déplacer en `## ✅ Traitées` avec réponse résumée (3-5 lignes + lien analyse détaillée si applicable). Compte rendu en fin de session.
+
+Le `CLAUDE.md` projet peut enrichir avec liaisons contextuelles (ex projet immo : `bien:<slug>`).
 
 ### Méta-règles d'éducation
 Quand est détecté une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins…), proactivement :
