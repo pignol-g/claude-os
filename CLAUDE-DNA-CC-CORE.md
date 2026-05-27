@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.1 — 2026-05-22**
+**Version : v2.2 — 2026-05-27** (ajout règle `git pull` obligatoire au démarrage + hook SessionStart v2.1 avec `git pull --rebase --autostash origin main` automatique)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -135,6 +135,7 @@ Pas d'implémentation sans accord. Pas de spam : seulement quand le bénéfice e
 
 - Toute décision structurante → fichier dans le repo, pas en mémoire de conversation.
 - Push GitHub en fin de session = filet de sécurité. Messages explicites. **Ne jamais finir une session sans avoir pushé.**
+- **`git pull --rebase origin main` obligatoire au démarrage de chaque session CC** (Drive ↔ GitHub désynchro — le repo Drive local n'est PAS synchro avec GitHub remote même si Drive sync est OK). Le hook SessionStart v2.1+ le fait automatiquement avec gestion d'erreur douce. Démarrer sans pull = travailler sur ancienne version → écraser silencieusement le travail des sessions Chat/CC parallèles + conflits massifs au push final. Cas réel commis le 27/05/2026 (Meximieux 6avenue 1981 — fair value refaite en doublon, 7 fichiers en conflit). Détail dans `CLAUDE-DNA-CC-REF.md` section #git-pull si besoin.
 
 ---
 
