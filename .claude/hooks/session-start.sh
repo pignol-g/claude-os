@@ -1,15 +1,45 @@
 #!/bin/bash
 # SessionStart hook — projet claude-os (à dupliquer dans chaque projet Claude).
-# Rôle (v2.0) :
-#   1. Charger CLAUDE-DNA-CC-CORE.md dans le contexte CC (stdout injecté en SessionStart).
+# Rôle (v2.1) :
+#   1. **Git pull origin main au démarrage** (v2.1, hookpullA — synchroniser local avec remote,
+#      évite de bosser sur une ancienne version comme cela s'est produit le 27/05/2026).
+#   2. Charger CLAUDE-DNA-CC-CORE.md dans le contexte CC (stdout injecté en SessionStart).
 #      - Local si présent (claude-os), sinon curl depuis raw GitHub.
 #      - REF (procédures rares) curlé à la demande via le sommaire CORE §5.
-#   2. Signaler les uploads from-cc/ en attente vers Chat.
-#   3. Terminer par une ligne marqueur visible de confirmation.
+#   3. Signaler les uploads from-cc/ en attente vers Chat.
+#   4. Terminer par une ligne marqueur visible de confirmation.
 
 set -e
 DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
 DNA_URL="https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md"
+
+# === 0. Git pull origin main (v2.1, hookpullA) ===
+# Synchronise le repo local avec le remote en début de session pour éviter de bosser sur
+# une ancienne version. Échec doux : si conflits locaux non commités ou pas de réseau,
+# on log un warning mais on continue la session (DNA doit charger même offline).
+GITPULL_MSG=""
+if [ -d "$DIR/.git" ]; then
+    # Vérifier qu'on n'a pas de changements non commités qui bloqueraient le pull --rebase
+    if cd "$DIR" 2>/dev/null && git diff --quiet HEAD 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
+        # Working tree clean — pull rebase
+        if PULL_OUT="$(cd "$DIR" && git pull --rebase --autostash origin main 2>&1)"; then
+            if echo "$PULL_OUT" | grep -q "Already up to date\|Already up-to-date"; then
+                GITPULL_MSG="✓ Git à jour avec origin/main (rien à puller)."
+            else
+                CHANGED="$(echo "$PULL_OUT" | grep -E "^\s*\d+\s+file" | head -1 || echo "fast-forward")"
+                GITPULL_MSG="✓ Git pull origin main OK ($CHANGED)."
+            fi
+        else
+            GITPULL_MSG="⚠ Git pull origin main ÉCHEC : $(echo "$PULL_OUT" | tr '\n' ' ' | cut -c1-200). À résoudre manuellement avant tout commit."
+        fi
+    else
+        GITPULL_MSG="⚠ Changements locaux non commités — git pull skippé. Commit/stash d'abord puis 'git pull --rebase origin main' manuel."
+    fi
+else
+    GITPULL_MSG="Pas un repo git (pas de .git) — pull skippé."
+fi
+echo "$GITPULL_MSG"
+echo ""
 
 # === 1. Charger DNA-CC-CORE ===
 DNA_SRC=""
@@ -62,3 +92,4 @@ if [ -n "$PENDING_MSG" ]; then
 else
     echo "✓ DNA-CC-CORE chargé ($DNA_SRC, $VERSION). REF accessible via sommaire (curl à la demande). Aucun upload Chat pending."
 fi
+echo "  Git : $GITPULL_MSG"
