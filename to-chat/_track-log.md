@@ -1,4 +1,4 @@
-# Track log — versions des fichiers from-cc/ (projet claude-os)
+# Track log — versions des fichiers to-chat/ (projet claude-os)
 
 <!-- Historique chronologique des bumps de version. CC ajoute une ligne à chaque bump. -->
 
@@ -11,3 +11,5 @@
 | 2026-05-18 | CLAUDE-DNA-CC.md + .claude/settings.json + .claude/hooks/session-start.sh | v1.9 | Hook SessionStart projet (commité) remplace hook global Mac. Injecte DNA-CC dans contexte CC au démarrage, marche cloud + local. Hook global supprimé (`~/.claude/settings.json` + `~/.claude/hooks/`). | n/a (CC-only) |
 | 2026-05-19 | CLAUDE-DNA-CC-CORE.md (new) + CLAUDE-DNA-CC-REF.md (new) + CLAUDE-DNA-CC.md (redirect stub) + .claude/hooks/session-start.sh | v2.0 | Split DNA-CC en CORE (hot, ~150 lignes, injecté par hook) + REF (cold, ~450 lignes, curl à la demande via sommaire). Driver : ~12k tokens injectés / session sous v1.9. compatA : CLAUDE-DNA-CC.md devient redirect stub pour hooks projet legacy. splitChatB : CLAUDE-DNA-CHAT.md reste monolithique (pas de hook claude.ai). Hook projet `DNA_URL` → CORE. Core inchangé fonctionnellement → DNA-CHAT pas re-bumpé. | n/a (CC-only) |
 | 2026-05-23 | CLAUDE-DNA-CC-CORE.md | v2.1 | Ajout trigger `gauto` (mode autonome longue durée) + `gstop` (arrêt explicite) entre `gpose` et `Méta-règles d'éducation`. Boucle pilotée 6 étapes, persistance par cycle (RECAP-AUTO-YYYY-MM-DD.md), rebase auto avant push, safety interdits (pas merge/force-push/--no-verify/modif hooks). CC-only → DNA-CHAT pas re-bumpé. PR #2 mergée. | n/a (CC-only) |
+| 2026-06-13 | CLAUDE-DNA-CC-CORE.md v2.4 + CLAUDE-DNA-CC.md (legacy) | v2.4 | Ajout convention `TODO.md` projet (backlog persistant) après l'inbox `q:`. Routine démarrage lit REPRISE puis TODO. CC-only → DNA-CHAT pas re-bumpé. PR #6 mergée. | n/a (CC-only) |
+| 2026-06-13 | CLAUDE-DNA-CC-CORE.md v2.5 + CLAUDE-DNA-CC-REF.md v2.1 + CLAUDE-DNA-CHAT.md v1.9 + .claude/hooks/session-start.sh + dossier renommé | v1.9 | Renommage dossiers échange par destinataire : `from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`, nouveau `to-os/`. DNA-CHAT touché (refs dossiers) → **re-upload Chat requis**. | DNA-CHAT pending upload |

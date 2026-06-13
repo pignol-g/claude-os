@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.4 — 2026-06-13** (ajout convention TODO.md projet)
+**Version : v2.5 — 2026-06-13** (renommage dossiers échange : `from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`, nouveau `to-os/`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -128,7 +128,7 @@ Chaque projet possède un `TODO.md` à sa racine = **backlog persistant** du pro
 (tâches ouvertes, transverses, multi-session). Distinct de :
 - `REPRISE.md` (état de session courante / snapshot récupérable),
 - l'inbox `q:` (`INBOX-QUESTIONS.md`, questions différées non exécutées),
-- tout `_TODO.md` spécialisé (ex. `from-cc/_TODO.md` = miroir uploads Chat).
+- tout `_TODO.md` spécialisé (ex. `to-chat/_TODO.md` = miroir uploads Chat).
 
 **Auto-création** : au 1er besoin d'enregistrer une tâche durable, créer `TODO.md`
 s'il n'existe pas.
@@ -197,18 +197,22 @@ Pas d'implémentation sans accord. Pas de spam : seulement quand le bénéfice e
 **Au démarrage de chaque session :**
 1. Lire ce CORE (déjà injecté par le hook).
 2. Lire `CLAUDE.md` du projet.
-3. Vérifier `from-chat/` : si fichiers `.md` → intégrer en priorité absolue → supprimer après intégration.
-4. Vérifier `from-cc/_upload-status.json` : si `pending: true` → relancer Guillaume (1 ligne, code `chatSync<nom>Ok`).
+3. Vérifier `to-cc/` *(ex `from-chat/`)* : si fichiers `.md` → intégrer en priorité absolue → supprimer après intégration.
+4. Vérifier `to-chat/_upload-status.json` *(ex `from-cc/`)* : si `pending: true` → relancer Guillaume (1 ligne, code `chatSync<nom>Ok`).
 5. Lire `REPRISE.md` puis `TODO.md` du projet (si items `→ rappel` dans `TODO.md`, les signaler — 1 ligne).
 6. Proposer options de reprise codées (`resA`, `resB`...).
 
+**Dossiers d'échange — convention `to-<destination>/`** : nommés par **destinataire** (boîte d'envoi absolue, lisible depuis n'importe quel conteneur). `to-chat/` = artefacts à uploader sur claude.ai (persistant, versionné). `to-cc/` = exports Chat à intégrer en CC (éphémère). `to-os/` = remontées vers le repo `claude-os` (éphémère ; Guillaume copie à la main projet → claude-os, puis suppression). Détails : REF [#archi-cc-chat](CLAUDE-DNA-CC-REF.md#archi-cc-chat).
+
+**Transition (mi-2026)** : projets encore en `from-cc/`/`from-chat/` → si CC détecte ces dossiers legacy au démarrage, proposer `migrate-projet` (REF #migrate-projet) ; les triggers ci-dessus valent pour les deux nommages le temps de la bascule.
+
 **Pendant la session :**
 - Posture Guide, Q/R codes systématiques, persistance disciplinée.
-- Signaler proactivement si un fichier `from-cc/` doit être bumpé.
+- Signaler proactivement si un fichier `to-chat/` doit être bumpé.
 
 **En fin de session** (Guillaume dit "stop", "fin", "je m'arrête") :
 1. Mettre à jour `REPRISE.md`.
-2. Mettre à jour fichiers `from-cc/` impactés (bump version + status + log).
+2. Mettre à jour fichiers `to-chat/` impactés (bump version + status + log).
 3. Commiter + pusher.
 4. Lister actions manuelles Guillaume avec codes Q/R `chatSync<nom>`.
 
@@ -230,7 +234,7 @@ curl -s https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-
 
 | Trigger / mot-clé | Section REF | Quand consulter |
 |---|---|---|
-| Détails architecture CC↔Chat, dossiers `from-cc/` / `from-chat/`, format export Chat | [#archi-cc-chat](CLAUDE-DNA-CC-REF.md#archi-cc-chat) | Guillaume mentionne `from-chat`, `from-cc`, claude.ai upload, project knowledge, RAG |
+| Détails architecture CC↔Chat↔OS, dossiers `to-chat/` / `to-cc/` / `to-os/` (ex `from-cc/` / `from-chat/`), format export Chat | [#archi-cc-chat](CLAUDE-DNA-CC-REF.md#archi-cc-chat) | Guillaume mentionne `to-chat`, `to-cc`, `to-os`, `from-chat`, `from-cc`, claude.ai upload, project knowledge, RAG |
 | Templates `~/.claude/CLAUDE.md`, `CLAUDE.md` projet, hook SessionStart | [#templates](CLAUDE-DNA-CC-REF.md#templates) | Création/édition de ces fichiers, debug hook |
 | DNA pointé jamais copié, modifier le DNA, "sync DNA" déprécié | [#dna-pointe](CLAUDE-DNA-CC-REF.md#dna-pointe) | Guillaume veut éditer DNA, parle de sync, voit `CLAUDE-DNA-CC.md` legacy dans un projet |
 | Bootstrap nouveau projet (checklist CC + checklist Guillaume) | [#bootstrap](CLAUDE-DNA-CC-REF.md#bootstrap) | Création d'un nouveau projet Claude |
