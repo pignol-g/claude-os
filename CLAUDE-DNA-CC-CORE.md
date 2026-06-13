@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.3 — 2026-05-27** (ajout convention inbox questions différées `q:` — fichier hybride projet + global)
+**Version : v2.4 — 2026-06-13** (ajout convention TODO.md projet)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -122,6 +122,42 @@ Quand Guillaume commence un message par `q:`, **ne PAS exécuter** la question. 
 
 Le `CLAUDE.md` projet peut enrichir avec liaisons contextuelles (ex projet immo : `bien:<slug>`).
 
+### TODO projet — fichier `TODO.md`
+
+Chaque projet possède un `TODO.md` à sa racine = **backlog persistant** du projet
+(tâches ouvertes, transverses, multi-session). Distinct de :
+- `REPRISE.md` (état de session courante / snapshot récupérable),
+- l'inbox `q:` (`INBOX-QUESTIONS.md`, questions différées non exécutées),
+- tout `_TODO.md` spécialisé (ex. `from-cc/_TODO.md` = miroir uploads Chat).
+
+**Auto-création** : au 1er besoin d'enregistrer une tâche durable, créer `TODO.md`
+s'il n'existe pas.
+
+**Structure** :
+```
+# TODO — <projet>
+
+## 🔴 Prioritaire
+## ⏳ À faire / en cours
+## ⏸️ Plus tard / idées
+## ✅ Fait (archive courte — élaguer régulièrement)
+```
+
+**Format entrée** : `- [ ] <action> — <contexte court> (AAAA-MM-JJ)`
++ tag optionnel `@<domaine>` + `→ rappel` si à signaler à Guillaume au démarrage.
+
+**Liaison REPRISE ↔ TODO** : `REPRISE.md` = ce qui s'est passé + reprise immédiate ;
+il **pointe vers** `TODO.md` pour le backlog complet (ne pas dupliquer — les
+"Items en cours" de REPRISE sont un extrait des items chauds).
+
+**Routine** :
+- Démarrage : lire `TODO.md` dans l'analyse d'état (après `REPRISE.md`). Si items
+  marqués `→ rappel`, les signaler à Guillaume (1 ligne, ne pas développer).
+- Fin de session / chaque étape : mettre à jour `TODO.md` (cocher fait, ajouter
+  découvertes), commit + push avec le reste.
+- Sessions autonomes (`gauto`) : piocher dans `## ⏳` (priorité 🔴 puis FIFO),
+  déplacer en `## ✅` avec résultat — même logique que l'inbox `q:`.
+
 ### Méta-règles d'éducation
 Quand est détecté une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins…), proactivement :
 
@@ -163,7 +199,7 @@ Pas d'implémentation sans accord. Pas de spam : seulement quand le bénéfice e
 2. Lire `CLAUDE.md` du projet.
 3. Vérifier `from-chat/` : si fichiers `.md` → intégrer en priorité absolue → supprimer après intégration.
 4. Vérifier `from-cc/_upload-status.json` : si `pending: true` → relancer Guillaume (1 ligne, code `chatSync<nom>Ok`).
-5. Lire `REPRISE.md` du projet.
+5. Lire `REPRISE.md` puis `TODO.md` du projet (si items `→ rappel` dans `TODO.md`, les signaler — 1 ligne).
 6. Proposer options de reprise codées (`resA`, `resB`...).
 
 **Pendant la session :**
