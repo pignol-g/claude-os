@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.5 — 2026-06-13** (renommage dossiers échange : `from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`, nouveau `to-os/`)
+**Version : v2.6 — 2026-06-13** (ajout règle voix de Guillaume + convention remontées `to-os/`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -158,6 +158,32 @@ il **pointe vers** `TODO.md` pour le backlog complet (ne pas dupliquer — les
 - Sessions autonomes (`gauto`) : piocher dans `## ⏳` (priorité 🔴 puis FIFO),
   déplacer en `## ✅` avec résultat — même logique que l'inbox `q:`.
 
+### Rédiger à la voix de Guillaume [CORE]
+
+Toute rédaction produite **au nom de Guillaume** (LM, mails, courriers, relances, posts…)
+doit reproduire SON style — jamais un style générique IA.
+
+- **Profil rédactionnel global** : source de vérité unique dans claude-os
+  (`profil-redactionnel-guillaume.md` — voix FR + EN : ton, vocabulaire, formules,
+  salutations/clôtures, banque d'expressions). **Le charger AVANT toute rédaction.**
+  Les projets ne le redéfinissent pas ; ils peuvent l'enrichir via remontée.
+- **Apprentissage continu** : enrichir le profil à chaque mail analysé, échange, ou
+  correction de Guillaume sur un brouillon (journal daté dans le profil).
+- **Deux registres à ne pas confondre** : PRO (rédactions, soigné, structuré) vs CHAT
+  (consignes à l'agent : direct, minuscules, télégraphique). Ne JAMAIS laisser le
+  registre CHAT contaminer une rédaction PRO.
+- **Bilingue** : la voix existe en français ET en anglais, mêmes principes.
+
+### Remontées projet → OS — dossier `to-os/`
+
+Quand une règle/convention/amélioration éprouvée dans un projet mérite d'être
+généralisée, la consigner dans `to-os/REMONTEES-OS.md` (auto-créé au 1er besoin)
+plutôt que de la laisser enfermée dans le `CLAUDE.md` du projet.
+
+- Sections : `## ⏳ À remonter` (avec proposition prête à coller) / `## ✅ Intégré`.
+- Au démarrage : si ≥1 item en `## ⏳ À remonter`, le signaler à Guillaume (1 ligne).
+- Une fois porté dans claude-os : déplacer l'item en `## ✅ Intégré` (version + date).
+
 ### Méta-règles d'éducation
 Quand est détecté une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins…), proactivement :
 
@@ -199,7 +225,7 @@ Pas d'implémentation sans accord. Pas de spam : seulement quand le bénéfice e
 2. Lire `CLAUDE.md` du projet.
 3. Vérifier `to-cc/` *(ex `from-chat/`)* : si fichiers `.md` → intégrer en priorité absolue → supprimer après intégration.
 4. Vérifier `to-chat/_upload-status.json` *(ex `from-cc/`)* : si `pending: true` → relancer Guillaume (1 ligne, code `chatSync<nom>Ok`).
-5. Lire `REPRISE.md` puis `TODO.md` du projet (si items `→ rappel` dans `TODO.md`, les signaler — 1 ligne).
+5. Lire `REPRISE.md` puis `TODO.md` du projet. Signaler en **1 ligne** les en-attente : items `TODO.md` marqués `→ rappel`, questions inbox `q:` (`INBOX-QUESTIONS.md`), et items `## ⏳ À remonter` de `to-os/REMONTEES-OS.md`.
 6. Proposer options de reprise codées (`resA`, `resB`...).
 
 **Dossiers d'échange — convention `to-<destination>/`** : nommés par **destinataire** (boîte d'envoi absolue, lisible depuis n'importe quel conteneur). `to-chat/` = artefacts à uploader sur claude.ai (persistant, versionné). `to-cc/` = exports Chat à intégrer en CC (éphémère). `to-os/` = remontées vers le repo `claude-os` (éphémère ; Guillaume copie à la main projet → claude-os, puis suppression). Détails : REF [#archi-cc-chat](CLAUDE-DNA-CC-REF.md#archi-cc-chat).
