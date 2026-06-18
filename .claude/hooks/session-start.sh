@@ -6,7 +6,7 @@
 #   2. Charger CLAUDE-DNA-CC-CORE.md dans le contexte CC (stdout injecté en SessionStart).
 #      - Local si présent (claude-os), sinon curl depuis raw GitHub.
 #      - REF (procédures rares) curlé à la demande via le sommaire CORE §5.
-#   3. Signaler les uploads from-cc/ en attente vers Chat.
+#   3. Signaler les uploads to-chat/ en attente vers Chat.
 #   4. Terminer par une ligne marqueur visible de confirmation.
 
 set -e
@@ -66,13 +66,15 @@ fi
 VERSION="$(printf '%s\n' "$DNA_CONTENT" | grep -m1 '^\*\*Version' | sed 's/\*\*//g' || true)"
 [ -z "$VERSION" ] && VERSION="Version : ?"
 
-# === 3. Vérifier from-cc/_upload-status.json ===
+# === 3. Vérifier to-chat/_upload-status.json (fallback legacy from-cc/) ===
 PENDING_MSG=""
-if [ -f "$DIR/from-cc/_upload-status.json" ]; then
-    PENDING_MSG="$(python3 - <<PYEOF 2>/dev/null || true
-import json, sys
+STATUS_FILE="$DIR/to-chat/_upload-status.json"
+[ -f "$STATUS_FILE" ] || STATUS_FILE="$DIR/from-cc/_upload-status.json"
+if [ -f "$STATUS_FILE" ]; then
+    PENDING_MSG="$(STATUS_FILE="$STATUS_FILE" python3 - <<PYEOF 2>/dev/null || true
+import json, os, sys
 try:
-    with open("$DIR/from-cc/_upload-status.json") as f:
+    with open(os.environ["STATUS_FILE"]) as f:
         d = json.load(f)
     p = [x for x in d.get("files", []) if x.get("pending")]
     if p:

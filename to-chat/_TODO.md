@@ -5,7 +5,7 @@
 
 ## En attente
 
-- [ ] **CLAUDE-DNA-CHAT.md** v1.8 (2026-05-17) — convention "1 fichier knowledge unique" rétablie dans Core.
+- [ ] **CLAUDE-DNA-CHAT.md** v1.9 (2026-06-13) — renommage dossiers échange (`from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`) + convention "1 fichier knowledge unique" (v1.8).
   Destination : claude.ai → Paramètres → **Instructions globales**.
   Confirmation : `chatSyncDNAChatOk`.
 

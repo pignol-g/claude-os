@@ -5,7 +5,7 @@
 <!-- Version : YYYY-MM-DD v1.0 -->
 <!-- À UPLOADER DANS : claude.ai → projet [NOM_PROJET] → Project Knowledge -->
 <!-- Convention : 1 fichier unique par défaut. Multiples possibles si volume ingérable, MAIS < 15 fichiers au total (seuil RAG claude.ai). -->
-<!-- Source : from-cc/knowledge-projet-v1.0.md du repo [URL_REPO] -->
+<!-- Source : to-chat/knowledge-projet-v1.0.md du repo [URL_REPO] -->
 
 ## Rôle et comportements de l'assistant Chat pour ce projet
 [Définir précisément ce que Chat doit faire dans ce projet, son ton, son périmètre.]

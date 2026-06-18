@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v1.8 — 2026-05-17**
+**Version : v1.9 — 2026-06-13** (renommage dossiers échange : `from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.8 -->
@@ -107,15 +107,15 @@ Ne pas implémenter sans accord. Ne pas spammer.
 - Chat **ne modifie pas de fichiers**. CC s'en charge.
 - Chat reçoit du contexte via deux canaux claude.ai :
   - **Instructions globales** (niveau utilisateur) : ce fichier `CLAUDE-DNA-CHAT.md`.
-  - **Instructions du projet** + **Project Knowledge** (niveau projet) : fichiers issus de `from-cc/` du repo correspondant, uploadés manuellement par Guillaume.
+  - **Instructions du projet** + **Project Knowledge** (niveau projet) : fichiers issus de `to-chat/` du repo correspondant, uploadés manuellement par Guillaume.
 
 ### Flux CC → Chat (Guillaume uploade)
-Dans chaque projet Chat, Guillaume colle/uploade des fichiers versionnés produits par CC dans `from-cc/` :
+Dans chaque projet Chat, Guillaume colle/uploade des fichiers versionnés produits par CC dans `to-chat/` *(ex `from-cc/`)* :
 - `instructions-vX.Y.md` → Instructions du projet (un seul fichier).
 - `knowledge-projet-vX.Y.md` → Project Knowledge (**1 fichier unique par défaut**, < 15 max si multiples).
 - Chaque fichier a en-tête `<!-- Version : YYYY-MM-DD vX.Y -->` + ligne visible `**Version : ...**`.
 
-Si le contenu paraît périmé (incohérent, daté), le signaler à Guillaume : "Project Knowledge `<nom>` semble obsolète vs ce que tu décris — vérifie la version dans `from-cc/`."
+Si le contenu paraît périmé (incohérent, daté), le signaler à Guillaume : "Project Knowledge `<nom>` semble obsolète vs ce que tu décris — vérifie la version dans `to-chat/`."
 
 ### Flux Chat → CC (export fin de session)
 En fin de session, dès qu'une information utile a été échangée, **générer automatiquement** cet export :
@@ -139,7 +139,7 @@ En fin de session, dès qu'une information utile a été échangée, **générer
 <!-- Points non résolus à reprendre -->
 ```
 
-Rappeler à Guillaume : "Dépose ce fichier dans `from-chat/YYYY-MM-DD-session.md` du repo projet."
+Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` du repo projet."
 
 ---
 
@@ -158,7 +158,7 @@ Rappeler à Guillaume : "Dépose ce fichier dans `from-chat/YYYY-MM-DD-session.m
 
 **En fin de session :**
 - Générer automatiquement l'export structuré ci-dessus.
-- Rappeler le dépôt dans `from-chat/`.
+- Rappeler le dépôt dans `to-cc/` *(ex `from-chat/`)*.
 
 ---
 
@@ -177,4 +177,5 @@ Rappeler à Guillaume : "Dépose ce fichier dans `from-chat/YYYY-MM-DD-session.m
 | v1.5 | 2026-05-17 | Split du DNA v1.4 en CLAUDE-DNA-CC.md + CLAUDE-DNA-CHAT.md (ce fichier). Chat ne lit plus les sections CC-only (hooks, permissions, git, sync). Workflow `from-cc/` documenté côté Chat (réception, signalement de versions périmées). |
 | v1.7 | 2026-05-17 | Trigger `gpose` ajouté au Core (combo réflexion : reformule + explique + propose + questionne). Cross-platform CC/Chat/cloud. |
 | v1.8 | 2026-05-17 | Project Knowledge : **1 fichier unique** `knowledge-projet-vX.Y.md` par défaut (réalignement v1.4). Multiples autorisés < 15 max (seuil RAG). |
+| v1.9 | 2026-06-13 | Renommage dossiers d'échange par destinataire : `from-cc/`→`to-chat/` (artefacts à uploader), `from-chat/`→`to-cc/` (exports déposés par Guillaume). Nouveau `to-os/` côté projets (remontées vers claude-os). Aligné CORE v2.5 / REF v2.1. |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |
