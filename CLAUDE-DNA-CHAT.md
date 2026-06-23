@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v1.9 — 2026-06-13** (renommage dossiers échange : `from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`)
+**Version : v2.0 — 2026-06-23** (ajout référence module Asana « nous 3 »)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.8 -->
@@ -166,6 +166,7 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 
 - DNA Chat (ce fichier) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md
 - DNA CC (pour CC) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md
+- Module Asana « nous 3 » (Guillaume + Claude + Asana) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-ASANA.md
 - Repo : github.com/pignol-g/claude-os (public)
 
 ---
@@ -178,4 +179,5 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 | v1.7 | 2026-05-17 | Trigger `gpose` ajouté au Core (combo réflexion : reformule + explique + propose + questionne). Cross-platform CC/Chat/cloud. |
 | v1.8 | 2026-05-17 | Project Knowledge : **1 fichier unique** `knowledge-projet-vX.Y.md` par défaut (réalignement v1.4). Multiples autorisés < 15 max (seuil RAG). |
 | v1.9 | 2026-06-13 | Renommage dossiers d'échange par destinataire : `from-cc/`→`to-chat/` (artefacts à uploader), `from-chat/`→`to-cc/` (exports déposés par Guillaume). Nouveau `to-os/` côté projets (remontées vers claude-os). Aligné CORE v2.5 / REF v2.1. |
+| v2.0 | 2026-06-23 | Ajout d'une référence au module autonome `CLAUDE-DNA-ASANA.md` (système de travail Asana « nous 3 »). Aligné CORE v2.7. |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |
