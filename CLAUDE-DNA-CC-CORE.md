@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.6 — 2026-06-13** (ajout règle voix de Guillaume + convention remontées `to-os/`)
+**Version : v2.7 — 2026-06-23** (ajout module Asana « nous 3 » + règle voix de Guillaume + convention remontées `to-os/`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -269,3 +269,15 @@ curl -s https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-
 | Historique versions DNA | [#historique](CLAUDE-DNA-CC-REF.md#historique) | Question explicite "depuis quand", "qu'est-ce qui a changé" |
 
 **Règle** : si le besoin n'est pas dans CORE, vérifier d'abord ce sommaire. Si un trigger correspond → curl la section REF. Sinon, demander à Guillaume.
+
+---
+
+## 6. Organisation Asana — module dédié
+
+Le système de travail Asana « nous 3 » (Guillaume + Claude + Asana, transverse à tous les projets) vit dans un module autonome : [`CLAUDE-DNA-ASANA.md`](CLAUDE-DNA-ASANA.md).
+
+```bash
+curl -s https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-ASANA.md
+```
+
+**Charger quand** : MCP Asana en jeu, gestion de tâches/projets Asana, planning ou compte-rendu hebdo, refonte d'organisation. **Points durs** : 3 types d'objets (Action assignée+fermable / Dossier / Ressource — on ne ferme que les Actions) ; loi anti-divergence (une donnée, un seul propriétaire — Action↔Asana, état↔JSON repo) ; le MCP Asana ne peut **pas** créer de section dans un projet existant ni archiver un projet → ces gestes UI restent la main de Guillaume.
