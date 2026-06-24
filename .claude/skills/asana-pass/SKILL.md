@@ -87,6 +87,18 @@ voix :
      commentaire signé.
    - **(c) Besoin de matière / ambigu / hors périmètre** → commentaire **court** signé
      disant précisément ce qu'il faut de Guillaume, ou poser la question. **Ne pas deviner.**
+
+   **Format selon la longueur de la réponse** (économie de tokens + lisibilité) :
+   - Réponse **courte / factuelle** → directement en commentaire signé (la réponse vit à
+     côté de la question, rien ne se perd).
+   - Réponse **longue ou structurée** (analyse, doc, protocole, comparatif) → écrire un
+     **markdown dans le repo concerné** (immo → `ClaudeAchatMaison`, pilote →
+     `candidaturePilote`, méta → `claude-os`) et **coller le lien** dans un commentaire
+     signé court. Guillaume le lit quand il veut. Éviter de noyer le fil Asana sous un pavé.
+   - **Pourquoi ça reste économe** : chaque tâche est traitée **isolément**, sans recharger
+     l'historique d'une longue conversation chat → souvent moins cher qu'en chat. C'est
+     justement l'intérêt du dépôt de questions ici (capture asynchrone, sans contexte, sans
+     perdre les réponses). Si une tâche demande malgré tout un gros contexte, le signaler.
 5. **Routage** selon le sujet :
    - Immo (DVF, négo, vices, commune en zone) → logique repo `ClaudeAchatMaison`
      (skill `audit-immo-fr`).
