@@ -111,7 +111,17 @@ voix :
    passage**, pas de bavardage.
 7. **Renvoyer la balle** : toute tâche traitée est déplacée dans « à lire / valider » via
    `update_tasks add_projects:[{project_id:1208173596025068, section_id:1208173596025094}]`.
-8. **Récap chat** final : tâches traitées + nature (réponse / action / besoin de matière /
+8. **Persister la décision (base de connaissance git)** : après la passe, consigner dans le
+   repo concerné **tout ce qui fait avancer le projet** — pas chaque mot, mais la
+   **question + la décision prise + sa justification** (format : *Question / Décision /
+   Pourquoi / date / lien tâche Asana*). Synthèse si l'échange est long. **Commit fréquent**
+   (le commit = la trace durable ; en cloud, seul le poussé survit). But : pouvoir redire
+   plus tard « à ce moment-là on avait décidé ça, pour telle raison ».
+   - Routage du fichier : pilote → `candidaturePilote/data/qa_log.json` ; immo →
+     `ClaudeAchatMaison/INBOX-QUESTIONS.md` ; méta CC / DNA → `claude-os/INBOX-QUESTIONS.md`.
+   - **Trivial** (réponse en une ligne sans décision) → commentaire Asana seul (déjà
+     persistant), pas de commit pour une ligne.
+9. **Récap chat** final : tâches traitées + nature (réponse / action / besoin de matière /
    relance), tâches laissées intactes (balle côté Guillaume) et pourquoi, questions en
    attente de décision de Guillaume.
 
