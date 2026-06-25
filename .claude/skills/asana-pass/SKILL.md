@@ -26,6 +26,11 @@ le travail se fait en **ping-pong** sur deux voies, et la conversation vit dans 
 > commentaires, ne pas supposer). Sous-découper. Être frugal. Ne jamais deviner quand il
 > manque de la matière — demander précisément. Rien de destructif.
 
+> **Survie aux coupures** : dès qu'une passe traite plusieurs tâches ou qu'une tâche est
+> longue, appliquer le module `asana-anti-interruption` (board = état durable, tâche
+> bouclée-au-board atomique et idempotente) pour qu'une extinction de crédits / fin de
+> session ne perde aucun travail.
+
 ## Modèle collaboratif (les 2 voies)
 
 | Section | GID | Sens |
