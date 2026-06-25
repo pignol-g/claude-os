@@ -30,8 +30,17 @@ le travail se fait en **ping-pong** sur deux voies, et la conversation vit dans 
 
 | Section | GID | Sens |
 |---|---|---|
-| File d'entrée (défaut, « Section sans nom » / à renommer « À traiter ») | `1208173596025069` | **Balle côté Claude** — à traiter |
+| File d'entrée historique (« Section sans nom ») | `1208173596025069` | **Balle côté Claude** — à traiter |
+| « pour claude » | `1208173596025107` | **Balle côté Claude** — file d'entrée principale aujourd'hui |
+| « a travailler Guillaume » | `1208173596025108` | **Balle côté Guillaume** — son backlog perso, NE PAS traiter |
 | « à lire / valider » | `1208173596025094` | **Balle côté Guillaume** — lire / décider / répondre |
+
+> **Évolution des lanes (2026-06)** : le projet a maintenant des sections nommées. La file
+> d'entrée de Claude = **« pour claude »** (+ l'ancienne « Section sans nom »). La section
+> **« a travailler Guillaume » est SA to-do à lui** (ball de son côté) : malgré la règle
+> littérale « tout sauf à lire/valider », **ne pas la traiter** — la position de la tâche
+> dit à qui de jouer, et son intitulé est explicite. En cas de doute sur une nouvelle
+> section, se fier au nom : « …Claude » = à moi ; « …Guillaume » / « valider » = à lui.
 
 ### Cycle de vie d'une tâche
 1. **Guillaume** crée une tâche (ou la renvoie) dans la **file d'entrée**.
@@ -114,6 +123,31 @@ voix :
 8. **Récap chat** final : tâches traitées + nature (réponse / action / besoin de matière /
    relance), tâches laissées intactes (balle côté Guillaume) et pourquoi, questions en
    attente de décision de Guillaume.
+
+## Persistance des décisions (base de connaissance git)
+
+> **Décision Guillaume (2026-06-24, tâche « amorce question »)** : persister au MAXIMUM ce
+> qui fait avancer le projet — pas chaque mot, mais **toute question qui débouche sur une
+> décision ou une orientation validée**. But : pouvoir lui redire plus tard « à ce
+> moment-là on avait décidé ça, pour telle raison ». Les commentaires Asana sont déjà
+> persistants, mais ils ne sont pas dans la base de connaissance git ⇒ ils ne seront jamais
+> réutilisés. Donc on centralise en git, par **commits fréquents**.
+
+Règle, à appliquer **à chaque passe** :
+
+- **Échange substantiel** (une décision est prise / une orientation est validée / un cap
+  est posé, même en une ligne) → consigner **Question / Décision / Pourquoi / Date / lien
+  tâche** dans le fichier de connaissance du repo concerné, **puis COMMIT** :
+  - candidature pilote → `data/qa_log.json` (schéma `entries[]` : `date`, `code`,
+    `question`, `reponse`, `contexte`) ;
+  - immo → `INBOX-QUESTIONS.md` (repo `ClaudeAchatMaison`) ;
+  - méta CC / DNA / claude-os → `INBOX-QUESTIONS.md` global (claude-os).
+- **Échange trivial** (pas de décision, simple accusé / reformulation) → commentaire Asana
+  seul, pas de commit pour une ligne.
+- Si l'échange est long, **synthétiser** (la trace = question + décision + justification
+  suffit ; on peut élaguer le verbatim).
+- Le **commit est le checkpoint durable** : en cloud le conteneur est éphémère, seul le
+  poussé survit. Committer souvent, pousser à la fin de la passe.
 
 ## Garde-fous
 
