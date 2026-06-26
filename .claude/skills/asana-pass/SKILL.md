@@ -26,12 +26,17 @@ le travail se fait en **ping-pong** sur deux voies, et la conversation vit dans 
 > commentaires, ne pas supposer). Sous-découper. Être frugal. Ne jamais deviner quand il
 > manque de la matière — demander précisément. Rien de destructif.
 
-## Modèle collaboratif (les 2 voies)
+## Modèle collaboratif (les voies)
 
 | Section | GID | Sens |
 |---|---|---|
-| File d'entrée (défaut, « Section sans nom » / à renommer « À traiter ») | `1208173596025069` | **Balle côté Claude** — à traiter |
-| « à lire / valider » | `1208173596025094` | **Balle côté Guillaume** — lire / décider / répondre |
+| « pour claude » | `1208173596025107` | **Balle côté Claude** — ma file d'entrée, à traiter |
+| « a travailler Guillaume » | `1208173596025108` | **Balle côté Guillaume** — SA file à lui, NE PAS traiter |
+| « à lire / valider » | `1208173596025094` | **Balle côté Guillaume** — il lit / décide / relance ce que j'ai traité |
+
+> Note : « Section sans nom » (`1208173596025069`) est l'ancienne section par défaut (legacy),
+> et le projet porte aussi un pipeline candidatures (« à postuler », « postulé »…). Ma file de
+> travail est **uniquement « pour claude »**.
 
 ### Cycle de vie d'une tâche
 1. **Guillaume** crée une tâche (ou la renvoie) dans la **file d'entrée**.
@@ -69,11 +74,12 @@ voix :
 
 1. **Lister** les tâches incomplètes du projet `1208173596025068`
    (`get_tasks`, `opt_fields: name,completed,notes,assignee.name,memberships.section.name`).
-2. **Sélectionner ma file d'entrée** : toute tâche **incomplète** dont la section (dans le
-   projet Claude) **n'est PAS « à lire / valider »** (`1208173596025094`). Cela couvre
-   automatiquement les **nouvelles** tâches ET les **relances** (renvoyées par Guillaume).
-   → Ignorer les tâches actuellement dans « à lire / valider » (balle côté Guillaume) et
-   les tâches complétées.
+2. **Sélectionner ma file d'entrée** : les tâches **incomplètes** de la section
+   **« pour claude »** (`1208173596025107`). C'est là que Guillaume dépose les nouvelles
+   tâches ET renvoie les relances.
+   → NE PAS traiter : « a travailler Guillaume » (`1208173596025108`, sa file à lui),
+   « à lire / valider » (`1208173596025094`, balle déjà chez lui), le pipeline candidatures
+   (« à postuler » / « postulé »), et toute tâche complétée.
 3. Pour chaque tâche de la file, la **lire en entier** (`get_task`, commentaires inclus) :
    - Repérer le **dernier commentaire non préfixé `[Claude]`** = la consigne courante de
      Guillaume. **Agir sur CETTE consigne**, pas re-répondre à ce qui est déjà traité plus
@@ -106,12 +112,24 @@ voix :
      rédaction au nom de Guillaume, charger `profil-redactionnel-guillaume.md` +
      `structure-lm-pilote.md`. **Ne pas croiser AF/HOP** avec ce projet plan B.
    - Méta CC / DNA / claude-os → `INBOX-QUESTIONS.md` global.
-6. **Commentaires** : `add_comment` en `html_text` (listes `<ul>/<li>`, `<strong>`,
-   `<em>`), **toujours préfixés `[Claude] `**. **Un seul commentaire de synthèse par
-   passage**, pas de bavardage.
+6. **Commentaires** : `add_comment` en **`text` (texte brut)**, PAS `html_text` — le client
+   Asana de Guillaume affiche le HTML en BRUT (balises visibles). Structurer en texte simple
+   (sauts de ligne, tirets « - » pour les listes). **Toujours préfixés `[Claude] `**.
+   **Un seul commentaire de synthèse par passage**, pas de bavardage.
 7. **Renvoyer la balle** : toute tâche traitée est déplacée dans « à lire / valider » via
    `update_tasks add_projects:[{project_id:1208173596025068, section_id:1208173596025094}]`.
-8. **Récap chat** final : tâches traitées + nature (réponse / action / besoin de matière /
+   Exception : si la tâche attend une **action de moi** (pas une décision de Guillaume), la
+   laisser dans « pour claude » jusqu'à ce que ce soit fait.
+8. **Persister ce qui fait avancer le projet** (décision Guillaume, 2026-06-24) : pour toute
+   tâche où une **décision est prise** ou une **orientation validée** (même brève), consigner
+   dans le fichier de connaissance du repo concerné, puis **commit** :
+   - candidature pilote → `candidaturePilote/data/qa_log.json`
+   - immo → `ClaudeAchatMaison/INBOX-QUESTIONS.md`
+   - méta CC / DNA / claude-os → `claude-os/INBOX-QUESTIONS.md`
+   Format minimal : **Question / Décision / Pourquoi / Date / lien tâche Asana**. Synthétiser
+   si l'échange est long (pas besoin du verbatim). Le **trivial** (aucune décision) reste en
+   commentaire Asana seul — pas de commit pour une ligne. Pousser (cloud = seul le poussé survit).
+9. **Récap chat** final : tâches traitées + nature (réponse / action / besoin de matière /
    relance), tâches laissées intactes (balle côté Guillaume) et pourquoi, questions en
    attente de décision de Guillaume.
 
@@ -132,11 +150,6 @@ voix :
 
 Si un GID ne répond plus (projet/section renommé ou recréé), le re-résoudre :
 `search_objects` (project) pour le projet, `get_project include_sections=true` pour
-retrouver « à lire / valider ». La file d'entrée = toute section du projet **autre que**
-« à lire / valider ». **Créer une section dans un projet existant est impossible via le MCP**
+retrouver les sections « pour claude », « a travailler Guillaume » et « à lire / valider »
+par leur nom. **Créer une section dans un projet existant est impossible via le MCP**
 (doctrine §4) ; demander à Guillaume de la (re)créer si besoin.
-
-> **Astuce confort (optionnel, action Guillaume)** : renommer la section par défaut
-> « Section sans nom » en « À traiter (Claude) » pour rendre les deux voies explicites
-> (préfixe textuel, pas d'emoji). La skill fonctionne sans ce renommage (elle se base sur
-> « tout sauf à lire / valider »).
