@@ -133,6 +133,30 @@ voix :
    relance), tâches laissées intactes (balle côté Guillaume) et pourquoi, questions en
    attente de décision de Guillaume.
 
+## Mise en forme des commentaires Asana (CRITIQUE — testé)
+
+> Règle posée par Guillaume (tâche 1208173596025189) : **ne JAMAIS coller de HTML dans Asana.**
+
+L'API `add_comment` accepte deux champs exclusifs : `text` (texte brut) et `html_text`.
+**Toujours utiliser `text`.** Le client Asana de Guillaume **n'interprète PAS le HTML** posté
+via l'API : les balises (`<p>`, `<ul>`, `<li>`, `<strong>`, `<code>`…) s'affichent **en clair**,
+balises visibles → commentaire illisible. (Constaté sur les anciens commentaires `[Claude]`
+qui contenaient du `<body>…</body>`.)
+
+Ce qui passe / ne passe pas avec `text` (texte brut) :
+
+- ✅ **Sauts de ligne** — préservés (un `\n` = un retour à la ligne, double `\n` = paragraphe).
+- ✅ **Listes en tirets** « - item » — restent lisibles (rendues telles quelles, texte simple).
+- ✅ **URLs nues** — cliquables automatiquement (pas besoin de `<a>` ni de markdown `[txt](url)`).
+- ❌ **Markdown** (`**gras**`, `# titre`, `` `code` ``, `[txt](url)`) — **non rendu**, affiché
+  littéralement. Ne pas l'utiliser pour styliser : écrire en clair.
+- ❌ **HTML** — affiché en brut (cf. ci-dessus). Proscrit.
+
+**Doctrine de rédaction** : structurer au **texte simple** — paragraphes séparés par une ligne
+vide, listes en « - », emphase par les **mots** (pas par du balisage). Toujours préfixer
+`[Claude] `. Pour un contenu long/structuré (analyse, doc, comparatif), écrire un markdown
+**dans le repo** concerné et coller seulement le **lien** dans le commentaire (cf. §4).
+
 ## Garde-fous
 
 - **Ne jamais** marquer une tâche `completed` — c'est Guillaume qui valide (ou relance).
