@@ -69,6 +69,8 @@ voix :
 
 `mcp__Asana__get_tasks`, `get_task`, `add_comment`, `update_tasks`, `get_project`,
 `search_objects`. Selon les actions : `WebFetch` (flux RSS / URL), `WebSearch`.
+Pour une tâche de **dév** (cf. étape 4 bis) : `mcp__github__create_pull_request` +
+`Bash` (git) pour la branche.
 
 ## Procédure
 
@@ -105,6 +107,12 @@ voix :
      l'historique d'une longue conversation chat → souvent moins cher qu'en chat. C'est
      justement l'intérêt du dépôt de questions ici (capture asynchrone, sans contexte, sans
      perdre les réponses). Si une tâche demande malgré tout un gros contexte, le signaler.
+4 bis. **Tâche de dév / multi-étapes → branche + PR draft** (convention DNA-CC CORE §3 « Branche par tâche Asana ») :
+   - Dès qu'une tâche dépasse une simple réponse (dév, plusieurs étapes), **créer une branche dédiée + une PR draft** dans le repo concerné, et **inscrire le nom de branche + le lien PR dans la description de la tâche Asana** (`update_tasks notes`/`html_notes`) — lien Asana → branche.
+   - Tenir la mémoire de reprise dans la branche : `WIP-<tache>.md` (Objectif / Plan / Fait / Prochaine étape / lien Asana). 1 passe = 1 commit poussé.
+   - **Reprise** d'une tâche déjà liée : `git fetch` la branche notée dans Asana → lire `WIP-<tache>.md` → continuer sur CETTE branche (ne pas en ouvrir une nouvelle).
+   - **Multi-repo** : une branche par repo touché, même nom logique. **Clôture** : Guillaume valide → merge PR (jamais de delete branch). Simple Q/R → pas de branche.
+
 5. **Routage** selon le sujet :
    - Immo (DVF, négo, vices, commune en zone) → logique repo `ClaudeAchatMaison`
      (skill `audit-immo-fr`).
