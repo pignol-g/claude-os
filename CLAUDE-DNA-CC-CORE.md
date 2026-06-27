@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.7 — 2026-06-23** (ajout module Asana « nous 3 » + règle voix de Guillaume + convention remontées `to-os/`)
+**Version : v2.8 — 2026-06-26** (ajout convention « branche par tâche » anti-interruption ; + v2.7 : module Asana « nous 3 », voix de Guillaume, remontées `to-os/`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -215,6 +215,20 @@ Pas d'implémentation sans accord. Pas de spam : seulement quand le bénéfice e
 - Toute décision structurante → fichier dans le repo, pas en mémoire de conversation.
 - Push GitHub en fin de session = filet de sécurité. Messages explicites. **Ne jamais finir une session sans avoir pushé.**
 - **`git pull --rebase origin main` obligatoire au démarrage de chaque session CC** (Drive ↔ GitHub désynchro — le repo Drive local n'est PAS synchro avec GitHub remote même si Drive sync est OK). Le hook SessionStart v2.1+ le fait automatiquement avec gestion d'erreur douce. Démarrer sans pull = travailler sur ancienne version → écraser silencieusement le travail des sessions Chat/CC parallèles + conflits massifs au push final. Cas réel commis le 27/05/2026 (Meximieux 6avenue 1981 — fair value refaite en doublon, 7 fichiers en conflit). Détail dans `CLAUDE-DNA-CC-REF.md` section #git-pull si besoin.
+
+### Branche par tâche Asana — mémoire anti-interruption [CORE]
+
+Une tâche Asana de **dév / multi-étapes** = **1 branche + 1 PR draft par repo touché**. La branche est la mémoire persistante contre les interruptions (limite de contexte, fin de session, extinction crédits). Simple Q/R sans dév → pas de branche.
+
+- **Ouverture** : créer la branche dédiée + une PR draft ; **inscrire le nom de branche + le lien PR dans la description de la tâche Asana** dès l'ouverture (lien Asana → branche).
+- **Mémoire dans la branche** : un fichier `WIP-<tache>.md` = *Objectif / Plan / Fait / Prochaine étape / **lien tâche Asana***. C'est LUI qu'on relit à la reprise, pas le diff (réutilise le format REPRISE/RECAP-AUTO, scopé tâche ; lien branche → Asana).
+- **Granularité** : 1 passe = 1 commit poussé (déjà la règle `gauto`) → une interruption ne coûte au pire que la passe en cours.
+- **Reprise** : `git fetch` la branche indiquée dans Asana → lire `WIP-<tache>.md` (+ description de la PR) → continuer.
+- **Multi-repo** : tâche touchant 2 repos = une branche par repo, même nom logique, repos notés dans Asana.
+- **Clôture** : Guillaume valide la tâche Asana → **merge de la PR** (pas de delete branch, cf. Safety §1). Branche vivante = tâche en cours.
+- **Surface mobile** : la PR draft (description = plan vivant + checklist) est lisible/éditable au téléphone — cas d'usage central de Guillaume.
+
+Analyse fondatrice : `ANALYSE-branche-par-tache.md` (claude-os).
 
 ---
 
