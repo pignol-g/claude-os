@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.7 — 2026-06-23** (ajout module Asana « nous 3 » + règle voix de Guillaume + convention remontées `to-os/`)
+**Version : v2.8 — 2026-07-01** (patron « CORE pointe, skill contient » : `gpose` et `gauto`/`gstop` déportés en skills `.claude/skills/gpose` et `.claude/skills/gauto` ; CORE ne garde que le trigger + les safety interdits non déportables)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -60,45 +60,23 @@ Avant toute tâche gourmande :
 - Sous-agents pour tâches parallèles indépendantes.
 
 ### Combo réflexion — trigger `gpose`
-Quand Guillaume écrit `gpose` n'importe où dans son message, appliquer **systématiquement et dans cet ordre** :
-
-1. **Reformuler** ce que Guillaume veut (2-3 phrases) → vérifier compréhension. Ne pas exécuter tant qu'il n'a pas validé.
-2. **Expliquer le concept sous-jacent** si pertinent (3-5 lignes max).
-3. **Proposer 2-4 options chiffrées** (impact + coût) en codes Q/R.
-4. **Poser les questions ouvertes** qui bloquent la décision, en codes Q/R.
-
-`gpose` est l'amplification de la Posture Guide. Compatible avec d'autres codes Q/R.
+Quand Guillaume écrit `gpose` n'importe où dans son message → **invoquer la skill `gpose`**
+(`.claude/skills/gpose/SKILL.md`) : reformuler → expliquer si utile → proposer 2-4 options
+chiffrées (impact + coût, en Q/R) → poser les questions bloquantes (Q/R). **Ne rien exécuter
+avant GO** (même partiel). `gpose` = amplification de la Posture Guide, compatible avec les
+autres codes Q/R.
 
 ### Combo autonome — trigger `gauto` / arrêt `gstop`
 
-Quand Guillaume écrit `gauto` dans un message, activer le **mode autonome longue durée** : Claude pilote seul jusqu'à arrêt explicite. La commande `gstop` désactive le mode et rebascule en mode interactif normal.
+Quand Guillaume écrit `gauto` → **invoquer la skill `gauto`** (`.claude/skills/gauto/SKILL.md`) :
+mode autonome longue durée. Boucle (analyse état → plan priorisé Tier 1/2/3 → étapes atomiques →
+**1 commit + push/étape** → MAJ `REPRISE.md` → reboucle), persistance/git (`fetch + rebase
+origin/main` avant chaque push), économie API (batchs séquentiels, retry doux sur 529, modèles
+légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouton stop, ou fin de
+crédits) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
+commit/push.
 
-**Boucle pilotée** (ne JAMAIS s'arrêter spontanément) :
-1. **Analyse** de l'état projet (REPRISE.md, INDEX, bien actif, TODO ouverts)
-2. **Plan d'action** priorisé (Tier 1 / 2 / 3 par valeur opérationnelle)
-3. **Découpage** en étapes atomiques
-4. **Exécution** étape par étape, 1 commit + push par étape significative
-5. **MAJ REPRISE.md** à chaque cycle (état ultra-récupérable comme si session pouvait finir imprévu)
-6. **Reboucler en (1)** dès plan épuisé — analyser de nouveau, identifier nouvelles priorités
-
-**Persistance & git** :
-- Commit/push après chaque étape (pas de batch tardif)
-- Avant chaque push : `git fetch origin && git rebase origin/main` (résolution conflits autonome — historique main linéaire préservé)
-- `RECAP-AUTO-YYYY-MM-DD.md` à la racine projet, alimenté à chaque cycle + lien dans REPRISE.md
-- Documenter chaque décision autonome significative (pour revue Guillaume au réveil)
-
-**Économie API** (jamais crasher) :
-- Batchs séquentiels, pas de pic multimodal parallèle (max 5 Read images/message)
-- Retry doucement sur 529 (attente 30s puis abandon clean cycle courant)
-- Modèles légers (Sonnet/Haiku) pour Read volumineux ou tâches structurées
-
-**Arrêt** (3 conditions) :
-- (a) Extinction crédits / session limit atteint
-- (b) Guillaume écrit `gstop`
-- (c) Bouton stop CC pressé
-Dans tous les cas, **dernier turn obligatoire** : MAJ REPRISE.md + RECAP-AUTO finalisé + commit/push.
-
-**Safety interdits** (toute violation = arrêt + alerte Guillaume) :
+**Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
 - Pas de merge PR sans validation explicite Guillaume
 - Pas de force-push (jamais)
 - Pas de `git branch -D` ni delete branch remote
