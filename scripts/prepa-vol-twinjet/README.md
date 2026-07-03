@@ -16,10 +16,21 @@ par le mécanisme d'override.
 
 ## Installation (2 minutes)
 
+**Sur ordinateur (recommandé)** — `sandbox-override.gs` :
+
 1. Ouvrir le Sheet « Prépa vol twinjet » → **Extensions ▸ Apps Script**.
 2. Coller le contenu de `sandbox-override.gs` dans l'éditeur (remplacer le contenu par défaut), enregistrer.
 3. Recharger le Sheet : un menu **« Prépa SANDBOX »** apparaît.
 4. Menu ▸ **Créer / recréer l'onglet SANDBOX** (autoriser le script à la première exécution).
+
+**Sur mobile (Android)** — `sandbox-override-standalone.gs` : le menu Extensions n'existe pas
+dans Sheets mobile (ni en « version pour ordinateur » de Chrome Android). Variante autonome :
+
+1. Ouvrir https://script.google.com → **Nouveau projet**.
+2. Coller `sandbox-override-standalone.gs`, enregistrer.
+3. Sélectionner la fonction **`creerSandbox`** dans la barre du haut → **Exécuter** (▶), autoriser.
+4. Ouvrir le Sheet : l'onglet `prepa SANDBOX` est prêt. Ré-exécuter = recréer ;
+   `replierTout` / `deplierTout` se lancent de la même façon.
 
 ## Ce que produit le script
 
