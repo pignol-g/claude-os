@@ -62,3 +62,25 @@ dans Sheets mobile (ni en « version pour ordinateur » de Chrome Android). Vari
 - Si un numéro de vol est saisi en texte alors que `données vols` le stocke en nombre,
   le VLOOKUP renverra `#N/A` (même comportement que les formules actuelles du fichier).
 - `N_VOLS = 6` (colonnes B..G) : ajuster en tête de script si la feuille s'élargit.
+
+## Variante livrée « zéro action » (2026-07-04) — sandbox CSV→Sheet
+
+Le menu Extensions étant inaccessible sur mobile et l'éditeur script.google.com jugé
+inutilisable au téléphone, un sandbox a été **généré et déposé directement dans le Drive** :
+fichier **« Prépa vol twinjet SANDBOX »** (Google Sheet, une seule feuille), construit par
+export xlsx → extraction des formules de l'onglet `prepa` → CSV remappé → conversion Drive.
+
+- Grille `prepa` fidèle (mêmes numéros de lignes), une **colonne override intercalée à droite
+  de chaque colonne vol** (C, E, G, I, K, M, O…) : cellule override remplie = elle gagne,
+  vidée = retour au calcul auto. Toutes les cellules à formule sont wrappées
+  `=IF(override<>"";override;(formule d'origine))`.
+- Table `avions` copiée en dur (colonnes AV:AZ) ; table `données vols` importée **en direct**
+  du fichier original par IMPORTRANGE (colonnes AE:AT) → **cliquer « Autoriser l'accès »**
+  sur la cellule AE1 à la première ouverture.
+- Les saisies manuelles restent directes dans les colonnes vol (les wrapper aurait cassé les
+  tests ISBLANK des formules d'origine — semantique blank ≠ "").
+- Limites CSV : couleurs et groupes escamotables non transportables — à appliquer à la main
+  (mobile : sélection colonne → remplissage ; masquer/afficher colonne) ou via le script
+  Apps Script de ce dossier plus tard sur ordinateur.
+- Incident notable : le transfert binaire MCP corrompt les exports xlsx de façon déterministe
+  (membres zip CRC KO) → la table `données vols` n'a pas pu être copiée en dur, d'où IMPORTRANGE.
