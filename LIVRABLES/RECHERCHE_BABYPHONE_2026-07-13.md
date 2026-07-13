@@ -18,9 +18,10 @@
 ## TL;DR (verdict d'abord)
 
 1. **Ta shortlist hybride (BOIFUN, ieGeek, Arenti) est disqualifiée sur la sécurité** : les trois reposent sur la plateforme **Meari/CloudEdge**, frappée en mai 2026 par 5 CVE (clés crypto codées en dur identiques sur tout le parc, images en clair sur serveur Chine, ~1,1 M d'appareils exposés). À écarter tant qu'un firmware ≥3.0.0 corrigé n'est pas confirmé.
-2. **Le momcozy BM03 est le meilleur alignement à TES critères** : sans-WiFi pur (FHSS, aucune exposition internet), détection mouvement **ET** bruit, enregistrement clips sur SD **avec relecture locale sur l'écran parent**, ≤100 €, et **la liaison la plus fiable** des retours consultés (aucun décrochage) — ce qui répond directement à ton problème GHB. **Mais** il est sous-couvert par les comparatifs → score brut modeste (~47/100), d'où l'écart score↔reco détaillé plus bas.
+2. **Le momcozy BM03 est le meilleur alignement à TES critères** : sans-WiFi pur (FHSS, aucune exposition internet), détection mouvement **ET** bruit, enregistrement clips sur SD **avec relecture locale sur l'écran parent**, et **la liaison la plus fiable** des retours consultés (aucun décrochage) — ce qui répond directement à ton problème GHB. **MAIS** (correction post-livraison) son prix réel est **145–220 € (svt 199,99 €), hors budget ≤100 €** — pas ~90 € comme indiqué initialement. Le **BOIFUN B0H1BXMHTH en mode strictement local** (~152 €) est un candidat équivalent qui **neutralise la faille Meari** (faille côté cloud) et ajoute le 24/7.
 3. **Le score pondéré brut favorise le mainstream FR** (Babymoov ~95, Philips Avent/Babysense ~66, HelloBaby ~60) parce que les comparatifs FR sont quasi tous des blogs affiliés qui poussent ces marques — **le score n'est PAS la recommandation** ; il est corrigé par tes critères éliminatoires/prioritaires.
-4. **Qualité des sources faible** : aucun média national FR (Le Parisien, BFMTV…) ni test institutionnel récent ; seules Which? (UK), BabyGearLab et Fathercraft (US) ont une vraie méthodo terrain, mais hors marché FR et sans modèle sans-WiFi pur en tête.
+4. **Le budget ≤100 € est le vrai couperet** (vérifié A4 sur manuels) : quasiment tous les modèles ≤100 € **échouent sur la détection mouvement** (HelloBaby HB32/HB6550, Philips DECT, Babysense, Babymoov Simply/Yoo Go+) ou sur l'enregistrement (HelloBaby HB65 sans SD). **Seul le VTech VM924 (~65–70 €)** coche sans-WiFi + mouvement + son sous 100 € (réserve : relecture SD possiblement via app). Les mieux-disants (momcozy BM03, BOIFUN-local) sont à ~150–200 €.
+5. **Qualité des sources faible** : aucun média national FR (Le Parisien, BFMTV…) ni test institutionnel récent ; seules Which? (UK), BabyGearLab et Fathercraft (US) ont une vraie méthodo terrain, mais hors marché FR et sans modèle sans-WiFi pur en tête.
 
 ---
 
@@ -77,15 +78,18 @@ Score = `[Σ(C_site·s)/Σ(C_site)] × min(1 ; nb_comparatifs/5) × 100`, avec `
 
 | Modèle | ASIN | Prix | Radio sans-WiFi | WiFi désactiv. | Enregistrement | Mvt+Bruit | Chiffrement (hybride) | Portée/fiabilité | Budget | Nb comp. | **Score/100** | **PASS/FAIL** |
 |---|---|---|:--:|:--:|---|:--:|---|---|:--:|:--:|:--:|:--:|
-| **momcozy BM03** | B0GHPKZHK9 | ~90 € | **Oui (FHSS pur)** | n-a (pas de wifi) | Clips 1 min/mvt, SD 32 Go incl., **relecture écran parent** | **Oui+Oui** | n-a (aucun cloud) | **Bonne** (3 étages, 0 décrochage) | ≤100 | 4 | **47** | **✅ PASS** |
-| Babymoov Yoo Moov / Simply Care | — | 60-120 € | Oui (radio DECT) | n-a | Live, pas de SD (selon modèle) | Bruit oui / **Mvt à confirmer** | n-a | Moyenne-bonne | mixte | 7 | **95** | ⚠️ PASS si mvt confirmé |
-| Philips Avent (DECT SCD833/843/923) | — | 90-160 € | Oui (DECT) | n-a | Live, pas de SD | Bruit oui / **Mvt à confirmer** (souvent absent) | n-a | Bonne | mixte | 11 | **66** | ⚠️ à confirmer |
+| **momcozy BM03** | B0GHPKZHK9 | **145–220 € (svt 199,99 €)** | **Oui (FHSS pur)** | n-a (pas de wifi) | Clips 1 min/mvt, SD 32 Go incl., **relecture écran parent** | **Oui+Oui** | n-a (aucun cloud) | **Bonne** (3 étages, 0 décrochage) | **>100** | 4 | **47** | **✅ PASS élim. / hors budget** |
+| Babymoov Yoo Moov | A014417 | ~110-120 € | Oui (radio privé) | n-a | Non documenté | Bruit oui / **Mvt incertain** (sources marketing, pas manuel — A4) | n-a | Moyenne-bonne | **>100** | 7 | **95** | ⚠️ mvt à confirmer + hors budget |
+| Babymoov Simply Care / Yoo Go+ | — | 30-90 € | Oui (radio) | n-a | Non | **Mvt ABSENT** (VOX seul, A4) | n-a | Moyenne | ≤100 | (incl.) | — | ❌ FAIL (pas de mouvement) |
+| Philips Avent DECT (SCD833/843/845) | — | 90-160 € | Oui (DECT) | n-a | Live, pas de SD | Bruit oui / **Mvt ABSENT** (confirmé manuel A4) | n-a | Bonne | mixte | 11 | **66** | ❌ FAIL (pas de mouvement) |
 | Philips Avent Connected (SCD881…) | — | >150 € | **Non (WiFi)** | Non | App/cloud | Oui | non documenté | — | >100 | — | — | ❌ FAIL (wifi only) |
-| Babysense Max View / V-series | — | 120-230 € | Oui (radio) | n-a | Selon modèle | **Oui+Oui** (V-series) | n-a | Bonne | >100 (Max View) | 6 | **66** | ✅ PASS (souvent >100 €) |
-| HelloBaby (HB32/HB65/HB6550) | — | 33-76 € | Oui (radio) | n-a | Selon modèle (SD sur HB6550) | Bruit oui / **Mvt selon modèle** | n-a | Moyenne | ≤100 | 10 | **60** | ⚠️ à confirmer par modèle |
-| VTech (DM1211/VM924/VM901) | — | 60-123 € | Oui (DECT) | n-a | Live | Bruit oui / **Mvt souvent absent** | n-a | Bonne (DECT) | ≤100 | 7 | **47** | ⚠️ probable FAIL mvt |
+| Babysense V43 / MaxView | — | 120-230 € | Oui (radio) | n-a | Selon modèle | **Mvt ABSENT côté caméra** (A4 : détection = capteur respiration séparé Babysense 7) / bruit oui | n-a | Bonne | >100 | 6 | **66** | ❌ FAIL (pas de mouvement + >100 €) |
+| HelloBaby HB65 | — | ~64 € | Oui (radio) | n-a | **Aucun (pas de slot SD)** | **Oui+Oui** (mvt confirmé A4) | n-a | Moyenne | ≤100 | 10 | **60** | ❌ FAIL (pas d'enregistrement local) |
+| HelloBaby HB32 / HB6550 | — | 54-90 € | Oui (radio) | n-a | Non | Bruit oui / **Mvt absent (A4)** | n-a | Moyenne | ≤100 | (incl.) | — | ❌ FAIL (pas de mouvement) |
+| **VTech VM924** | — | **~65–70 €** | **Oui (No WiFi)** | n-a | Clips SD **mais relecture via app MyVTech** (à vérifier) | **Oui+Oui** (mvt réglable sur écran, confirmé A4) | n-a | Bonne (DECT) | **≤100** | 7 | **47** | **✅ PASS élim.** (seul ≤100 €) |
+| VTech DM1211 (audio) / VM901 (wifi) | — | 40-90 € | DM1211 oui / VM901 non | n-a | — | DM1211 pas de caméra / VM901 hybride | — | Bonne | ≤100 | (incl.) | — | ❌ FAIL (pas caméra / wifi) |
 | Motorola (PIP1500/VM855/AM21) | — | 70-120 € | Oui (radio) selon modèle | n-a | Live | à confirmer | Hubble : **pas de 2FA** si wifi | Moyenne | mixte | 6 | ~40 | ⚠️ à confirmer |
-| **BOIFUN** | B0H1BXMHTH | ~76 € | Hybride (mode local) | Oui (annoncé) | 2K, SD | Oui+Oui | **AES-128 mais 5 CVE Meari/CloudEdge** (clés en dur, OSS Chine) | Moyenne-mauvaise (décrochages) | ≤100 | 4 | **51** | ❌ FAIL sécurité |
+| **BOIFUN** | B0H1BXMHTH | **~152 €** | Hybride — **écran dédié utilisable en mode local sans WiFi** (confirmé fiche Amazon.fr) | Oui | 2K, SD, relecture écran | Oui+Oui | AES-128 ; 5 CVE Meari/CloudEdge **mais côté cloud/P2P uniquement** → neutralisées si tenu 100% hors ligne | Moyenne (décrochages nocturnes signalés) | **>100** | 4 | **51** | ⚠️ **PASS élim. si strictement local** (cf. note sécu) — hors budget |
 | **BOIFUN 24/7** | B0DT3ZJ7FH | ~85 € | Hybride | Oui | **24/7 SD** (manuel) | Oui+Oui | idem CVE Meari | Moyenne | ≤100 | (incl. ci-dessus) | — | ❌ FAIL sécurité |
 | **ieGeek** | B0BY2HBWWL | ~80 € | Hybride | non documenté | 2K, SD 128 Go cam + 32 Go écran + cloud | Oui+Oui | **CVE Meari** + instabilité >10 m reconnue | Moyenne | ≤100 | 2 | ~25 | ❌ FAIL sécurité |
 | **Arenti AInanny 2K** | B0CF4KBJ1C | ~90 € | Hybride (dépend wifi) | Non (monitoring = internet requis) | 24/7 SD | Oui+Oui | AES-128 + 3 serveurs AWS **mais cité dans CVE Meari** | Moyenne (décrochage cam↔écran) | ≤100 | 3 | **33** | ❌ FAIL sécurité + liaison |
@@ -124,22 +128,42 @@ Formule : `Score = [Σ(C·s)/Σ(C)] × coverage × 100`, `coverage = min(1 ; nb_
 
 # C. Top 3 recommandations (au regard de TES critères)
 
-### 🥇 1. momcozy BM03 (B0GHPKZHK9) — le meilleur alignement
+> ⚠️ **Correction post-livraison (prix + sécurité)** — voir la note dédiée en fin de section. Le momcozy BM03 est en réalité à **145–220 €** (et non ~90 €), donc **hors budget ≤100 €** ; et le BOIFUN en **mode strictement local** neutralise la faille Meari (faille côté cloud/P2P). Le classement ci-dessous intègre ces deux corrections.
+
+### 🥇 1. momcozy BM03 (B0GHPKZHK9) — le meilleur alignement critères (mais >100 €)
 - **Éliminatoires : PASS net** — sans-WiFi pur (FHSS), détection mouvement **et** bruit.
-- **Priorités cochées** : aucune exposition internet (0 cloud, 0 app → immunisé au risque Meari qui coule les hybrides) ; enregistrement **local clips SD + relecture directe sur l'écran parent** (le mode que tu valorises) ; **liaison la plus fiable** des retours (0 décrochage, 3 étages) — réponse directe à ton problème GHB ; ≤100 €.
-- **Réserve** : score brut modeste (sous-couvert par les comparatifs) ; clips 1 min sur mouvement (pas de 24/7). À confirmer au SAV : 100 % sans WiFi/app + relecture SD sur écran.
+- **Priorités cochées** : aucune exposition internet (0 cloud, 0 app → **immunisé par conception** au risque Meari) ; enregistrement **local clips SD + relecture directe sur l'écran parent** ; **liaison la plus fiable** des retours (0 décrochage, 3 étages) — réponse directe au problème GHB.
+- **Réserve** : **prix 145–220 € → hors budget** ; clips 1 min sur événement (pas de 24/7). À confirmer SAV : 100 % sans WiFi/app + relecture SD sur écran.
 
-### 🥈 2. Babysense (V-series / Max View) — le sans-WiFi « premium fiable »
-- **PASS** sur les éliminatoires (radio + mouvement + bruit sur les V-series), bien classé par la source la plus sérieuse du corpus (**#1 The Bump**, C=4,0) et par bedbedtime/ConsoMaman.
-- **Réserve** : le Max View dépasse 100 € (~229 €) ; vérifier le modèle précis ≤100 € (ex. V43) et la présence mouvement + SD.
+### 🥈 2. BOIFUN B0H1BXMHTH — en mode STRICTEMENT local (l'option 24/7)
+- **Éliminatoires : PASS** en mode local — écran dédié fonctionnant **sans WiFi** (confirmé fiche Amazon.fr « WiFi or Local Mode »), détection **mouvement + cri**, enregistrement SD **24/7** relu à l'écran (avantage sur les clips du momcozy).
+- **Sécurité** : la faille Meari est **côté cloud/P2P** → **neutralisée tant que l'appareil n'est JAMAIS appairé à l'app/WiFi**. Sûr **par discipline** (vs momcozy sûr par conception).
+- **Réserve** : ~152 € (**hors budget**) ; **décrochages nocturnes signalés** dans les avis (à surveiller vu ton historique GHB) ; un seul appairage app l'enregistre sur le cloud vulnérable.
 
-### 🥉 3. Babymoov Yoo Moov (ou HelloBaby à mouvement confirmé) — le mainstream sûr
-- **Radio sans-WiFi**, n°1 des comparatifs FR, SAV/distribution FR solides, ≤100 € (Yoo Moov / HelloBaby HB65 ~64 €).
-- **Réserve bloquante** : la **détection mouvement** n'est pas garantie sur ces gammes (souvent VOX/bruit seul) → **à confirmer avant achat** (c'est le trou laissé par l'agent A4).
+### 🥉 3. VTech VM924 (~65–70 €) — le SEUL ≤100 € qui passe les éliminatoires
+- **PASS éliminatoires confirmé (A4, manuel)** : sans-WiFi (« No WiFi » explicite), **détection mouvement réglable directement sur l'écran parent** (MENU → Motion Detection → sensibilité), détection son.
+- **Le seul modèle ≤100 € du corpus** dont la détection mouvement est prouvée par le manuel (tous les autres sous-100 € échouent : voir ci-dessous).
+- **Réserve à lever au SAV** : la **relecture des clips SD** semble passer par l'app MyVTech Baby (le *live*, lui, reste 100 % écran sans WiFi) → si tu veux la relecture SD sur écran sans app, à vérifier avant achat.
 
-**💰 Meilleur rapport qualité-prix ≤100 €** : **momcozy BM03 (~90 €)** — il fait tout ce dont tu as besoin sans cloud ni abonnement. Alternative moins chère si tu tolères une relecture plus limitée : HelloBaby HB65 (~64 €), sous réserve mouvement confirmé.
+**Pourquoi pas les autres ≤100 € (vérifié A4)** : HelloBaby HB65 (~64 €) = mouvement+son OK **mais aucun slot SD** ; HelloBaby HB32/HB6550 = **pas de mouvement** ; Philips Avent DECT = **pas de mouvement** (manuel) ; Babysense V43/MaxView = **pas de mouvement** caméra (la détection Babysense = capteur respiration séparé) ; Babymoov Yoo Moov = mouvement incertain + ~110 € ; Motorola PIP1500 No-WiFi = mouvement non confirmé (présent seulement sur la version Connect/WiFi).
 
-**⬆️ Si tu montes le budget (en gardant le sans-WiFi obligatoire)** : **Babysense Max View** (~229 €, sans-WiFi, #1 The Bump, grand écran, mouvement+bruit). À éviter malgré leur budget : Nanit/Owlet/Cubo (WiFi-only → FAIL éliminatoire) et tout hybride Meari tant que non patché.
+**💰 Meilleur rapport qualité-prix ≤100 €** : **VTech VM924** (~65–70 €) — seul à cocher sans-WiFi + mouvement + son sous 100 €. Compromis : relecture SD possiblement via app (live OK sans app).
+
+**⬆️ Si tu montes le budget (sans-WiFi maintenu)** : **momcozy BM03** (~150–200 €, sûr par conception, relecture SD sur écran sans app, liaison la plus fiable) ou **BOIFUN B0H1BXMHTH en mode strictement local** (~152 €, 24/7 SD, sûr si tenu hors ligne). Babysense MaxView (~229 €) écarté (pas de mouvement). À éviter : Nanit/Owlet/Cubo (WiFi-only → FAIL).
+
+---
+
+## Note — la faille Meari/CloudEdge et l'usage strictement local (correction)
+
+**Ce qu'est la faille** : BOIFUN, ieGeek et Arenti reposent sur la plateforme cloud+app+P2P de l'OEM chinois **Meari** (marque grand public **CloudEdge**), partagée par 300+ marques. 5 CVE (CVE-2026-33356→62, mai 2026) : **clés cryptographiques P2P/DES/HMAC codées en dur et identiques sur tout le parc** (extraire la clé d'un appareil ouvre l'accès aux autres) ; **images d'alerte stockées en clair, sans auth, sur serveur Alibaba OSS (Chine)** ; ~1,1 M d'appareils joignables depuis internet.
+
+**Point décisif** : c'est une faille du **canal internet/cloud/app**, PAS de la liaison radio locale. Un hybride utilisé **strictement sans WiFi** (jamais appairé à l'app, jamais connecté au cloud) **ne présente pas cette surface d'attaque** : rien n'est uploadé sur l'OSS, l'appareil ne rejoint pas le réseau P2P, il n'est pas joignable depuis internet. Le « FAIL sécurité » absolu initial valait pour l'usage **par défaut (connecté)**, pas pour un usage 100 % local.
+
+**Ce qui départage momcozy et BOIFUN-local** :
+- **momcozy = sûr par conception** : aucune capacité cloud/app (pur radio) → ne *peut pas* être mal connecté, surface cloud = zéro.
+- **BOIFUN-local = sûr par discipline** : sûr tant qu'il reste hors ligne ; **un seul appairage app l'enregistre sur le cloud vulnérable**. Impossible de patcher hors ligne (mais inutile hors ligne).
+- **Risque résiduel commun** : proximité radio (quelqu'un à portée), identique à tout babyphone radio, momcozy compris.
+- **Fiabilité (séparé de la sécu)** : avis plus propres côté momcozy ; décrochages nocturnes signalés sur certains BOIFUN.
 
 ---
 
@@ -147,11 +171,12 @@ Formule : `Score = [Σ(C·s)/Σ(C)] × coverage × 100`, `coverage = min(1 ; nb_
 
 | # | Incertitude | Impact | Action |
 |---|---|---|---|
-| 1 | **Détection mouvement** non confirmée par modèle mainstream (Babymoov Yoo Moov, HelloBaby HB65, VTech) — agent A4 tué par quota | Peut faire basculer #3 en FAIL | **Relancer A4 après 15h00 UTC** (fiches fabricant/manuels) OU question SAV |
-| 2 | momcozy BM03 : réellement **100 % sans WiFi ni app** ? Relecture des clips SD **sur l'écran parent** ? | Confirme le 🥇 | SAV momcozy : *« Le BM03 fonctionne-t-il entièrement sans WiFi ni application ? Peut-on relire les clips de la carte SD directement sur l'écran parent ? »* |
-| 3 | **CVE Meari/CloudEdge** : firmware ≥3.0.0 correctif déployé sur BOIFUN/ieGeek/Arenti ? | Réhabiliterait éventuellement les hybrides | SAV BOIFUN/ieGeek/Arenti : *« Vos caméras 2026 embarquent-elles le firmware ≥3.0.0 corrigeant les vulnérabilités Meari (CVE-2026-33356 à 33362) ? »* |
-| 4 | Babysense : modèle précis **≤100 € avec mouvement + sans-WiFi + SD** (V43 ?) | Précise le 🥈 | Fiche V43 / SAV Babysense |
-| 5 | Clip-sur-événement (momcozy) vs 24/7 (BOIFUN B0DT3ZJ7FH, Arenti) | Arbitrage confort | Décider : le 24/7 justifie-t-il le risque hybride ? (à ce jour non, cf. sécurité) |
+| 1 ✅ RÉSOLU | Détection mouvement par modèle (A4 relancé) | — | Vérifié sur manuels : seul **VTech VM924** passe sous 100 € ; HelloBaby/Philips DECT/Babysense/Babymoov échouent (voir §C) |
+| 2 | **VTech VM924** : la **relecture des clips SD** se fait-elle sur l'écran parent, ou seulement via l'app MyVTech Baby ? | Détermine si le 🥉 ≤100 € coche aussi la relecture locale | SAV VTech : *« Sur le VM924, peut-on relire les clips enregistrés sur la carte microSD directement sur l'écran parent, sans l'application ? »* |
+| 3 | **BOIFUN B0H1BXMHTH** : le « mode local » désactive-t-il **totalement** le WiFi/cloud (jamais d'upload OSS) ? La liaison locale est-elle FHSS radio ou point d'accès WiFi ? | Confirme la sécurité de l'usage 100 % local | SAV BOIFUN : *« En mode local, la caméra fonctionne-t-elle sans aucune connexion internet ni compte cloud ? La liaison caméra↔écran est-elle radio directe ? »* |
+| 4 | momcozy BM03 : relecture SD sur écran **confirmée** (A4) ; reste le prix 145-220 € **hors budget** | Arbitrage budget | Décider : monter à ~150-200 € pour le mieux-disant, ou rester ≤100 € avec le VM924 |
+| 5 | **CVE Meari/CloudEdge** : firmware ≥3.0.0 correctif déployé ? (pertinent seulement si tu comptes utiliser le WiFi) | Réhabiliterait l'usage connecté des hybrides | SAV BOIFUN/ieGeek/Arenti : *« Vos caméras 2026 embarquent-elles le firmware ≥3.0.0 corrigeant les vulnérabilités Meari (CVE-2026-33356 à 33362) ? »* |
+| 6 | Clip-sur-événement (momcozy, VM924) vs 24/7 (BOIFUN local) | Arbitrage confort | Le 24/7 justifie-t-il de gérer la discipline « jamais de WiFi » du BOIFUN ? |
 
 ---
 
@@ -165,7 +190,7 @@ Formule : `Score = [Σ(C·s)/Σ(C)] × coverage × 100`, `coverage = min(1 ; nb_
 
 **A5 (sécurité/fiabilité) — citées clés** : github.com/xn0tsa/nobody-puts-baby-in-a-corner, smarthomeperfected.com/cloudedge-hack, blog.rankiteo.com (CVE Meari), arenti.com/pages/privacy, apis-us-west.arenti.net/…/Privacy.html, motherandbaby.com/…/momcozy-bm03, momcozy.com/…/baby-monitor-range, fcc.report/FCC-ID/2af2rhb30rx, todaysparent.com/vtech-dm221, walmart reviews (BOIFUN/VTech), mominformed.com (Motorola/Hubble). *Interrompu par quota avant Amazon ASIN directs + Philips WiFi + Reddit HelloBaby/Babysense.*
 
-**A4 (fiches techniques) — ÉCHEC** : tué par limite de session (« resets 3pm UTC ») avant d'établir la grille ASIN. À relancer.
+**A4 (fiches techniques) — relancé le 13/07 (GO `a4A`), abouti — citées** : amazon.fr/…/B0GHPKZHK9, idealo.fr (prix BM03), documents.philips.com (manuel SCD843, confirme absence mouvement), babysensemonitors.com (confirme mouvement = capteur respiration séparé), consobaby.com (Babymoov Yoo Moov), manualslib/manualzz (HelloBaby HB32/HB65), vtp-media.com (manuel VM924), camelcamelcamel (prix VM924), motorolanursery.com. *Verrouille la détection mouvement par modèle : seul VTech VM924 passe ≤100 €.*
 
 ---
 
