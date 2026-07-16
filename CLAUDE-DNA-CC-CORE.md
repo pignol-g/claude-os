@@ -1,6 +1,6 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.8 — 2026-07-01** (patron « CORE pointe, skill contient » : `gpose` et `gauto`/`gstop` déportés en skills `.claude/skills/gpose` et `.claude/skills/gauto` ; CORE ne garde que le trigger + les safety interdits non déportables)
+**Version : v2.9 — 2026-07-05** (nouveau trigger `grech` : recherche approfondie multi-agents, skill `.claude/skills/grech` — même patron « CORE pointe, skill contient » que `gpose`/`gauto`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -75,6 +75,17 @@ origin/main` avant chaque push), économie API (batchs séquentiels, retry doux 
 légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouton stop, ou fin de
 crédits) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
 commit/push.
+
+### Combo recherche — trigger `grech`
+
+Quand Guillaume écrit `grech` n'importe où dans son message (ou demande une « recherche
+poussée/approfondie », « deep research ») → **invoquer la skill `grech`**
+(`.claude/skills/grech/SKILL.md`) : recherche approfondie multi-agents façon « recherche
+avancée » de Claude chat. Cadrage (lire l'état interne d'abord, prémisse vérifiée) →
+découpage en angles → **1 subagent Sonnet par angle en parallèle, sans plafond à 4** →
+sourçage systématique (cible cumulée >100 URLs, listes [citée]/[consultée]) → croisement
+avec le dossier interne → rapport consolidé daté (TL;DR, scénarios ouverts/fermés, coûts,
+annexe sources) persisté + commité.
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
 - Pas de merge PR sans validation explicite Guillaume
