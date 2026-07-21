@@ -6,15 +6,17 @@
 
 ## ⏳ En attente
 
-### 2026-07-21 — Profil rédactionnel toujours vide → migration bloquée
-- **Constat** (issu de la recherche grech lettre de motivation) : `profil-redactionnel-guillaume.md`
-  est un stub vide depuis le 13/06/2026, alors que le CORE impose de le charger avant toute
-  rédaction en son nom. Contenu réel censé venir de
-  `candidaturePilote/livrables/lettres/_templates/profil-redactionnel-guillaume.md`.
+### 2026-07-21 — Pourquoi le profil rédactionnel déjà testé (candidaturePilote) a échoué ?
+- **Constat mis à jour** (retour de Guillaume après lecture du rapport grech) : contrairement à
+  l'hypothèse initiale, un vrai profil rédactionnel avait déjà été **utilisé** dans
+  `candidaturePilote` (Opus 4.8, Claude Code) — sans succès. Le stub vide de `claude-os`
+  n'explique donc pas tout ; l'hypothèse dominante devient le system prompt de Claude Code
+  (terseness par design) qui dilue/écrase même un vrai profil chargé.
 - **Décision à prendre** : Guillaume ajoute le repo `candidaturePilote` à une session pour que
-  Claude fasse la migration, ou colle le contenu lui-même ? Sans ça, toute rédaction "à sa voix"
-  reste générique par construction, quel que soit le modèle utilisé.
-- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md`.
+  Claude inspecte le contenu réel du profil utilisé et diagnostique précisément pourquoi ça n'a
+  pas suffi (format, absence de règles absolues anti-tics, jamais vraiment chargé au bon moment,
+  etc.) ? Ou il diagnostique lui-même avec la grille fournie dans l'addendum du rapport ?
+- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md` (section Addendum).
 
 ---
 
@@ -32,11 +34,17 @@
   peu importe le modèle. La pollution de contexte par un CLAUDE.md volumineux est un facteur
   réel et documenté par Anthropic elle-même (post-mortem avril 2026, -80% du system prompt
   Claude Code pour Fable 5), même si pas prouvé spécifiquement sur ce cas.
-- **Recommandation** : rédiger dans claude.ai chat (pas Claude Code) avec le feature "Styles →
-  Add a Writing Example" ou un few-shot avec ses propres textes ; modèle Sonnet par défaut ;
-  prompt-type fourni dans le rapport.
+- **Recommandation initiale** : rédiger dans claude.ai chat (pas Claude Code) avec le feature
+  "Styles → Add a Writing Example" ou un few-shot avec ses propres textes ; modèle Sonnet par
+  défaut ; prompt-type fourni dans le rapport.
+- **Corrigé le même jour** (retour Guillaume) : le feature "Styles" est retiré de claude.ai
+  (migration vers "Skills", confirmée par recherche complémentaire — moins fiable car invoquée
+  seulement quand Claude juge nécessaire, pas à chaque message). Un vrai profil avait déjà été
+  testé sans succès avec Opus 4.8 dans Claude Code, ce qui renforce l'hypothèse "outil" plutôt
+  que "donnée manquante". Voir Addendum du rapport pour la méthode de fabrication d'un skill de
+  voix (4-6 échantillons + règles absolues anti-tics) et la recommandation mise à jour.
 - **Mise en œuvre** : voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md`
-  (4 agents, ~209 sources).
+  (4 agents, ~211 sources, avec addendum).
 
 ### 2026-06-24 — Persistance des décisions (skill asana-pass)
 - **Question** : quand je réponds dans Asana, faut-il aussi enregistrer dans le repo pour centraliser la base de connaissance ?

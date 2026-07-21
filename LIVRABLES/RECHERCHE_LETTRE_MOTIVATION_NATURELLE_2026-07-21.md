@@ -1,9 +1,16 @@
 # Recherche — Meilleure méthode pour une lettre de motivation naturelle avec Claude
 
-**Date** : 2026-07-21 · **Méthode** : grech (recherche approfondie multi-agents)
-**Agents** : 4 (Sonnet) · **Sources cumulées** : ~209 (56 + 38 + 53 + 62, avec recoupements)
+**Date** : 2026-07-21 (mis à jour même jour après retour de Guillaume) · **Méthode** : grech
+(recherche approfondie multi-agents)
+**Agents** : 4 (Sonnet) · **Sources cumulées** : ~211 (56 + 38 + 53 + 62 + 2, avec recoupements)
 **Fichiers internes croisés** : `CLAUDE-DNA-CC-CORE.md` (§ Rédiger à la voix de Guillaume),
 `profil-redactionnel-guillaume.md`, `.claude/skills/asana-pass/SKILL.md`
+
+> ⚠️ **Voir l'Addendum en fin de document** : Guillaume a confirmé avoir déjà testé un vrai
+> profil rédactionnel (dans `candidaturePilote`, avec **Opus 4.8**, pas Sonnet) sans succès, et
+> que le feature "Styles" de claude.ai recommandé ci-dessous a été retiré (migration vers
+> "Skills"). Ça déplace le diagnostic vers l'hypothèse "outil" (§TL;DR point 1) plutôt que
+> "donnée de style manquante" (§TL;DR point 2, à lire avec cette réserve).
 
 ---
 
@@ -13,10 +20,13 @@
   public de Claude Code impose la concision ("fewer than 4 lines", "minimize output tokens",
   "avoid preamble") — un outil conçu pour du terminal/code, pas pour de la prose. Ça suffit à
   expliquer le ton sec/synthétique observé, indépendamment de la qualité de Claude lui-même.
-- **Trouvaille interne, plus grave que tout le reste** : le fichier censé injecter TA vraie voix
-  avant toute rédaction (`profil-redactionnel-guillaume.md`, imposé par ton propre CLAUDE.md)
-  est un **stub vide depuis le 13/06/2026**. Aucune lettre Claude Code n'a jamais eu accès à ton
-  style réel — normal qu'elle sonne générique, peu importe le modèle.
+  **Confirmé par Guillaume** : même avec un vrai profil de voix chargé et Opus 4.8 (le modèle le
+  plus capable), le résultat reste artificiel dans Claude Code — l'outil semble bien être le
+  facteur dominant, pas la donnée de style ni le modèle.
+- ~~Trouvaille interne~~ **Nuancé après retour de Guillaume** : le fichier censé injecter TA vraie
+  voix avant toute rédaction (`profil-redactionnel-guillaume.md`, imposé par ton propre CLAUDE.md)
+  est un stub vide côté `claude-os`, mais un vrai profil existait et a été **utilisé** côté
+  `candidaturePilote` — et ça n'a pas suffi. Voir Addendum pour le diagnostic révisé.
 - **La pollution de contexte est un facteur réel et documenté** (pas une hypothèse) : Anthropic a
   elle-même publié un post-mortem où une seule ligne de contrainte système a mesurablement
   dégradé la qualité, et a coupé 80% du system prompt de Claude Code pour les modèles Fable 5
@@ -164,6 +174,57 @@ la perfection au premier jet.
 ---
 
 ## Annexe — sources consultées
+
+## Addendum — précisions de Guillaume après lecture (2026-07-21, validé avec corrections)
+
+**Précisions reçues :**
+1. Un profil rédactionnel avait déjà été **utilisé** (pas juste écrit) dans le projet
+   `candidaturePilote` — **sans succès**. Le stub vide de `claude-os` n'était donc pas la seule
+   cause : un vrai profil a existé et a échoué à produire un résultat naturel.
+2. Modèle réellement utilisé : **Opus 4.8** dans Claude Code (pas Sonnet).
+3. Tentative de créer un "Style" claude.ai comme recommandé → **fonctionnalité indisponible**,
+   redirige maintenant vers "Skills".
+
+**Diagnostic révisé** : le fait qu'un vrai profil de voix ait été chargé avec Opus 4.8 (le modèle
+le plus capable, pas un modèle économique) dans Claude Code et ait quand même produit un texte
+artificiel **renforce fortement l'hypothèse "outil"** (§3 ci-dessous : system prompt de Claude
+Code optimisé pour la concision/le code) au détriment de l'hypothèse "donnée de style manquante".
+Le profil existait ; il a été dilué ou écrasé par le comportement par défaut de l'outil CLI, pas
+par une lacune de contenu.
+
+**Styles → Skills, vérifié (recherche fraîche, 2026-07-21)** : Anthropic retire progressivement
+le feature "Styles" de claude.ai au profit de "Skills" (migration en cours depuis juin 2026 —
+[ai-toolbox.co](https://www.ai-toolbox.co/claude-management-and-productivity/how-to-set-up-claude-custom-instructions-2026),
+[howtogeek.com](https://www.howtogeek.com/claude-feature-solved-biggest-frustration-anthropic-killed-it/)).
+Différence importante et documentée : les Styles s'appliquaient automatiquement à **chaque**
+message d'une conversation ; les Skills sont invoquées **seulement quand Claude juge que c'est
+nécessaire** — un utilisateur documente explicitement cette régression de fiabilité pour un usage
+qui doit "toujours" s'appliquer. Méthode actuelle pour fabriquer un skill de voix (sources
+convergentes : [aiblewmymind.substack.com](https://aiblewmymind.substack.com/p/claude-skills-ai-write-like-you),
+[joelmoran.com](https://joelmoran.com/guides/claude-voice-skill/)) : coller 4-6 textes dont on est
+content → demander à Claude d'en extraire un guide de voix structuré (vocabulaire, structure de
+phrase, tics) → l'empaqueter en Skill (Customize → Skills → Create skill, upload zip). **Piège
+documenté** : Claude tend à **exagérer** les patterns détectés (parenthèses occasionnelles →
+systématiques) sauf si on donne des règles absolues ("jamais X") plutôt que molles ("évite si
+possible X").
+
+**Recommandation mise à jour :**
+- Vu la fiabilité incertaine du déclenchement des Skills, ne pas compter dessus seules pour un
+  besoin "toujours actif" — soit les référencer explicitement dans le prompt à chaque lettre,
+  soit garder la méthode few-shot directe (coller le profil dans le prompt), plus robuste.
+- Séparer "recherche/données candidature" (peut rester en Claude Code) de "rédaction finale" (à
+  faire en claude.ai chat, ou en demandant explicitement à Claude Code d'ignorer ses réflexes de
+  concision pour cette tâche précise — ex. "ceci est de la prose, pas du code, ignore les règles
+  de brièveté par défaut").
+- Reconstruire le profil de voix selon la méthode "4-6 échantillons + règles absolues anti-tics",
+  pas un profil générique de ton — le profil précédent (`candidaturePilote`) a peut-être échoué
+  faute de ces règles absolues.
+- **Question ouverte** : pourquoi le profil déjà utilisé dans `candidaturePilote` n'a pas suffi ?
+  Sans voir son contenu réel, impossible à diagnostiquer précisément (mauvais format ? pas assez
+  concret ? pas de règles absolues ? jamais vraiment chargé dans le contexte au moment de la
+  rédaction ?).
+
+---
 
 ### Agent 1 — Modèles Claude (naturalité rédactionnelle) — 56 sources
 https://www.anthropic.com/claude/fable [citée] · https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5 [citée] · https://claude.com/resources/tutorials/choosing-the-right-claude-model [citée] · https://platform.claude.com/docs/en/api/messages [citée] · https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices [citée] · https://willfrancis.com/how-to-stop-claude-writing-like-an-ai/ [citée] · https://github.com/anthropics/claude-code/issues/6096 [citée] · https://github.com/deepseek-ai/awesome-deepseek-integration/issues/531 [citée] · https://reapply.app/blog/claude-vs-chatgpt-cover-letters [citée] · https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf [citée] · https://aiforanything.io/blog/claude-model-selection-guide-haiku-sonnet-opus-2026 [citée] · https://www.buildmvpfast.com/articles/best-llms-2026-guide/creative-writing-ai [citée] · https://www.chatprd.ai/how-i-ai/claude-fable-5-review [citée] · https://yellow.com/news/sol-fable-5-creative-writing-test [citée] · https://opentools.ai/news/anthropics-claude-ai-gets-a-writing-style-makeover-customize-away [citée] · https://claude.com/blog/styles [consultée-404] · https://www.tomsguide.com/ai/claude-lets-you-personalize-your-ai-writing-heres-how [consultée] · https://knightli.com/en/2026/05/08/anthropic-claude-model-lineup/ [consultée] · https://www.usecarly.com/blog/claude-models-explained/ [consultée] · https://www.remoteopenclaw.com/blog/best-claude-models-2026 [consultée] · https://www.secondtalent.com/resources/every-claude-ai-model-explained-compared/ [consultée] · https://www.sitepoint.com/claude-model-selection-framework/ [consultée] · https://tygartmedia.com/claude-models-comparison/ [consultée] · https://github.com/danny-avila/LibreChat/discussions/3376 [consultée] · https://github.com/danny-avila/LibreChat/issues/3374 [consultée] · https://claudhq.com/claude-temperature-settings-guide/ [consultée] · https://clskillshub.com/blog/claude-temperature-settings-guide [consultée] · https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages-request-response.html [consultée] · https://github.com/ccbogel/QualCoder/issues/1125 [consultée] · https://platform.claude.com/docs/en/claude_api_primer [consultée] · https://tokenmix.ai/blog/claude-temperature-control-2026 [consultée] · https://likeone.ai/blog/claude-temperature-settings-guide/ [consultée] · https://tomarcher.io/posts/temperature-top-p-creativity-knobs/ [consultée] · https://models.dev/models/anthropic/claude-fable-5/ [consultée] · https://findskill.ai/blog/how-to-prompt-claude-fable-5/ [consultée] · https://www.threads.com/@vavozamarketing/post/DZYAbmomEI7/ [consultée] · https://sidsaladi.substack.com/p/ai-cover-letter-writer-101-a-claude [consultée] · https://charliehills.substack.com/p/ai-slop [consultée] · https://www.ignorance.ai/p/the-field-guide-to-ai-slop [consultée] · https://medium.com/@porter.nicholas/anthropic-skills-marketplace-the-anti-ai-slop-ui-design-skill-a572d0cfef4f [consultée] · https://note.com/humble_bobcat51/n/n185741f3337f [consultée] · https://stackedo.com/ai-writing-cliches-to-avoid/ [consultée] · https://1up.ai/blog/ai-slop-guidelines [consultée] · https://neuraplus-ai.github.io/blog/how-to-use-anthropic-claude-for-blogging.html [consultée] · https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents [consultée] · https://levelupwithai.substack.com/p/i-trained-claude-code-how-to-write [consultée] · https://www.notebookcheck.net/Anthropic-allows-Claude-AI-users-to-customize-writing-styles.924555.0.html [consultée] · https://www.aibase.com/news/13500 [consultée] · https://medium.com/ai-disruption/the-rise-of-personalized-ai-77cbcfac1d53 [consultée] · https://www.newsbytesapp.com/news/science/anthropic-unveils-custom-writing-styles-for-ai-assistant-claude/story [consultée] · https://dataconomy.com/2024/11/27/claude-ai-can-now-mirror-your-writing-style-perfectly/ [consultée] · https://www.maginative.com/article/anthropic-introduces-custom-writing-styles-for-claude-ai/ [consultée] · https://alitu.com/creator/content-creation/ai-writing-claude-styles/ [consultée] · https://gcmori.medium.com/inside-claudes-new-writing-engine-fca527e9e288 [consultée] · https://dev.to/dr_hernani_costa/claude-ai-models-2025-opus-vs-sonnet-vs-haiku-guide-24mn [consultée] · https://aigoestocollege.substack.com/p/claude-35-sonnet-is-really-good [consultée] · https://thezvi.substack.com/p/claude-4-you-the-quest-for-mundane-utility [consultée]
