@@ -6,17 +6,26 @@
 
 ## ⏳ En attente
 
-### 2026-07-21 — Pourquoi le profil rédactionnel déjà testé (candidaturePilote) a échoué ?
-- **Constat mis à jour** (retour de Guillaume après lecture du rapport grech) : contrairement à
-  l'hypothèse initiale, un vrai profil rédactionnel avait déjà été **utilisé** dans
-  `candidaturePilote` (Opus 4.8, Claude Code) — sans succès. Le stub vide de `claude-os`
-  n'explique donc pas tout ; l'hypothèse dominante devient le system prompt de Claude Code
-  (terseness par design) qui dilue/écrase même un vrai profil chargé.
-- **Décision à prendre** : Guillaume ajoute le repo `candidaturePilote` à une session pour que
-  Claude inspecte le contenu réel du profil utilisé et diagnostique précisément pourquoi ça n'a
-  pas suffi (format, absence de règles absolues anti-tics, jamais vraiment chargé au bon moment,
-  etc.) ? Ou il diagnostique lui-même avec la grille fournie dans l'addendum du rapport ?
-- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md` (section Addendum).
+### 2026-07-21 — Appliquer les 2 correctifs trouvés dans candidaturePilote
+- **Constat final** (inspection directe de `candidaturePilote` — profil, skills, journal,
+  `to-claude-os/REMONTEES-OS.md`) : le vrai diagnostic était déjà écrit dans le journal §11 du
+  profil, daté du **2026-06-27**, avant même cette recherche : (1) les règles de style abstraites
+  font régresser vers un ton corporate — la méthode qui marche est "corpus-first" (imiter les
+  vraies LM, pas des règles) ; (2) **Opus sur-analyse et régresse sur cette tâche, Sonnet
+  fonctionne mieux** — preuve : `livrables/lettres/candidatures/buzz-737-v1.md` (généré ce
+  jour-là avec cette méthode) sonne naturel. Guillaume a utilisé Opus 4.8 récemment → reproduit
+  le mode d'échec déjà identifié.
+- **Le trou** : cette leçon (2) n'a **jamais été codifiée** dans `.claude/skills/lm-francaise/SKILL.md`
+  ni `.claude/skills/voix-guillaume/SKILL.md` — rien n'empêche de rédiger directement avec Opus.
+  Et R-002 (`to-claude-os/REMONTEES-OS.md`, migration du profil vers claude-os global) est
+  toujours en `⏳ À remonter` depuis le 2026-06-13 : le CORE global pointe vers un stub vide, donc
+  une session hors du repo `candidaturePilote` peut silencieusement retomber sur le mauvais
+  fichier.
+- **Décision à prendre** : Guillaume veut-il que j'applique le correctif (1) directement dans les
+  2 SKILL.md de `candidaturePilote` (ajouter la consigne "Sonnet, pas Opus" — nécessite un accès
+  push au repo, actuellement en lecture seule) ? Et veut-il trancher R-002 (migrer le profil pour
+  de vrai, ou corriger le CORE pour ne plus retomber sur le stub) ?
+- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md` (Addendum 2).
 
 ---
 

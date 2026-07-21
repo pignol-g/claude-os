@@ -226,6 +226,78 @@ possible X").
 
 ---
 
+## Addendum 2 — le vrai diagnostic était déjà dans `candidaturePilote` (2026-07-21, après inspection)
+
+Guillaume a autorisé l'ajout du repo `candidaturePilote` à la session. Inspection de
+`livrables/lettres/_templates/profil-redactionnel-guillaume.md` (le vrai fichier, pas le stub
+claude-os) et de `.claude/skills/voix-guillaume/` + `.claude/skills/lm-francaise/`.
+
+**Ce fichier n'est pas un stub — c'est un profil très riche** : corpus de 5 vraies LM 2024
+(Oyonnair, Alpine, Twin Jet, Air France, HOP!), banque d'expressions verbatim FR+EN, structure
+type, tics identifiés (ex. "la sécurité toujours citée en dernier"), garde-fous anti-invention de
+faits. Deux skills Claude Code existent déjà pour l'appliquer. Et surtout : **le journal §11 du
+profil documente qu'un ancien problème identique a déjà été diagnostiqué et résolu, le
+2026-06-27** — avant que Guillaume ne relance la question aujourd'hui.
+
+**Ce que dit le journal (verbatim, 2026-06-27) :**
+> « Leçon de méthode (session chat) : **les règles abstraites font régresser la voix vers le
+> corporate-ampoulé** (Erreur n°1 du CR). La rédaction doit partir du **corpus en contexte**
+> (imiter une vraie lettre), pas des règles ; les interdits ne valent que littéraux et courts, en
+> checklist de relecture. »
+>
+> « Modèle : la rédaction se fait de préférence sur **Sonnet** (**Opus sur-analyse et régresse**).
+> Déléguer la rédaction à un sous-agent Sonnet. Skill de génération de LM à créer (prochaine
+> étape) pour figer ce flux et ne plus dériver. »
+
+Autrement dit : **une session précédente a testé exactement le scénario que la recherche
+d'aujourd'hui devait élucider, et a trouvé que (1) donner une liste de règles de style abstraites
+(comme le §8 "À FAIRE / À ÉVITER" du même profil) fait empirer le naturel, pas l'inverse, et que
+(2) Opus sur-analyse et produit un résultat plus artificiel que Sonnet sur cette tâche
+précise.** Preuve que la méthode corpus-first + Sonnet fonctionne : la lettre
+`livrables/lettres/candidatures/buzz-737-v1.md` (générée le 2026-06-27 avec cette méthode) est
+au ton naturel, très proche du corpus réel — seul le paragraphe "fit compagnie" y est signalé
+incomplet (un problème de données, pas de voix).
+
+**Pourquoi ça a quand même échoué pour Guillaume avec Opus 4.8 :**
+1. **Le point (2) — Sonnet plutôt qu'Opus — n'a jamais été codifié dans les skills.** Ni
+   `voix-guillaume/SKILL.md` ni `lm-francaise/SKILL.md` ne mentionnent le choix du modèle ou la
+   délégation à un sous-agent Sonnet, alors que le journal le préconisait explicitement et
+   annonçait la création d'un skill pour "figer ce flux". La leçon a été apprise mais jamais
+   appliquée dans la procédure — rien n'empêche de rédiger directement avec Opus en agent
+   principal, ce qui reproduit le mode d'échec déjà identifié.
+2. **Risque de contournement du bon fichier** : la règle globale `CLAUDE-DNA-CC-CORE.md` §"Rédiger
+   à la voix de Guillaume" pointe vers `claude-os/profil-redactionnel-guillaume.md` (le stub
+   vide) comme "source de vérité unique". Si une lettre est demandée hors du contexte du projet
+   `candidaturePilote` (ou si les skills locales ne se déclenchent pas), Claude Code peut retomber
+   sur cette règle globale et charger le stub vide plutôt que le vrai profil du projet — plus
+   fiable de rester dans candidaturePilote et d'invoquer explicitement `lm-francaise`.
+3. **`REMONTEES-OS.md` (candidaturePilote) confirme le trou** : l'item **R-002** ("promouvoir le
+   profil en artefact global") est toujours en `⏳ À remonter` depuis le 2026-06-13, jamais
+   tranché ni migré — cohérent avec le stub vide trouvé côté claude-os.
+
+**Diagnostic final (celui qui prime sur tout ce qui précède dans ce rapport)** : ce n'est ni la
+pollution de contexte générique, ni un déficit de données de style, ni Claude vs ChatGPT — c'est
+**une leçon déjà apprise (corpus-first + Sonnet, pas Opus) qui n'a jamais été gravée dans la
+procédure** (les skills), et **un risque de repli sur le mauvais fichier** (stub global vide) si
+la session ne reste pas dans le bon repo/skill.
+
+**Actions concrètes révisées :**
+1. Ajouter au `SKILL.md` de `lm-francaise` (et `voix-guillaume`) une ligne explicite : "Modèle :
+   Sonnet par défaut pour la rédaction — ne pas laisser Opus rédiger directement (sur-analyse et
+   régresse vers un ton corporate, cf. journal profil §11 2026-06-27). Déléguer à un sous-agent
+   Sonnet si la session tourne sur Opus."
+2. Trancher R-002 une bonne fois : soit vraiment migrer/globaliser le profil (et le CORE pointe
+   correctement), soit assumer que ce profil reste scopé à `candidaturePilote` et corriger le CORE
+   pour ne pas laisser une session hors-projet retomber sur un stub vide silencieusement.
+3. Toujours rédiger une LM **en restant dans le repo `candidaturePilote`**, en invoquant
+   explicitement le skill `lm-francaise` (ne pas rédiger en freestyle dans une session Opus
+   générique).
+4. Le prompt-type et le conseil "Styles claude.ai" des addenda précédents restent valables comme
+   **filet de sécurité** si Guillaume rédige hors Claude Code, mais la vraie solution pour les LM
+   pilote est déjà construite dans `candidaturePilote` — il manque juste (1) et (2) ci-dessus.
+
+---
+
 ### Agent 1 — Modèles Claude (naturalité rédactionnelle) — 56 sources
 https://www.anthropic.com/claude/fable [citée] · https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5 [citée] · https://claude.com/resources/tutorials/choosing-the-right-claude-model [citée] · https://platform.claude.com/docs/en/api/messages [citée] · https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices [citée] · https://willfrancis.com/how-to-stop-claude-writing-like-an-ai/ [citée] · https://github.com/anthropics/claude-code/issues/6096 [citée] · https://github.com/deepseek-ai/awesome-deepseek-integration/issues/531 [citée] · https://reapply.app/blog/claude-vs-chatgpt-cover-letters [citée] · https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf [citée] · https://aiforanything.io/blog/claude-model-selection-guide-haiku-sonnet-opus-2026 [citée] · https://www.buildmvpfast.com/articles/best-llms-2026-guide/creative-writing-ai [citée] · https://www.chatprd.ai/how-i-ai/claude-fable-5-review [citée] · https://yellow.com/news/sol-fable-5-creative-writing-test [citée] · https://opentools.ai/news/anthropics-claude-ai-gets-a-writing-style-makeover-customize-away [citée] · https://claude.com/blog/styles [consultée-404] · https://www.tomsguide.com/ai/claude-lets-you-personalize-your-ai-writing-heres-how [consultée] · https://knightli.com/en/2026/05/08/anthropic-claude-model-lineup/ [consultée] · https://www.usecarly.com/blog/claude-models-explained/ [consultée] · https://www.remoteopenclaw.com/blog/best-claude-models-2026 [consultée] · https://www.secondtalent.com/resources/every-claude-ai-model-explained-compared/ [consultée] · https://www.sitepoint.com/claude-model-selection-framework/ [consultée] · https://tygartmedia.com/claude-models-comparison/ [consultée] · https://github.com/danny-avila/LibreChat/discussions/3376 [consultée] · https://github.com/danny-avila/LibreChat/issues/3374 [consultée] · https://claudhq.com/claude-temperature-settings-guide/ [consultée] · https://clskillshub.com/blog/claude-temperature-settings-guide [consultée] · https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages-request-response.html [consultée] · https://github.com/ccbogel/QualCoder/issues/1125 [consultée] · https://platform.claude.com/docs/en/claude_api_primer [consultée] · https://tokenmix.ai/blog/claude-temperature-control-2026 [consultée] · https://likeone.ai/blog/claude-temperature-settings-guide/ [consultée] · https://tomarcher.io/posts/temperature-top-p-creativity-knobs/ [consultée] · https://models.dev/models/anthropic/claude-fable-5/ [consultée] · https://findskill.ai/blog/how-to-prompt-claude-fable-5/ [consultée] · https://www.threads.com/@vavozamarketing/post/DZYAbmomEI7/ [consultée] · https://sidsaladi.substack.com/p/ai-cover-letter-writer-101-a-claude [consultée] · https://charliehills.substack.com/p/ai-slop [consultée] · https://www.ignorance.ai/p/the-field-guide-to-ai-slop [consultée] · https://medium.com/@porter.nicholas/anthropic-skills-marketplace-the-anti-ai-slop-ui-design-skill-a572d0cfef4f [consultée] · https://note.com/humble_bobcat51/n/n185741f3337f [consultée] · https://stackedo.com/ai-writing-cliches-to-avoid/ [consultée] · https://1up.ai/blog/ai-slop-guidelines [consultée] · https://neuraplus-ai.github.io/blog/how-to-use-anthropic-claude-for-blogging.html [consultée] · https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents [consultée] · https://levelupwithai.substack.com/p/i-trained-claude-code-how-to-write [consultée] · https://www.notebookcheck.net/Anthropic-allows-Claude-AI-users-to-customize-writing-styles.924555.0.html [consultée] · https://www.aibase.com/news/13500 [consultée] · https://medium.com/ai-disruption/the-rise-of-personalized-ai-77cbcfac1d53 [consultée] · https://www.newsbytesapp.com/news/science/anthropic-unveils-custom-writing-styles-for-ai-assistant-claude/story [consultée] · https://dataconomy.com/2024/11/27/claude-ai-can-now-mirror-your-writing-style-perfectly/ [consultée] · https://www.maginative.com/article/anthropic-introduces-custom-writing-styles-for-claude-ai/ [consultée] · https://alitu.com/creator/content-creation/ai-writing-claude-styles/ [consultée] · https://gcmori.medium.com/inside-claudes-new-writing-engine-fca527e9e288 [consultée] · https://dev.to/dr_hernani_costa/claude-ai-models-2025-opus-vs-sonnet-vs-haiku-guide-24mn [consultée] · https://aigoestocollege.substack.com/p/claude-35-sonnet-is-really-good [consultée] · https://thezvi.substack.com/p/claude-4-you-the-quest-for-mundane-utility [consultée]
 
