@@ -6,11 +6,37 @@
 
 ## ⏳ En attente
 
-_(vide)_
+### 2026-07-21 — Profil rédactionnel toujours vide → migration bloquée
+- **Constat** (issu de la recherche grech lettre de motivation) : `profil-redactionnel-guillaume.md`
+  est un stub vide depuis le 13/06/2026, alors que le CORE impose de le charger avant toute
+  rédaction en son nom. Contenu réel censé venir de
+  `candidaturePilote/livrables/lettres/_templates/profil-redactionnel-guillaume.md`.
+- **Décision à prendre** : Guillaume ajoute le repo `candidaturePilote` à une session pour que
+  Claude fasse la migration, ou colle le contenu lui-même ? Sans ça, toute rédaction "à sa voix"
+  reste générique par construction, quel que soit le modèle utilisé.
+- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md`.
 
 ---
 
 ## ✅ Traitées (archive)
+
+### 2026-07-21 — Recherche : lettre de motivation naturelle avec Claude (skill grech)
+- **Question** : quel modèle Claude et quelle méthode donnent la lettre de motivation la plus
+  naturelle ? Pourquoi ChatGPT (réputé moins naturel) a donné de meilleurs résultats en pratique
+  que Claude Code ?
+- **Verdict** : pas un problème de modèle (aucune donnée ne classe Opus/Sonnet/Fable/Haiku sur la
+  naturalité rédactionnelle ; Fable n'est pas un modèle créatif malgré son nom). Deux causes
+  probables identifiées : (1) le system prompt de Claude Code impose la concision par design
+  (outil CLI/code, pas rédaction) ; (2) le fichier `profil-redactionnel-guillaume.md` censé
+  injecter sa vraie voix est un stub vide depuis le 13/06/2026 — jamais de style réel injecté,
+  peu importe le modèle. La pollution de contexte par un CLAUDE.md volumineux est un facteur
+  réel et documenté par Anthropic elle-même (post-mortem avril 2026, -80% du system prompt
+  Claude Code pour Fable 5), même si pas prouvé spécifiquement sur ce cas.
+- **Recommandation** : rédiger dans claude.ai chat (pas Claude Code) avec le feature "Styles →
+  Add a Writing Example" ou un few-shot avec ses propres textes ; modèle Sonnet par défaut ;
+  prompt-type fourni dans le rapport.
+- **Mise en œuvre** : voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md`
+  (4 agents, ~209 sources).
 
 ### 2026-06-24 — Persistance des décisions (skill asana-pass)
 - **Question** : quand je réponds dans Asana, faut-il aussi enregistrer dans le repo pour centraliser la base de connaissance ?
