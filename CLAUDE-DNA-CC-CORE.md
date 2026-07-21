@@ -1,6 +1,9 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v2.9 — 2026-07-05** (nouveau trigger `grech` : recherche approfondie multi-agents, skill `.claude/skills/grech` — même patron « CORE pointe, skill contient » que `gpose`/`gauto`)
+**Version : v3.0 — 2026-07-21** (interdiction explicite de l'outil `AskUserQuestion` — toujours
+la convention Q/R texte ; règle « voix de Guillaume » corrigée : priorité au profil projet,
+garde-fou anti-stub-vide-silencieux, modèle Sonnet par défaut — suite recherche `grech` lettre de
+motivation)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -48,6 +51,12 @@ Quand un choix est posé à Guillaume :
 **Traçabilité** : `EXTRAITS_JSON/qa_log.json` (ou équivalent projet).
 
 **NE PAS utiliser** pour : conversations informatives, questions triviales oui/non.
+
+**⛔ INTERDIT — outil `AskUserQuestion`** : ne jamais l'utiliser pour poser un choix à Guillaume,
+même pour plusieurs questions à la fois. Le format texte Q/R ci-dessus prime **toujours**, y
+compris si l'outil semble plus "propre" ou mieux formaté — un bug/bouclage y a déjà été observé
+côté Guillaume, et c'est de toute façon la convention qu'il a choisie. Si le réflexe outillé
+pousse vers `AskUserQuestion`, c'est un signal de dérive à corriger, pas à suivre.
 
 ### Économie tokens (plan Pro — règle stricte)
 Avant toute tâche gourmande :
@@ -152,12 +161,20 @@ il **pointe vers** `TODO.md` pour le backlog complet (ne pas dupliquer — les
 Toute rédaction produite **au nom de Guillaume** (LM, mails, courriers, relances, posts…)
 doit reproduire SON style — jamais un style générique IA.
 
-- **Profil rédactionnel global** : source de vérité unique dans claude-os
-  (`profil-redactionnel-guillaume.md` — voix FR + EN : ton, vocabulaire, formules,
-  salutations/clôtures, banque d'expressions). **Le charger AVANT toute rédaction.**
-  Les projets ne le redéfinissent pas ; ils peuvent l'enrichir via remontée.
-- **Apprentissage continu** : enrichir le profil à chaque mail analysé, échange, ou
-  correction de Guillaume sur un brouillon (journal daté dans le profil).
+- **Priorité au profil du projet courant** s'il en a un dédié (ex. `candidaturePilote` →
+  `.claude/skills/voix-guillaume/`, `.claude/skills/lm-francaise/`) — plus riche et plus à jour
+  qu'un profil générique global. Ne pas ignorer un skill projet existant pour retomber sur le
+  global par réflexe.
+- **Profil rédactionnel global** (`claude-os/profil-redactionnel-guillaume.md`) : filet de
+  secours pour les projets sans profil dédié. **Avant de s'en servir, vérifier qu'il n'est pas
+  vide/stub.** S'il l'est, NE PAS rédiger avec un style générique en silence — le signaler à
+  Guillaume et demander s'il existe un profil projet à référencer à la place.
+- **Modèle** : privilégier **Sonnet** pour la rédaction finale d'un texte à sa voix. Opus tend à
+  sur-analyser et à régresser vers un ton corporate-ampoulé sur ce type de tâche (retour
+  d'expérience daté, `candidaturePilote` 2026-06-27). Si la session tourne sur Opus, déléguer la
+  rédaction à un sous-agent Sonnet plutôt que de laisser Opus rédiger directement.
+- **Apprentissage continu** : enrichir le profil pertinent (projet ou global) à chaque mail
+  analysé, échange, ou correction de Guillaume sur un brouillon (journal daté dans le profil).
 - **Deux registres à ne pas confondre** : PRO (rédactions, soigné, structuré) vs CHAT
   (consignes à l'agent : direct, minuscules, télégraphique). Ne JAMAIS laisser le
   registre CHAT contaminer une rédaction PRO.
