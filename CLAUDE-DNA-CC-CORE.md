@@ -1,9 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.0 — 2026-07-21** (interdiction explicite de l'outil `AskUserQuestion` — toujours
-la convention Q/R texte ; règle « voix de Guillaume » corrigée : priorité au profil projet,
-garde-fou anti-stub-vide-silencieux, modèle Sonnet par défaut — suite recherche `grech` lettre de
-motivation)
+**Version : v3.1 — 2026-07-22** (nouveau trigger `gtri` — tri et transfert récurrent
+claude-os → repo `general` : critères de classification pour distinguer l'outillage
+Claude Code, qui reste dans claude-os, de la connaissance/livrables produits avec l'aide
+d'une IA quelconque, qui partent vers `general`, repo multi-IA — suite v3.0 : interdiction
+explicite de l'outil `AskUserQuestion`, règle « voix de Guillaume » corrigée)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -95,6 +96,20 @@ découpage en angles → **1 subagent Sonnet par angle en parallèle, sans plafo
 sourçage systématique (cible cumulée >100 URLs, listes [citée]/[consultée]) → croisement
 avec le dossier interne → rapport consolidé daté (TL;DR, scénarios ouverts/fermés, coûts,
 annexe sources) persisté + commité.
+
+### Combo tri — trigger `gtri`
+
+Quand Guillaume écrit `gtri` n'importe où dans son message (ou demande « fais le tri »,
+« qu'est-ce qui doit partir dans general », « transfère vers general », « range ça ») →
+**invoquer la skill `gtri`** (`.claude/skills/gtri/SKILL.md`) : triage récurrent
+claude-os → repo `general` (repo distinct, multi-IA — Claude, ChatGPT, autre — pour tous
+les sujets non liés à l'outillage Claude Code). 5 tests de décision (dépendance à l'outil,
+portabilité inter-IA, sujet vs outil, utile sans Claude Code, profil/identité
+personnelle) → chaque candidat proposé en **Q/R** (`triA` transférer / `triB` garder /
+`triC` fusionner), **jamais de transfert silencieux**. Exécution validée : fichier recréé
+dans `general/<catégorie>/` avec en-tête de provenance, source supprimée de claude-os (ou
+remplacée par pointeur raw URL si référencée ailleurs dans le DNA), commits séparés dans
+les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
 - Pas de merge PR sans validation explicite Guillaume
