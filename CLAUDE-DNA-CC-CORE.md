@@ -1,10 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.1 — 2026-07-22** (nouveau trigger `gtri` — tri et transfert récurrent
-claude-os → repo `general` : critères de classification pour distinguer l'outillage
-Claude Code, qui reste dans claude-os, de la connaissance/livrables produits avec l'aide
-d'une IA quelconque, qui partent vers `general`, repo multi-IA — suite v3.0 : interdiction
-explicite de l'outil `AskUserQuestion`, règle « voix de Guillaume » corrigée)
+**Version : v3.2 — 2026-07-22** (Convention Q/R codes : option `(recommandé)` obligatoire quand
+une réco honnête existe + code `reco` pour appliquer d'un coup toutes les options recommandées
+d'un tour ; premier passage `gtri` exécuté — lettre de motivation, profil rédactionnel et
+recherche ChatGPT-vs-Claude transférés vers `general`, profil référencé désormais par pointeur
+raw URL — suite v3.1 : trigger `gtri` — tri et transfert récurrent claude-os → repo `general`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -39,13 +39,22 @@ Quand un choix est posé à Guillaume :
 
 ```
 <theme> — <énoncé question>
-  <theme>A   option A
+  <theme>A   option A (recommandé)
   <theme>B   option B
   <theme>C   option C
   <theme>Autre   réponse libre
 ```
 
 **Règles `<theme>`** : alphanumérique uniquement (a-z, A-Z, 0-9). Court et parlant (`resA`, `offB`, `donsPauline`). Sélectionnable en double-clic.
+
+**Option recommandée obligatoire** : dans chaque bloc Q/R, marquer `(recommandé)` sur l'option
+jugée la plus pertinente — uniquement quand une réco honnête existe (ne pas en forcer une si les
+options sont vraiment équivalentes ; le dire dans ce cas). Objectif : Guillaume peut répondre par
+le code unique **`reco`** (tout le message) pour **appliquer d'un coup toutes** les options
+`(recommandé)` de la dernière proposition, sans repasser bloc par bloc — utile quand il partage
+entièrement l'analyse et veut juste indiquer où c'est le plus opportun d'agir. `reco` se comporte
+comme `vas-y` (validation explicite globale, cf. Posture Guide) mais scopé aux blocs Q/R en
+attente du tour précédent uniquement — ne vaut pas accord anticipé pour un futur tour.
 
 **Détection** : Guillaume peut écrire le code n'importe où dans son message. Réponse libre = `<theme>Autre <texte>`. Plusieurs codes dans un message → traiter chacun.
 
@@ -180,10 +189,13 @@ doit reproduire SON style — jamais un style générique IA.
   `.claude/skills/voix-guillaume/`, `.claude/skills/lm-francaise/`) — plus riche et plus à jour
   qu'un profil générique global. Ne pas ignorer un skill projet existant pour retomber sur le
   global par réflexe.
-- **Profil rédactionnel global** (`claude-os/profil-redactionnel-guillaume.md`) : filet de
-  secours pour les projets sans profil dédié. **Avant de s'en servir, vérifier qu'il n'est pas
-  vide/stub.** S'il l'est, NE PAS rédiger avec un style générique en silence — le signaler à
-  Guillaume et demander s'il existe un profil projet à référencer à la place.
+- **Profil rédactionnel global** — filet de secours pour les projets sans profil dédié, transféré
+  dans `general` (skill `gtri`, 2026-07-22 — c'est un contenu personnel réutilisable par toute
+  IA, pas un mécanisme Claude Code) : pointeur, jamais de copie ici.
+  `https://raw.githubusercontent.com/pignol-g/general/main/perso/profil-redactionnel-guillaume.md`
+  **Avant de s'en servir, vérifier qu'il n'est pas vide/stub.** S'il l'est, NE PAS rédiger avec un
+  style générique en silence — le signaler à Guillaume et demander s'il existe un profil projet à
+  référencer à la place.
 - **Modèle** : privilégier **Sonnet** pour la rédaction finale d'un texte à sa voix. Opus tend à
   sur-analyser et à régresser vers un ton corporate-ampoulé sur ce type de tâche (retour
   d'expérience daté, `candidaturePilote` 2026-06-27). Si la session tourne sur Opus, déléguer la

@@ -1,6 +1,7 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v2.0 — 2026-06-23** (ajout référence module Asana « nous 3 »)
+**Version : v2.1 — 2026-07-22** (Convention Q/R codes : option `(recommandé)` obligatoire +
+code `reco` pour appliquer d'un coup toutes les options recommandées d'un tour)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.8 -->
@@ -40,7 +41,7 @@ Quand un choix est posé à Guillaume, utiliser systématiquement ce format :
 
 ```
 <theme> — <énoncé question>
-  <theme>A   option A
+  <theme>A   option A (recommandé)
   <theme>B   option B
   <theme>C   option C
   <theme>Autre   réponse libre
@@ -50,6 +51,12 @@ Quand un choix est posé à Guillaume, utiliser systématiquement ce format :
 - Alphanumérique uniquement (a-z, A-Z, 0-9). Pas de tiret/underscore/point/espace/accent.
 - Court et parlant : `resA`, `offB`, `donsPauline`, `repas2025`.
 - Code **sélectionnable en double-clic** dans n'importe quel client.
+
+**Option recommandée obligatoire** : marquer `(recommandé)` sur l'option jugée la plus
+pertinente dans chaque bloc — seulement quand une réco honnête existe (le dire sinon). Le code
+unique **`reco`** applique d'un coup toutes les options `(recommandé)` de la dernière
+proposition, sans repasser bloc par bloc — pratique quand Guillaume partage entièrement
+l'analyse. Comme `vas-y`, mais scopé aux blocs Q/R du tour précédent uniquement.
 
 **Détection des réponses** :
 - Guillaume peut écrire le code n'importe où dans son message — détecter.
@@ -180,4 +187,5 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 | v1.8 | 2026-05-17 | Project Knowledge : **1 fichier unique** `knowledge-projet-vX.Y.md` par défaut (réalignement v1.4). Multiples autorisés < 15 max (seuil RAG). |
 | v1.9 | 2026-06-13 | Renommage dossiers d'échange par destinataire : `from-cc/`→`to-chat/` (artefacts à uploader), `from-chat/`→`to-cc/` (exports déposés par Guillaume). Nouveau `to-os/` côté projets (remontées vers claude-os). Aligné CORE v2.5 / REF v2.1. |
 | v2.0 | 2026-06-23 | Ajout d'une référence au module autonome `CLAUDE-DNA-ASANA.md` (système de travail Asana « nous 3 »). Aligné CORE v2.7. |
+| v2.1 | 2026-07-22 | Convention Q/R codes : option `(recommandé)` obligatoire sur chaque bloc quand une réco honnête existe, code `reco` pour appliquer d'un coup toutes les recommandations d'un tour (batch, scopé au tour précédent). Aligné CORE v3.2. |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |

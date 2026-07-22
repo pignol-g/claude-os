@@ -25,7 +25,8 @@
   2 SKILL.md de `candidaturePilote` (ajouter la consigne "Sonnet, pas Opus" — nécessite un accès
   push au repo, actuellement en lecture seule) ? Et veut-il trancher R-002 (migrer le profil pour
   de vrai, ou corriger le CORE pour ne plus retomber sur le stub) ?
-- Voir `LIVRABLES/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md` (Addendum 2).
+- Voir `general/carriere/RECHERCHE_LETTRE_MOTIVATION_NATURELLE_2026-07-21.md` (Addendum 2 —
+  fichier transféré vers `general` le 2026-07-22, skill `gtri`).
 
 ---
 
