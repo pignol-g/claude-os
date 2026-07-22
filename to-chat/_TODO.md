@@ -5,7 +5,10 @@
 
 ## En attente
 
-- [ ] **CLAUDE-DNA-CHAT.md** v1.9 (2026-06-13) — renommage dossiers échange (`from-cc/`→`to-chat/`, `from-chat/`→`to-cc/`) + convention "1 fichier knowledge unique" (v1.8).
+- [ ] **CLAUDE-DNA-CHAT.md** v2.1 (2026-07-22) — Convention Q/R codes : option `(recommandé)`
+  obligatoire + code `reco` (batch-apply des recommandations d'un tour). Cumule aussi les
+  versions précédentes non encore uploadées (v1.9 renommage dossiers échange, v2.0 référence
+  module Asana).
   Destination : claude.ai → Paramètres → **Instructions globales**.
   Confirmation : `chatSyncDNAChatOk`.
 
