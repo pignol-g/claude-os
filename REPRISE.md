@@ -1,12 +1,22 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-05-23**
+**Dernière session : 2026-07-02** (passe gauto autonome — cf `RECAP-AUTO-2026-07-02.md`)
 
 ## État courant
 
-DNA-CC **v2.1** : ajout du trigger `gauto` (mode autonome longue durée) + `gstop` (arrêt explicite) dans la section 1 du Core, entre `gpose` et `Méta-règles d'éducation`. PR #2 mergée sur `main`.
+DNA-CC **v2.8** : patron « CORE pointe, skill contient ». `gpose` et `gauto`/`gstop` sont
+désormais des **skills** (`.claude/skills/gpose`, `.claude/skills/gauto`) ; le CORE ne garde que
+le trigger + les safety interdits non déportables. **PR #20 mergée** (`caa387f`) — première
+exécution réelle de `gauto` (répond à la question ouverte historique « tester gauto en vrai »).
 
-- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v2.1, ~190 lignes, injecté par hook
+Passe du 02/07 : livré `TRIAGE-PR-2026-07-02.md` (revue des 22 PR ouvertes + plan clôture en
+masse) et `ANALYSE-DISPERSION-2026-07-02.md` (analyse dispersion + réorg Asana + règle
+« cadence de sortie 72 h »).
+
+### Historique / état des fichiers
+DNA-CC **v2.1** : ajout du trigger `gauto` + `gstop` dans le Core. PR #2 mergée sur `main`.
+
+- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — **v2.8**, injecté par hook
 - [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — inchangé v2.0
 - [CLAUDE-DNA-CHAT.md](CLAUDE-DNA-CHAT.md) — inchangé v1.8 (gauto/gstop = CC-only, pas d'équivalent Chat)
 - [CLAUDE-DNA-CC.md](CLAUDE-DNA-CC.md) — redirect stub (compatA, à supprimer une fois tous les projets migrés)
