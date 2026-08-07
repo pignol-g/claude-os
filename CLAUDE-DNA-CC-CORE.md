@@ -95,6 +95,20 @@ légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouto
 crédits) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
 commit/push.
 
+### Combo audit — trigger `gaudit`
+
+Quand Guillaume écrit `gaudit` n'importe où dans son message (ou dit « audite le projet »,
+« lance l'audit », « passe d'audit ») → **invoquer la skill `gaudit`**
+(`.claude/skills/gaudit/SKILL.md`) : audit autonome d'UN repo à la fois (claude-os /
+general / candidaturePilote / ClaudeAchatMaison), diagnostic + implémentation, pensé
+pour tourner comme **Routine Claude Code Remote** (session neuve à chaque firing —
+tout l'état vit dans `claude-os/audit/STATE.md`, jamais en mémoire de conversation).
+Rotation du repo cible par staleness si aucune consigne dans la tâche Asana permanente
+dédiée. Boucle façon `gauto`, mêmes 3 conditions d'arrêt. **Seul carve-out du DNA** :
+merge de PR automatique autorisé pour cette routine si CI verte + merge propre sans
+conflit (cf. Safety interdits ci-dessous) — sinon PR en attente de validation comme
+partout ailleurs.
+
 ### Combo recherche — trigger `grech`
 
 Quand Guillaume écrit `grech` n'importe où dans son message (ou demande une « recherche
@@ -121,7 +135,12 @@ remplacée par pointeur raw URL si référencée ailleurs dans le DNA), commits 
 les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
-- Pas de merge PR sans validation explicite Guillaume
+- Pas de merge PR sans validation explicite Guillaume, **sauf routine `gaudit`** : merge
+  automatique autorisé uniquement si (a) CI verte, (b) merge propre / fast-forward sans
+  conflit. En cas de conflit, `gaudit` NE résout PAS automatiquement — la PR reste en
+  attente de validation manuelle comme pour toute autre skill. Carve-out scopé à cette
+  seule routine (décision Guillaume 2026-08-07, cf. skill `gaudit`) — le reste du DNA
+  (dont `gauto`) garde l'interdit intact.
 - Pas de force-push (jamais)
 - Pas de `git branch -D` ni delete branch remote
 - Pas de `--no-verify` ni skip hooks
