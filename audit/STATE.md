@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | _(aucun — idle, en attente de rotation)_ |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-07T20:35Z |
-| `fichier_plan_actif` | `audit/general/PLAN-2026-08-07.md` (bouclé) |
+| `repo_cible_courant` | `candidaturePilote` |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-07T20:40Z |
+| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-07.md` |
 | `consignes_asana` | lues (aucune consigne) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
