@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | `general` |
 | `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-07T20:25Z |
+| `dernier_heartbeat` | 2026-08-07T20:30Z |
 | `fichier_plan_actif` | `audit/general/PLAN-2026-08-07.md` |
 | `consignes_asana` | lues (aucune consigne) |
 
