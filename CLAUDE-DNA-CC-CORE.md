@@ -1,10 +1,12 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.2 — 2026-07-22** (Convention Q/R codes : option `(recommandé)` obligatoire quand
-une réco honnête existe + code `reco` pour appliquer d'un coup toutes les options recommandées
-d'un tour ; premier passage `gtri` exécuté — lettre de motivation, profil rédactionnel et
-recherche ChatGPT-vs-Claude transférés vers `general`, profil référencé désormais par pointeur
-raw URL — suite v3.1 : trigger `gtri` — tri et transfert récurrent claude-os → repo `general`)
+**Version : v3.3 — 2026-08-07** (gaudit, premier cycle réel sur claude-os — ajout de la section
+trigger `gprompt` manquante : le skill existait depuis v3.1 et était référencé dans `CLAUDE.md`
+comme un des skills implémentant les triggers du CORE, mais sans section dédiée ici — suite v3.2 :
+Convention Q/R codes, option `(recommandé)` obligatoire quand une réco honnête existe + code
+`reco` pour appliquer d'un coup toutes les options recommandées d'un tour ; premier passage
+`gtri` exécuté — lettre de motivation, profil rédactionnel et recherche ChatGPT-vs-Claude
+transférés vers `general`, profil référencé désormais par pointeur raw URL)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
 <!-- Version : 2026-05-22 v2.1 -->
@@ -84,6 +86,19 @@ Quand Guillaume écrit `gpose` n'importe où dans son message → **invoquer la 
 chiffrées (impact + coût, en Q/R) → poser les questions bloquantes (Q/R). **Ne rien exécuter
 avant GO** (même partiel). `gpose` = amplification de la Posture Guide, compatible avec les
 autres codes Q/R.
+
+### Combo prompt — trigger `gprompt`
+
+Quand Guillaume écrit `gprompt` n'importe où dans son message (ou demande « écris-moi un
+prompt pour... », « améliore ce prompt », « génère un prompt », « aide-moi à formuler une
+demande pour une IA ») → **invoquer la skill `gprompt`** (`.claude/skills/gprompt/SKILL.md`) :
+générateur/optimiseur de prompt **interactif** — reformuler la demande → mini-analyse du
+sujet pour repérer les informations spécifiques manquantes → poser en un seul lot 4-5
+questions ciblées (jamais l'outil `AskUserQuestion`, cf. interdit ci-dessus) → enrichir avec
+les leviers de prompt engineering (rôle, contexte, tâche, contraintes, format, exemples,
+critères de réussite) → livrer le prompt final en bloc de code Markdown, prêt à copier-coller.
+Ne code rien, ne fait rien d'autre que produire le prompt (sauf livrable fichier demandé
+explicitement).
 
 ### Combo autonome — trigger `gauto` / arrêt `gstop`
 
