@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `general` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-07T20:30Z |
-| `fichier_plan_actif` | `audit/general/PLAN-2026-08-07.md` |
+| `repo_cible_courant` | _(aucun — idle, en attente de rotation)_ |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-07T20:35Z |
+| `fichier_plan_actif` | `audit/general/PLAN-2026-08-07.md` (bouclé) |
 | `consignes_asana` | lues (aucune consigne) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -34,11 +34,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
 | `claude-os` | 2026-08-07 | `audit/claude-os/REPORT-2026-08-07.md` |
-| `general` | jamais | — |
+| `general` | 2026-08-07 | `audit/general/REPORT-2026-08-07.md` |
 | `candidaturePilote` | jamais | — |
 | `ClaudeAchatMaison` | jamais | — |
 
 ## Historique des cycles
+
+### 2026-08-07 — general — terminé
+- Plan : `audit/general/PLAN-2026-08-07.md`
+- Rapport : `audit/general/REPORT-2026-08-07.md`
+- PR : https://github.com/pignol-g/general/pull/5 (mergée automatiquement — pas de CI sur ce
+  repo, merge propre)
+- Reporté (Tier 3, décision Guillaume requise) : stub `perso/profil-redactionnel-guillaume.md`
+  — voir `claude-os/INBOX-QUESTIONS.md` item 2026-07-21 (`R-002`).
 
 ### 2026-08-07 — claude-os — terminé
 - Plan : `audit/claude-os/PLAN-2026-08-07.md`
