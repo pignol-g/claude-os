@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | `claude-os` |
 | `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-07T19:55Z |
+| `dernier_heartbeat` | 2026-08-07T20:00Z |
 | `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-07.md` |
 | `consignes_asana` | lues (aucune consigne, PR #33 mergée par Guillaume — blocage du cycle précédent levé) |
 
