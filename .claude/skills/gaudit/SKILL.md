@@ -68,6 +68,12 @@ continuer.
 
 ### 2. Lire la tâche Asana consignes
 
+> **Dégradation gracieuse** : si les outils `mcp__Asana__*` ne sont pas chargeables dans
+> cette session (Routine firée sans connecteur Asana attaché — cas connu, voir §Routine),
+> **ne pas bloquer le cycle**. Sauter cette étape, le noter dans `STATE.md`
+> (`consignes_asana: indisponible ce cycle`), et passer directement à la rotation par
+> staleness (étape 3). Le cycle reste utile même sans lire les consignes amont.
+
 Tâche permanente, gid `1217287685113494`, projet « Claude » (`1208173596025068`),
 section **« Section sans nom »** (`1208173596025069` — choisie délibérément en dehors
 du flux ping-pong de `asana-pass`, qui ne scanne que « pour claude » : cette tâche ne
@@ -174,6 +180,20 @@ enabled:true` pour armer, `enabled:false` ou `delete_trigger` pour arrêter). Le
 horaire + la garde anti-collision (§1) permettent de laisser tourner la routine sans
 avoir à calculer une fenêtre précise avant le renouvellement hebdomadaire des crédits :
 chaque réveil coûte quasi rien s'il n'y a rien à faire.
+
+**Limite connue (constatée à la création, 2026-08-07)** : `create_trigger` a refusé le
+paramètre `connectors` (« not available for this organization »), et sans lui la
+Routine prévient que les sessions qu'elle déclenche tournent **sans outils
+`mcp__<serveur>__*`**. Conséquence probable : `mcp__Asana__*` indisponible dans les
+sessions firées (d'où la dégradation gracieuse §2) ; le statut de `mcp__github__*` dans
+ce mode n'a pas été vérifié en conditions réelles (accès repo/GitHub semble relever du
+scope d'environnement plutôt que du système de connecteurs personnels, mais à confirmer
+par un premier `fire_trigger` de test). Si GitHub s'avère lui aussi indisponible, tout le
+volet PR/merge (§5) doit être revu — **ne pas supposer que ça marche sans un test réel**.
+Le trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` a été créé puis **désactivé immédiatement**
+pour cette raison ; à réactiver seulement après un `fire_trigger` de validation, ou à
+recréer depuis l'UI Routines de claude.ai si elle permet d'attacher les connecteurs
+(option que l'API ne permet pas depuis une session).
 
 ## Format du rapport standardisé — `audit/<repo>/REPORT-<date>.md`
 
