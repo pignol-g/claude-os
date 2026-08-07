@@ -9,11 +9,11 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `claude-os` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-07T20:10Z |
-| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-07.md` |
-| `consignes_asana` | lues (aucune consigne, PR #33 mergée par Guillaume — blocage du cycle précédent levé) |
+| `repo_cible_courant` | _(aucun — idle, en attente de rotation)_ |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-07T20:20Z |
+| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-07.md` (bouclé) |
+| `consignes_asana` | lues (aucune consigne) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
 étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
@@ -33,14 +33,20 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | jamais | — |
+| `claude-os` | 2026-08-07 | `audit/claude-os/REPORT-2026-08-07.md` |
 | `general` | jamais | — |
 | `candidaturePilote` | jamais | — |
 | `ClaudeAchatMaison` | jamais | — |
 
 ## Historique des cycles
 
-_(vide — première initialisation du système, 2026-08-07)_
+### 2026-08-07 — claude-os — terminé
+- Plan : `audit/claude-os/PLAN-2026-08-07.md`
+- Rapport : `audit/claude-os/REPORT-2026-08-07.md`
+- PR : https://github.com/pignol-g/claude-os/pull/34 (mergée automatiquement — pas de CI sur ce
+  repo, merge propre)
+- Risque signalé pour la suite : hook `session-start.sh` de `candidaturePilote` encore en v2.0
+  (pas de git pull auto au démarrage) — candidat à prioriser au prochain cycle sur ce repo.
 
 <!-- Format d'entrée à l'ajout de chaque cycle terminé :
 ### AAAA-MM-JJ — <repo> — <statut final>
