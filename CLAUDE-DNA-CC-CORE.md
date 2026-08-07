@@ -121,7 +121,12 @@ remplacée par pointeur raw URL si référencée ailleurs dans le DNA), commits 
 les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
-- Pas de merge PR sans validation explicite Guillaume
+- Pas de merge PR sans validation explicite Guillaume, **sauf routine `gaudit`** : merge
+  automatique autorisé uniquement si (a) CI verte, (b) merge propre / fast-forward sans
+  conflit. En cas de conflit, `gaudit` NE résout PAS automatiquement — la PR reste en
+  attente de validation manuelle comme pour toute autre skill. Carve-out scopé à cette
+  seule routine (décision Guillaume 2026-08-07, cf. skill `gaudit`) — le reste du DNA
+  (dont `gauto`) garde l'interdit intact.
 - Pas de force-push (jamais)
 - Pas de `git branch -D` ni delete branch remote
 - Pas de `--no-verify` ni skip hooks
