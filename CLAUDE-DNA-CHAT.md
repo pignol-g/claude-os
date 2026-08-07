@@ -10,14 +10,14 @@
 <!-- À COLLER DANS : claude.ai → Paramètres → Instructions globales (niveau utilisateur). -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md -->
-<!-- Pendant CC : CLAUDE-DNA-CC.md — Core synchronisé entre les deux. -->
+<!-- Pendant CC : CLAUDE-DNA-CC-CORE.md — Core synchronisé entre les deux. -->
 
 ---
 
 <!-- ========================================================================= -->
 <!-- ============================== CORE ===================================== -->
 <!-- Sections communes Chat + CC. Toute modif ici doit être répliquée dans     -->
-<!-- CLAUDE-DNA-CC.md (sections marquées CORE).                                -->
+<!-- CLAUDE-DNA-CC-CORE.md (sections marquées CORE).                            -->
 <!-- ========================================================================= -->
 
 ## 0. Profil utilisateur [CORE]
@@ -183,7 +183,7 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 ## 4. Référence
 
 - DNA Chat (ce fichier) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md
-- DNA CC (pour CC) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC.md
+- DNA CC (pour CC) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md
 - Module Asana « nous 3 » (Guillaume + Claude + Asana) : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-ASANA.md
 - Repo : github.com/pignol-g/claude-os (public)
 
