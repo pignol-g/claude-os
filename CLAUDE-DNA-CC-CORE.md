@@ -95,6 +95,20 @@ légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouto
 crédits) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
 commit/push.
 
+### Combo audit — trigger `gaudit`
+
+Quand Guillaume écrit `gaudit` n'importe où dans son message (ou dit « audite le projet »,
+« lance l'audit », « passe d'audit ») → **invoquer la skill `gaudit`**
+(`.claude/skills/gaudit/SKILL.md`) : audit autonome d'UN repo à la fois (claude-os /
+general / candidaturePilote / ClaudeAchatMaison), diagnostic + implémentation, pensé
+pour tourner comme **Routine Claude Code Remote** (session neuve à chaque firing —
+tout l'état vit dans `claude-os/audit/STATE.md`, jamais en mémoire de conversation).
+Rotation du repo cible par staleness si aucune consigne dans la tâche Asana permanente
+dédiée. Boucle façon `gauto`, mêmes 3 conditions d'arrêt. **Seul carve-out du DNA** :
+merge de PR automatique autorisé pour cette routine si CI verte + merge propre sans
+conflit (cf. Safety interdits ci-dessous) — sinon PR en attente de validation comme
+partout ailleurs.
+
 ### Combo recherche — trigger `grech`
 
 Quand Guillaume écrit `grech` n'importe où dans son message (ou demande une « recherche

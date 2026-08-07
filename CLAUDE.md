@@ -24,7 +24,7 @@ Le cœur du repo est la famille `CLAUDE-DNA-*.md`, avec une séparation **hot/co
 
 - **`settings.json`** — enregistre un unique hook `SessionStart`.
 - **`hooks/session-start.sh`** (v2.1) — à chaque démarrage de session : (1) `git pull --rebase --autostash origin main` (échec doux : si conflits/pas de réseau, log un warning et continue — le DNA doit charger même hors ligne) ; (2) charge `CLAUDE-DNA-CC-CORE.md` (local sinon curl) dans le contexte ; (3) signale les uploads `to-chat/` en attente (lit `to-chat/_upload-status.json`) ; (4) affiche une ligne marqueur de confirmation (version DNA + statut git).
-- **`skills/`** — 6 skills implémentant les triggers `g*` du CORE : `gauto` (mode autonome longue durée), `gpose` (pause-réflexion, propose des options chiffrées avant d'agir), `gprompt` (générateur/optimiseur de prompt), `grech` (recherche approfondie multi-agents), `gtri` (triage et transfert claude-os → `general`), `asana-pass` (traitement collaboratif des tâches Asana en ping-pong).
+- **`skills/`** — 7 skills implémentant les triggers `g*` du CORE : `gauto` (mode autonome longue durée), `gaudit` (audit de projet autonome et résilient, pensé pour tourner en Routine Claude Code Remote), `gpose` (pause-réflexion, propose des options chiffrées avant d'agir), `gprompt` (générateur/optimiseur de prompt), `grech` (recherche approfondie multi-agents), `gtri` (triage et transfert claude-os → `general`), `asana-pass` (traitement collaboratif des tâches Asana en ping-pong).
 
 ## Autres répertoires
 
@@ -32,6 +32,8 @@ Le cœur du repo est la famille `CLAUDE-DNA-*.md`, avec une séparation **hot/co
 - **`to-cc/`** — inbox d'exports collés depuis Claude Chat vers Claude Code ; éphémère, lu au démarrage CC puis vidé.
 - **`to-chat/`** — outbox d'artefacts à uploader vers le Project Knowledge de claude.ai (templates + `_TODO.md`, `_track-log.md`, `_upload-status.json` qui trace les uploads en attente).
 - **`REPRISE.md`** / **`INBOX-QUESTIONS.md`** — état de reprise de session et inbox de questions différées ; artefacts opérationnels du workflow DNA, pas du code.
+- **`audit/`** — état persistant de la skill `gaudit` (`STATE.md` = point d'entrée unique
+  résumable multi-session, `<repo>/PLAN-*.md` + `<repo>/REPORT-*.md` par repo cible).
 
 ## Repo consommateur
 
