@@ -1,7 +1,9 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v2.1 — 2026-07-22** (Convention Q/R codes : option `(recommandé)` obligatoire +
-code `reco` pour appliquer d'un coup toutes les options recommandées d'un tour)
+**Version : v2.2 — 2026-08-07** (gaudit, premier cycle réel sur claude-os — ajout du trigger
+`gprompt`, absent alors qu'il ne modifie ni fichier ni git et est donc portable côté Chat comme
+`gpose` — aligné CORE v3.3 ; suite v2.1 : Convention Q/R codes, option `(recommandé)` obligatoire
++ code `reco` pour appliquer d'un coup toutes les options recommandées d'un tour)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
 <!-- Version : 2026-05-17 v1.8 -->
@@ -85,6 +87,15 @@ Quand Guillaume écrit `gpose` n'importe où dans son message, appliquer **syst�
 4. **Poser les questions ouvertes** qui bloquent la décision, en codes Q/R.
 
 `gpose` est l'amplification de la Posture Guide. Compatible avec d'autres codes Q/R dans le même message.
+
+### Combo prompt — trigger `gprompt`
+Quand Guillaume écrit `gprompt` n'importe où dans son message (ou demande « écris-moi un prompt
+pour... », « améliore ce prompt », « génère un prompt ») : reformuler la demande → repérer par
+mini-analyse les informations spécifiques au sujet qui manquent → poser en un seul lot 4-5
+questions ciblées (jamais l'outil de choix multiples natif — le format Q/R texte prime toujours)
+→ enrichir avec les leviers de prompt engineering (rôle, contexte, tâche, contraintes, format,
+exemples, critères de réussite) → livrer le prompt final en bloc de code Markdown. Ne produit que
+le prompt, ne modifie aucun fichier (Chat n'en a de toute façon pas la capacité).
 
 ### Méta-règles d'éducation
 Quand est détecté quelque chose qui ressemble à une **fonctionnalité Claude que Guillaume ne maîtrise pas** (rules, skills, hooks, subagents, MCP, settings, plugins…), proactivement :
@@ -187,5 +198,6 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 | v1.8 | 2026-05-17 | Project Knowledge : **1 fichier unique** `knowledge-projet-vX.Y.md` par défaut (réalignement v1.4). Multiples autorisés < 15 max (seuil RAG). |
 | v1.9 | 2026-06-13 | Renommage dossiers d'échange par destinataire : `from-cc/`→`to-chat/` (artefacts à uploader), `from-chat/`→`to-cc/` (exports déposés par Guillaume). Nouveau `to-os/` côté projets (remontées vers claude-os). Aligné CORE v2.5 / REF v2.1. |
 | v2.0 | 2026-06-23 | Ajout d'une référence au module autonome `CLAUDE-DNA-ASANA.md` (système de travail Asana « nous 3 »). Aligné CORE v2.7. |
+| v2.2 | 2026-08-07 | Ajout du trigger `gprompt` (générateur/optimiseur de prompt interactif), absent alors que le skill existait déjà — corrigé par le premier cycle `gaudit` réel sur claude-os. Aligné CORE v3.3. |
 | v2.1 | 2026-07-22 | Convention Q/R codes : option `(recommandé)` obligatoire sur chaque bloc quand une réco honnête existe, code `reco` pour appliquer d'un coup toutes les recommandations d'un tour (batch, scopé au tour précédent). Aligné CORE v3.2. |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |
