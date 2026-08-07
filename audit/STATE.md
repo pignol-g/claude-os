@@ -9,10 +9,11 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | _(aucun — idle)_ |
-| `statut` | `idle` |
-| `dernier_heartbeat` | _(jamais)_ |
-| `fichier_plan_actif` | _(aucun)_ |
+| `repo_cible_courant` | `claude-os` |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-07T19:55Z |
+| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-07.md` |
+| `consignes_asana` | lues (aucune consigne, PR #33 mergée par Guillaume — blocage du cycle précédent levé) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
 étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
