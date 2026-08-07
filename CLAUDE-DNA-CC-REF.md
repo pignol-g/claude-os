@@ -204,9 +204,16 @@ Depuis v2.0, le DNA est **splité** en deux fichiers complémentaires :
 
 Ne **jamais** recopier silencieusement le DNA dans un projet.
 
-### Backward compat v1.x (depuis v2.0)
+### Backward compat v1.x (depuis v2.0, retirée 2026-08-07)
 
-`CLAUDE-DNA-CC.md` à la racine du master existe encore comme **fichier redirect** ("ce DNA est splité, voir CORE et REF"). Les hooks projet anciens (DNA_URL pointant vers `CLAUDE-DNA-CC.md`) continuent de fonctionner pendant la migration progressive : ils chargent un fichier court qui réoriente CC vers CORE+REF. À retirer une fois tous les projets clients passés à `DNA_URL=…CORE.md`.
+`CLAUDE-DNA-CC.md` et `CLAUDE-DNA.md` existaient à la racine du master comme **fichiers
+redirect** ("ce DNA est splité, voir CORE et REF"), le temps que les hooks projet anciens
+(`DNA_URL` pointant encore vers `CLAUDE-DNA-CC.md`) migrent progressivement. Supprimés par le
+premier cycle `gaudit` (2026-08-07) : condition de retrait remplie (vérifié — `candidaturePilote`
+et `ClaudeAchatMaison` pointent déjà tous les deux vers `DNA_URL=…CORE.md`). Si un hook legacy
+inconnu pointe encore vers `CLAUDE-DNA-CC.md`, le curl échouera (404) et affichera le warning
+"DNA introuvable" du hook (`session-start.sh` §1) — signal suffisant pour détecter le cas et
+lancer `migrate-projet`.
 
 ---
 
