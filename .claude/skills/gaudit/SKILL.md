@@ -51,6 +51,9 @@ améliorations retenus — pas seulement un rapport, du vrai travail commité.
 
 **Premier geste, sans exception**, avant toute autre décision. Ce fichier dit tout :
 repo cible courant, statut, dernier heartbeat, fichier de plan actif, table de rotation.
+Si `claude-os` n'est pas dans le scope de la session (firing de Routine dans un
+environnement qui ne l'a pas), l'ajouter d'abord via `add_repo` — idem pour le repo
+cible dès qu'il est connu (étape 3).
 
 ### 1. Garde anti-collision
 
