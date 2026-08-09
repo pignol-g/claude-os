@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `candidaturePilote` |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-09T06:35Z |
-| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-07.md` |
+| `repo_cible_courant` | `ClaudeAchatMaison` |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-09T06:40Z |
+| `fichier_plan_actif` | `audit/ClaudeAchatMaison/PLAN-2026-08-09.md` |
 | `consignes_asana` | lues (aucune nouvelle consigne) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
