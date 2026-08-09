@@ -11,9 +11,9 @@
 |---|---|
 | `repo_cible_courant` | `candidaturePilote` |
 | `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-07T20:40Z |
+| `dernier_heartbeat` | 2026-08-09T00:00Z |
 | `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-07.md` |
-| `consignes_asana` | lues (aucune consigne) |
+| `consignes_asana` | lues (aucune nouvelle consigne) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
 étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
