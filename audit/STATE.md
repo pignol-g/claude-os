@@ -10,8 +10,8 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | `ClaudeAchatMaison` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-09T06:40Z |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-09T06:45Z |
 | `fichier_plan_actif` | `audit/ClaudeAchatMaison/PLAN-2026-08-09.md` |
 | `consignes_asana` | lues (aucune nouvelle consigne) |
 
@@ -36,9 +36,21 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `claude-os` | 2026-08-07 | `audit/claude-os/REPORT-2026-08-07.md` |
 | `general` | 2026-08-07 | `audit/general/REPORT-2026-08-07.md` |
 | `candidaturePilote` | 2026-08-09 | `audit/candidaturePilote/REPORT-2026-08-09.md` |
-| `ClaudeAchatMaison` | jamais | — |
+| `ClaudeAchatMaison` | 2026-08-09 | `audit/ClaudeAchatMaison/REPORT-2026-08-09.md` |
 
 ## Historique des cycles
+
+### 2026-08-09 — ClaudeAchatMaison — terminé
+- Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-09.md`
+- Rapport : `audit/ClaudeAchatMaison/REPORT-2026-08-09.md`
+- PR : https://github.com/pignol-g/ClaudeAchatMaison/pull/37 (mergée automatiquement — pas de CI
+  sur ce repo, merge propre)
+- 🔴 **Risque signalé (hors scope gaudit, notifié séparément à Guillaume)** : alerte critique du
+  27/07 non résolue dans `REPRISE.md` (délai légal réflexion offre de prêt vs échéance compromis
+  31/07), aucune mise à jour du repo depuis le 07/08.
+- Reporté (Tier 3, décision Guillaume requise) : bump `from-cc/knowledge-projet`/`instructions`
+  (bloqué depuis 2026-06-03/05-20, contenu sensible/volumineux) ; réouverture `Q-001`/`Q-002` ;
+  statut Rignieux-le-Franc 5971 potentiellement périmé.
 
 ### 2026-08-09 — candidaturePilote — terminé
 - Plan : `audit/candidaturePilote/PLAN-2026-08-07.md`
