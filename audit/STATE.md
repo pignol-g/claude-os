@@ -10,8 +10,8 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | `candidaturePilote` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-09T00:00Z |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-09T06:35Z |
 | `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-07.md` |
 | `consignes_asana` | lues (aucune nouvelle consigne) |
 
@@ -35,10 +35,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-07 | `audit/claude-os/REPORT-2026-08-07.md` |
 | `general` | 2026-08-07 | `audit/general/REPORT-2026-08-07.md` |
-| `candidaturePilote` | jamais | — |
+| `candidaturePilote` | 2026-08-09 | `audit/candidaturePilote/REPORT-2026-08-09.md` |
 | `ClaudeAchatMaison` | jamais | — |
 
 ## Historique des cycles
+
+### 2026-08-09 — candidaturePilote — terminé
+- Plan : `audit/candidaturePilote/PLAN-2026-08-07.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-09.md`
+- PR : https://github.com/pignol-g/candidaturePilote/pull/166 (mergée automatiquement — CI non
+  déclenchée sur ce diff (trigger `pull_request` filtré sur `scripts/veille/**`), merge propre)
+- Reporté (Tier 3, décision Guillaume requise) : migration légère
+  `from-cc/`/`from-chat/`/`to-claude-os/` → convention `to-chat/`/`to-cc/`/`to-os/` ;
+  `from-chat/SKILL-1.md` de provenance peu claire.
 
 ### 2026-08-07 — general — terminé
 - Plan : `audit/general/PLAN-2026-08-07.md`
