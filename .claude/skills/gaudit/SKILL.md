@@ -145,8 +145,24 @@ Quand toutes les étapes du plan sont cochées :
 5. Mettre à jour `STATE.md` : `statut = terminé`, ajouter une ligne dans la table de
    rotation (`dernier_audit_termine = date du jour` pour ce repo) et dans l'historique
    des cycles. Committer/pousser `claude-os`.
+5bis. **Vérifier que le push a réellement atteint `origin`** avant de passer à l'étape 6 —
+   ex. `git fetch origin <branche-défaut-claude-os>` puis comparer le SHA du commit qui
+   vient d'être poussé à `origin/<branche>` (ou tout mécanisme équivalent). **Ne jamais
+   sauter cette vérification** : un `git push` peut échouer silencieusement (réseau,
+   session interrompue juste après) sans que les étapes suivantes (merge PR côté GitHub,
+   commentaire Asana) s'en aperçoivent puisqu'elles passent par un chemin d'écriture
+   indépendant (appels MCP). C'est précisément ce qui s'est produit le 2026-08-09 :
+   `STATE.md` est resté 3 jours sur un pointeur obsolète alors que les PR cibles
+   (candidaturePilote #166, ClaudeAchatMaison #37) étaient déjà mergées et les
+   commentaires Asana de clôture déjà postés — cf. `audit/STATE.md` §Historique
+   2026-08-10 pour le détail complet et `audit/candidaturePilote/REPORT-2026-08-09.md` +
+   `audit/ClaudeAchatMaison/REPORT-2026-08-09.md` pour la reconstruction qui en a résulté.
+   Si le push n'a pas abouti : retenter (mêmes règles que pour tout push git), et ne
+   poster le commentaire Asana qu'une fois la vérification passée.
 6. Poster le lien du rapport (et de la PR, mergée ou non) en commentaire signé sur la
-   tâche Asana consignes.
+   tâche Asana consignes. **Jamais avant l'étape 5bis** : le commentaire Asana ne doit
+   jamais pouvoir donner l'impression qu'un cycle est clos si la persistance disque
+   côté `claude-os` n'a pas réellement abouti côté remote.
 
 ### 6. Reboucler
 
@@ -181,19 +197,19 @@ horaire + la garde anti-collision (§1) permettent de laisser tourner la routine
 avoir à calculer une fenêtre précise avant le renouvellement hebdomadaire des crédits :
 chaque réveil coûte quasi rien s'il n'y a rien à faire.
 
-**Limite connue (constatée à la création, 2026-08-07)** : `create_trigger` a refusé le
-paramètre `connectors` (« not available for this organization »), et sans lui la
-Routine prévient que les sessions qu'elle déclenche tournent **sans outils
-`mcp__<serveur>__*`**. Conséquence probable : `mcp__Asana__*` indisponible dans les
-sessions firées (d'où la dégradation gracieuse §2) ; le statut de `mcp__github__*` dans
-ce mode n'a pas été vérifié en conditions réelles (accès repo/GitHub semble relever du
-scope d'environnement plutôt que du système de connecteurs personnels, mais à confirmer
-par un premier `fire_trigger` de test). Si GitHub s'avère lui aussi indisponible, tout le
-volet PR/merge (§5) doit être revu — **ne pas supposer que ça marche sans un test réel**.
-Le trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` a été créé puis **désactivé immédiatement**
-pour cette raison ; à réactiver seulement après un `fire_trigger` de validation, ou à
-recréer depuis l'UI Routines de claude.ai si elle permet d'attacher les connecteurs
-(option que l'API ne permet pas depuis une session).
+**Limite constatée à la création (2026-08-07), levée depuis** : `create_trigger` avait refusé
+le paramètre `connectors` (« not available for this organization »), et la Routine prévenait
+que les sessions déclenchées tourneraient sans outils `mcp__<serveur>__*` (d'où la
+dégradation gracieuse §2, conservée par prudence). **Constat en conditions réelles depuis** :
+sur les firings du 2026-08-09 et du 2026-08-10, `mcp__Asana__*` **et** `mcp__github__*` se sont
+révélés disponibles dans la session déclenchée (chargés via `ToolSearch`, avec un court délai
+de connexion au tout début de session plutôt qu'une indisponibilité totale) — les deux cycles
+ont créé/mergé des PR cible et posté leurs commentaires Asana de clôture sans recourir à la
+dégradation gracieuse §2. Le volet PR/merge (§5) fonctionne donc bien en mode Routine, sans
+réserve. Le trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` a été créé puis désactivé immédiatement à
+la création par prudence ; l'obstacle technique qui justifiait cette prudence est levé, mais sa
+réactivation reste, comme toute activation/désactivation de la Routine, une décision de
+Guillaume (cf. paragraphe ci-dessus) — non déclenchée automatiquement par `gaudit` lui-même.
 
 ## Format du rapport standardisé — `audit/<repo>/REPORT-<date>.md`
 
