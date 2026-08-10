@@ -1,62 +1,81 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-08-07** (cycle `gaudit`, premier passage réel)
+**Dernière session : 2026-08-10** (cycle `gaudit`, reconciliation + 2e cycle réel sur claude-os)
 
 ## État courant
 
-DNA-CC **v3.3** (bump ce cycle), DNA-Chat **v2.2** (bump ce cycle, aligné). Depuis la dernière
-mise à jour de ce fichier (2026-05-23, v2.1), le repo a beaucoup avancé sans que `REPRISE.md`
-soit tenu à jour — c'était en soi un des constats de ce cycle (cf. `audit/claude-os/PLAN-2026-08-07.md`
-T1.3). Points marquants accumulés depuis :
+DNA-CC **v3.3**, DNA-Chat **v2.2**, DNA-REF **v2.1** — inchangés depuis 2026-08-07, aucun bump
+ce cycle. Les 4 repos (`claude-os`, `general`, `candidaturePilote`, `ClaudeAchatMaison`) ont
+désormais tous un `dernier_audit_termine` renseigné dans `audit/STATE.md` — la routine `gaudit`
+a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08-09.
 
-- **`gtri`** — skill de triage claude-os → `general` (5 tests de décision, Q/R obligatoire). Premier
-  passage exécuté 2026-07-21 : lettre de motivation, profil rédactionnel et recherche
-  ChatGPT-vs-Claude transférés vers `general`, référencés depuis ici par pointeur raw URL.
-- **`gprompt`** — skill générateur/optimiseur de prompt interactif. Ajoutée mi-2026 mais son
-  trigger était resté absent du CORE et du DNA-Chat jusqu'à ce cycle `gaudit` (corrigé, cf. T1.1/T1.2).
+- **Lacune de fiabilité `gaudit` découverte et corrigée (2026-08-10)** : le cycle du 2026-08-09
+  avait réellement exécuté et mergé les plans `candidaturePilote` (PR #166) et `ClaudeAchatMaison`
+  (PR #37), mais s'était interrompu avant que le commit/push `REPORT`+`STATE.md` côté `claude-os`
+  n'atteigne `origin/main` — `STATE.md` a menti sur l'état réel pendant 3 jours (bloqué sur
+  `candidaturePilote in_progress`, heartbeat 2026-08-07T20:40Z). Reconstruit à partir des diffs
+  GitHub mergés + du journal de commentaires Asana (PR claude-os#36). `SKILL.md` §5 durci en
+  conséquence : nouvelle étape 5bis obligatoire (vérifier que le push a atteint `origin` avant de
+  poster le commentaire Asana de clôture) — voir `audit/STATE.md` §Historique 2026-08-10 pour le
+  détail complet.
+- **Disponibilité MCP en Routine confirmée** : les firings réels du 2026-08-09 et du 2026-08-10
+  ont tous deux utilisé `mcp__Asana__*` et `mcp__github__*` avec succès (création/merge de PR,
+  commentaires Asana) — l'incertitude documentée dans `SKILL.md` §Routine depuis la création
+  (2026-08-07) est levée. Réactivation du trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` : obstacle
+  technique levé, mais reste une décision de Guillaume (non déclenchée par `gaudit` lui-même).
+- **`gtri`** — skill de triage claude-os → `general` (5 tests de décision, Q/R obligatoire).
+  Dernier passage 2026-07-21.
+- **`gprompt`** — skill générateur/optimiseur de prompt interactif ; trigger répliqué dans CORE
+  et DNA-Chat depuis le cycle `gaudit` du 2026-08-07 (T1.1/T1.2 de ce cycle-là).
 - **`CLAUDE-DNA-ASANA.md`** — module autonome dédié à l'organisation Asana « nous 3 », référencé
   depuis le CORE §6.
-- **Convention Q/R** — option `(recommandé)` obligatoire par bloc + code `reco` pour valider
-  d'un coup toutes les recommandations d'un tour (CORE/CHAT v3.2/v2.1, 2026-07-22).
-- **`gaudit`** — nouvelle skill d'audit de projet autonome et résilient (`.claude/skills/gaudit/`
-  + `audit/STATE.md`), pensée pour tourner comme Routine Claude Code Remote. Landée via PR #33
-  (mergée 2026-08-07). Carve-out documenté dans le CORE : merge auto de PR autorisé pour cette
-  seule routine si CI verte + merge propre. **Ce cycle est son premier passage réel** — voir
-  `audit/claude-os/PLAN-2026-08-07.md` et `audit/claude-os/REPORT-2026-08-07.md` une fois le
-  plan bouclé.
-- **`CLAUDE.md` racine** — créé (résolvait l'anomalie notée dans la session 2026-05-23 : absence
-  de `CLAUDE.md` projet pour claude-os lui-même).
+- **`gaudit`** — skill d'audit de projet autonome et résilient (`.claude/skills/gaudit/` +
+  `audit/STATE.md`). Premier tour de rotation complet bouclé (voir ci-dessus). Carve-out merge
+  auto de PR documenté dans le CORE, appliqué sans incident sur les 5 PR gaudit mergées à ce jour
+  (claude-os#34, #36 ; general#5 ; candidaturePilote#166 ; ClaudeAchatMaison#37).
 
 ## Fichiers DNA — état des lieux
 
 - [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v3.3, injecté par hook à chaque session CC.
-- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — v2.1 (2026-06-13), procédures cold, curl à la demande.
+- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — v2.1 (2026-06-13), procédures cold, curl à la
+  demande. Table historique en retard sur le CORE (v3.3) — évalué cosmétique, sans risque
+  fonctionnel, pas de correctif prévu tant qu'aucun nouvel élément ne le justifie.
 - [CLAUDE-DNA-CHAT.md](CLAUDE-DNA-CHAT.md) — v2.2, à coller dans Instructions globales claude.ai.
-- [CLAUDE-DNA-CC.md](CLAUDE-DNA-CC.md) / [CLAUDE-DNA.md](CLAUDE-DNA.md) — stubs de redirection
-  legacy. Condition de retrait (tous les hooks projet connus migrés vers `DNA_URL=…CORE.md`)
-  vérifiée remplie ce cycle (candidaturePilote + ClaudeAchatMaison) — voir décision T2.3 du plan
-  d'audit pour le statut exact au moment de la lecture de ce fichier.
 
 ## Actions Guillaume en attente
 
 - `chatSyncDNAChatOk` — uploader `CLAUDE-DNA-CHAT.md` v2.2 dans Instructions globales claude.ai
-  (dernier upload connu antérieur au bump de ce cycle — le trigger `gprompt` manquait côté Chat).
+  si pas encore fait depuis le bump du 2026-08-07 (le trigger `gprompt` manquait côté Chat avant
+  ce bump).
+- Décider de la réactivation du trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` (Routine `gaudit`) — plus
+  d'obstacle technique connu depuis la confirmation MCP ci-dessus.
 
 ## Questions ouvertes pour prochaine session
 
 - `INBOX-QUESTIONS.md` a un item en attente depuis 2026-07-21 (correctifs `candidaturePilote`
-  Sonnet-vs-Opus + migration profil rédactionnel) — décision Guillaume requise.
-- Repo `candidaturePilote` : hook `session-start.sh` encore en v2.0 (pas de git pull auto au
-  démarrage) — signalé au rapport `gaudit` de ce cycle, à corriger lors du prochain cycle
-  `gaudit` ciblant ce repo (ou avant, si Guillaume préfère).
-- Première Routine `gaudit` créée puis désactivée (`trig_01Y6mLjE6VSXYg8WtmdPA9aB`) faute de
-  pouvoir attacher les connecteurs via l'API `create_trigger` — à réactiver après un
-  `fire_trigger` de validation ou recréation depuis l'UI Routines de claude.ai.
+  Sonnet-vs-Opus + migration profil rédactionnel) — décision Guillaume requise, hors périmètre
+  d'exécution autonome de `gaudit`.
+- Repo `ClaudeAchatMaison` : alerte 🔴 non résolue dans son `REPRISE.md` (délai légal de
+  réflexion offre de prêt Crédit Mutuel vs échéance compromis du 31/07/2026) — signalée par le
+  cycle `gaudit` du 2026-08-09, aucune activité constatée sur ce repo depuis. L'échéance
+  mentionnée est déjà passée à la date de cette session (2026-08-10) sans mise à jour tracée —
+  statut réel inconnu de `claude-os`, à vérifier directement avec Guillaume plutôt que supposé
+  résolu.
+
+## Note — entretien de ce fichier
+
+`REPRISE.md` reste **hors périmètre d'entretien automatique de `gaudit`** (c'est un artefact de
+mémoire de session interactive, pas un artefact `audit/`). Il a été rafraîchi deux fois de suite
+par des cycles `gaudit` (2026-08-07 puis 2026-08-10) simplement parce qu'il était retrouvé figé —
+ne pas compter sur `gaudit` pour le maintenir à jour à chaque passage ; une session interactive
+normale doit continuer à le faire au fil de l'eau.
 
 ## Options de reprise (prochaine session)
 
-- `resA` — relire le rapport du cycle `gaudit` claude-os (`audit/claude-os/REPORT-2026-08-07.md`)
-  et décider d'activer la Routine `gaudit` pour de bon.
+- `resA` — relire `audit/STATE.md` et le rapport le plus récent (`audit/claude-os/` une fois ce
+  cycle bouclé) pour l'état complet de la routine `gaudit`.
 - `resB` — trancher l'item `INBOX-QUESTIONS.md` du 2026-07-21 (candidaturePilote).
-- `resC` — lancer un cycle `gaudit` manuel sur `candidaturePilote` (hook v2.0 à mettre à jour +
-  autres pistes d'amélioration à diagnostiquer).
+- `resC` — vérifier l'état réel du dossier prêt `ClaudeAchatMaison` (échéance 31/07 dépassée,
+  aucune mise à jour tracée depuis) directement avec Guillaume.
+- `resD` — décider d'activer la Routine `gaudit` pour de bon (`update_trigger enabled:true` sur
+  `trig_01Y6mLjE6VSXYg8WtmdPA9aB`), maintenant que la disponibilité MCP est confirmée.
