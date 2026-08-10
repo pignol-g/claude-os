@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `general` |
+| `repo_cible_courant` | `candidaturePilote` |
 | `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-10T00:20Z |
-| `fichier_plan_actif` | `audit/general/PLAN-2026-08-10.md` |
+| `dernier_heartbeat` | 2026-08-10T00:28Z |
+| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-10.md` |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-10) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -35,10 +35,16 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-10 | `audit/claude-os/REPORT-2026-08-10.md` |
 | `general` | 2026-08-10 | `audit/general/REPORT-2026-08-10.md` |
-| `candidaturePilote` | 2026-08-09 | `audit/candidaturePilote/REPORT-2026-08-09.md` |
+| `candidaturePilote` | 2026-08-10 | `audit/candidaturePilote/REPORT-2026-08-10.md` |
 | `ClaudeAchatMaison` | 2026-08-09 | `audit/ClaudeAchatMaison/REPORT-2026-08-09.md` |
 
 ## Historique des cycles
+
+### 2026-08-10 — candidaturePilote — terminé
+- Plan : `audit/candidaturePilote/PLAN-2026-08-10.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-10.md`
+- PR : aucune — rien de nouveau depuis le cycle du 2026-08-09, fix du hook vérifié toujours en
+  place.
 
 ### 2026-08-10 — general — terminé
 - Plan : `audit/general/PLAN-2026-08-10.md`
