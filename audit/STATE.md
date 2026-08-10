@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `candidaturePilote` |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-10T00:28Z |
-| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-10.md` |
+| `repo_cible_courant` | — |
+| `statut` | `idle` |
+| `dernier_heartbeat` | 2026-08-10T00:32Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-10) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -36,9 +36,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `claude-os` | 2026-08-10 | `audit/claude-os/REPORT-2026-08-10.md` |
 | `general` | 2026-08-10 | `audit/general/REPORT-2026-08-10.md` |
 | `candidaturePilote` | 2026-08-10 | `audit/candidaturePilote/REPORT-2026-08-10.md` |
-| `ClaudeAchatMaison` | 2026-08-09 | `audit/ClaudeAchatMaison/REPORT-2026-08-09.md` |
+| `ClaudeAchatMaison` | 2026-08-10 | `audit/ClaudeAchatMaison/REPORT-2026-08-10.md` |
 
 ## Historique des cycles
+
+### 2026-08-10 — ClaudeAchatMaison — terminé
+- Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-10.md`
+- Rapport : `audit/ClaudeAchatMaison/REPORT-2026-08-10.md`
+- PR : aucune — deux pistes mécaniques identifiées (statuts `biens/INDEX.md` périmés, sync
+  knowledge claude.ai) volontairement non appliquées, portée stratégique jugée hors correctif
+  sûr. Alerte 🔴 délai légal de réflexion vs échéance compromis 31/07 re-signalée (échéance
+  désormais dépassée, aucune mise à jour tracée depuis le 27/07).
+- **Fin du premier tour complet de rotation** : les 4 repos ont un `dernier_audit_termine =
+  2026-08-10`.
 
 ### 2026-08-10 — candidaturePilote — terminé
 - Plan : `audit/candidaturePilote/PLAN-2026-08-10.md`
