@@ -10,9 +10,9 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | `claude-os` |
-| `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-10T00:00Z |
-| `fichier_plan_actif` | — |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-10T00:10Z |
+| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-10.md` |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-10) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
