@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `claude-os` |
-| `statut` | `in_progress` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
 | `dernier_heartbeat` | 2026-08-13T22:41Z |
-| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-13.md` |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-13) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -33,12 +33,21 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | 2026-08-10 | `audit/claude-os/REPORT-2026-08-10.md` |
+| `claude-os` | 2026-08-13 | `audit/claude-os/REPORT-2026-08-13.md` |
 | `general` | 2026-08-10 | `audit/general/REPORT-2026-08-10.md` |
 | `candidaturePilote` | 2026-08-10 | `audit/candidaturePilote/REPORT-2026-08-10.md` |
 | `ClaudeAchatMaison` | 2026-08-10 | `audit/ClaudeAchatMaison/REPORT-2026-08-10.md` |
 
 ## Historique des cycles
+
+### 2026-08-13 — claude-os — terminé
+- Plan : `audit/claude-os/PLAN-2026-08-13.md`
+- Rapport : `audit/claude-os/REPORT-2026-08-13.md`
+- PR : https://github.com/pignol-g/claude-os/pull/41 (resynchronise `to-chat/_upload-status.json`
+  / `_TODO.md` / `_track-log.md`, restés sur v2.1 depuis le bump v2.2 du 2026-08-07 — mergée
+  automatiquement, pas de CI, merge propre)
+- Rotation : `general`/`candidaturePilote`/`ClaudeAchatMaison` ex æquo à 2026-08-10, plus anciens
+  désormais — j'enchaîne sur `general` (premier de la table).
 
 ### 2026-08-10 — ClaudeAchatMaison — terminé
 - Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-10.md`
