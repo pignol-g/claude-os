@@ -5,10 +5,10 @@
 
 ## En attente
 
-- [ ] **CLAUDE-DNA-CHAT.md** v2.1 (2026-07-22) — Convention Q/R codes : option `(recommandé)`
-  obligatoire + code `reco` (batch-apply des recommandations d'un tour). Cumule aussi les
-  versions précédentes non encore uploadées (v1.9 renommage dossiers échange, v2.0 référence
-  module Asana).
+- [ ] **CLAUDE-DNA-CHAT.md** v2.2 (2026-08-07) — Trigger `gprompt` répliqué côté Chat (générateur/
+  optimiseur de prompt interactif, jusque-là CC-only). Cumule aussi les versions précédentes non
+  encore uploadées (v2.1 : convention Q/R codes, option `(recommandé)` obligatoire + code `reco` ;
+  v1.9 renommage dossiers échange ; v2.0 référence module Asana).
   Destination : claude.ai → Paramètres → **Instructions globales**.
   Confirmation : `chatSyncDNAChatOk`.
 

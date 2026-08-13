@@ -6,12 +6,12 @@
       "id": "DNAChat",
       "path": "CLAUDE-DNA-CHAT.md",
       "destination": "claude.ai → Paramètres → Instructions globales (niveau utilisateur)",
-      "current_version": "v2.1",
-      "current_date": "2026-07-22",
+      "current_version": "v2.2",
+      "current_date": "2026-08-07",
       "uploaded_version": "v1.7",
       "uploaded_date": "2026-05-17",
       "pending": true,
-      "reminders_sent": 0,
+      "reminders_sent": 1,
       "qa_code_ok": "chatSyncDNAChatOk",
       "qa_code_later": "chatSyncDNAChatLater"
     }
