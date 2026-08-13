@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | `claude-os` |
 | `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-13T22:26Z |
+| `dernier_heartbeat` | 2026-08-13T22:41Z |
 | `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-13.md` |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-13) |
 
