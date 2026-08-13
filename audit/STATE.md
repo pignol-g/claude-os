@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-13T22:50Z |
+| `dernier_heartbeat` | 2026-08-13T23:05Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-13) |
 
@@ -35,10 +35,25 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-13 | `audit/claude-os/REPORT-2026-08-13.md` |
 | `general` | 2026-08-13 | `audit/general/REPORT-2026-08-13.md` |
-| `candidaturePilote` | 2026-08-10 | `audit/candidaturePilote/REPORT-2026-08-10.md` |
+| `candidaturePilote` | 2026-08-13 | `audit/candidaturePilote/REPORT-2026-08-13.md` |
 | `ClaudeAchatMaison` | 2026-08-10 | `audit/ClaudeAchatMaison/REPORT-2026-08-10.md` |
 
 ## Historique des cycles
+
+### 2026-08-13 — candidaturePilote — terminé
+- Plan : `audit/candidaturePilote/PLAN-2026-08-13.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-13.md`
+- PR : aucune côté `candidaturePilote` — travail effectué directement sur GitHub (PR/issues).
+- **Constat majeur** : 35 PR ouvertes, aucune créée depuis le 2026-07-24 (activité de dev à
+  l'arrêt net depuis 3 semaines, seule l'automatisation veille tourne). PR #133 (2026-07-24)
+  avait déjà triage + recommandé 22 fermetures (17 candidaturePilote), jamais exécutées en
+  3 semaines malgré 4 signalements successifs. Vérifié la fraîcheur puis exécuté la partie
+  sûre : 17 PR fermées (#30, #35, #43, #60, #62, #64, #68, #71, #72, #77, #80, #83, #90, #93,
+  #95, #128, #130), chacune commentée + suivi sur #133. Reste (mergeabilité à revérifier,
+  arbitrage Guillaume, volet claude-os/ClaudeAchatMaison de la même revue, 116 issues veille
+  sans mécanisme de clôture) documenté dans le rapport, non exécuté.
+- Rotation : `ClaudeAchatMaison` reste seul à 2026-08-10, désormais le plus ancien — prochain
+  repo par ordre de staleness.
 
 ### 2026-08-13 — general — terminé
 - Plan : `audit/general/PLAN-2026-08-13.md`
