@@ -10,8 +10,8 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | — |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-13T23:05Z |
+| `statut` | `idle` |
+| `dernier_heartbeat` | 2026-08-13T23:20Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-13) |
 
@@ -36,9 +36,20 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `claude-os` | 2026-08-13 | `audit/claude-os/REPORT-2026-08-13.md` |
 | `general` | 2026-08-13 | `audit/general/REPORT-2026-08-13.md` |
 | `candidaturePilote` | 2026-08-13 | `audit/candidaturePilote/REPORT-2026-08-13.md` |
-| `ClaudeAchatMaison` | 2026-08-10 | `audit/ClaudeAchatMaison/REPORT-2026-08-10.md` |
+| `ClaudeAchatMaison` | 2026-08-13 | `audit/ClaudeAchatMaison/REPORT-2026-08-13.md` |
 
 ## Historique des cycles
+
+### 2026-08-13 — ClaudeAchatMaison — terminé (fin du 2ᵉ tour complet de rotation)
+- Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-13.md`
+- Rapport : `audit/ClaudeAchatMaison/REPORT-2026-08-13.md`
+- PR : aucune — 3 PR ouvertes analysées (mergeabilité vérifiée localement), non touchées :
+  #30/#36 propres mais contenu financier substantif (décision Guillaume), #31 en conflit et
+  potentiellement pertinente pour la situation de prêt actuelle. Portée stratégique jugée
+  hors correctif sûr, cohérent avec la décision du cycle du 2026-08-10 sur ce repo.
+- 🔴 Re-signalé (4ᵉ fois, aggravé) : alerte délai légal de réflexion vs échéance compromis du
+  31/07/2026 maintenant dépassée de 17 jours, aucune mise à jour tracée depuis le 27/07.
+- Les 4 repos ont maintenant tous `dernier_audit_termine = 2026-08-13`.
 
 ### 2026-08-13 — candidaturePilote — terminé
 - Plan : `audit/candidaturePilote/PLAN-2026-08-13.md`
