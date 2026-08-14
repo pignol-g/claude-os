@@ -6,7 +6,7 @@
 + code `reco` pour appliquer d'un coup toutes les options recommandées d'un tour)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
-<!-- Version : 2026-05-17 v1.8 -->
+<!-- Version : 2026-08-07 v2.2 -->
 <!-- À COLLER DANS : claude.ai → Paramètres → Instructions globales (niveau utilisateur). -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md -->

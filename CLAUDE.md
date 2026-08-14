@@ -28,6 +28,7 @@ Le cœur du repo est la famille `CLAUDE-DNA-*.md`, avec une séparation **hot/co
 ## Autres répertoires
 
 - **`scripts/install-claude-config.sh`** — bootstrap le `.claude/` d'un nouveau projet (copie locale depuis un mirror Drive, ou fallback curl en environnement cloud/CC-web).
+- **`scripts/verify-dna-consistency.sh`** — vérifie la cohérence interne du DNA (version CORE vs Historique REF, bookkeeping `to-chat/` vs `CLAUDE-DNA-CHAT.md`, liens Markdown cassés, skills non référencées, en-têtes `<!-- Version -->` désynchronisés) — automatise des checks qu'un cycle `gaudit` refaisait manuellement à chaque passage.
 - **`to-cc/`** — inbox d'exports collés depuis Claude Chat vers Claude Code ; éphémère, lu au démarrage CC puis vidé.
 - **`to-chat/`** — outbox d'artefacts à uploader vers le Project Knowledge de claude.ai (templates + `_TODO.md`, `_track-log.md`, `_upload-status.json` qui trace les uploads en attente).
 - **`REPRISE.md`** / **`INBOX-QUESTIONS.md`** — état de reprise de session et inbox de questions différées ; artefacts opérationnels du workflow DNA, pas du code.
