@@ -10,8 +10,8 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | `general` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T10:35Z |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T10:38Z |
 | `fichier_plan_actif` | `audit/general/PLAN-2026-08-14-3.md` |
 | `consignes_asana` | lues (aucune consigne, cf. accusé de réception 2026-08-14T10:35Z) |
 
@@ -34,11 +34,23 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
-| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
+| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — general — terminé (3e cycle du jour, 5e tour de rotation)
+- Plan : `audit/general/PLAN-2026-08-14-3.md`
+- Rapport : `audit/general/REPORT-2026-08-14-3.md`
+- PR : https://github.com/pignol-g/general/pull/6 (convention « ⚠️ Photo à date » pour les
+  recherches à contenu volatil — documentée dans README.md/CLAUDE.md + rétrofit de 2
+  fichiers) — mergée automatiquement (pas de CI, `mergeable_state: clean`).
+- R&D menée en étape dédiée (cf. correctif de doctrine du cycle précédent) : 1 item Tier 2
+  exécuté (badge photo à date) + 2 pistes Tier 3 documentées (migration réelle du profil
+  rédactionnel — décision Guillaume déjà en attente ; pipeline `gtri` inactif depuis 3
+  semaines — observation, non actionnable depuis `general`).
+- Rotation : enchaîne sans pause sur `candidaturePilote` (prochain de la table).
 
 ### 2026-08-14 — claude-os — terminé (3e cycle du jour, 5e tour de rotation — 1er cycle post-correctif de doctrine)
 - Plan : `audit/claude-os/PLAN-2026-08-14-3.md`
