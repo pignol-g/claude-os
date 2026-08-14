@@ -84,6 +84,26 @@ des points d'attention, en tenir compte pour l'étape suivante. Poster un commen
 signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. convention
 `asana-pass`), **sans déplacer la tâche**.
 
+> **Détection de désynchronisation (vérification systématique)** : avant de poster
+> l'accusé de réception, comparer l'horodatage du **dernier commentaire Asana** (pas
+> seulement celui lu à l'étape précédente — tous les commentaires postés depuis le
+> `dernier_heartbeat` de `STATE.md`) à ce que `STATE.md` reflète réellement. Si un
+> commentaire de clôture décrit un cycle (PR mergée, travail fait) dont `STATE.md` n'a
+> aucune trace (pas de `PLAN`/`REPORT` correspondant, table de rotation pas mise à jour),
+> c'est le signal d'une session interrompue entre le merge de la PR cible + les
+> commentaires Asana et la persistance `claude-os` — **reconciliation avant toute autre
+> action** : vérifier le repo concerné (`pull_request_read` + `git fetch origin`),
+> reconstruire les `PLAN`/`REPORT` manquants à partir du diff mergé et du texte des
+> commentaires d'époque, mettre à jour `STATE.md` (rotation + entrée d'historique dédiée),
+> committer/pousser/vérifier (§5bis) **avant** de démarrer le travail réel du cycle. Déjà
+> rencontré 2 fois (2026-08-10, 2026-08-14) — toujours sans perte de travail réel (le
+> merge GitHub avait abouti les deux fois), seulement un délai de traçabilité côté
+> `claude-os/audit/`. Ne pas traiter comme une simple curiosité à signaler : c'est
+> exactement le mode de défaillance que §5bis cherche à prévenir, détecté ici a
+> posteriori plutôt qu'empêché a priori — la reconciliation reste le filet de sécurité
+> tant que la cause racine (session interrompue entre deux chemins d'écriture
+> indépendants) n'est pas éliminée.
+
 ### 3. Reprendre ou démarrer
 
 - **Si un plan est `in_progress`** (fichier `audit/<repo>/PLAN-<date>.md` avec des cases
