@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `candidaturePilote` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T15:34Z |
-| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-14-3.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T15:38Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -35,10 +35,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
-| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
+| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-3.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — candidaturePilote — terminé (3e cycle du jour, 5e tour de rotation)
+- Plan : `audit/candidaturePilote/PLAN-2026-08-14-3.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-14-3.md`
+- PR : https://github.com/pignol-g/candidaturePilote/pull/179 (ferme automatiquement les
+  issues de digest de veille périmées — 113 issues ouvertes sans mécanisme de clôture,
+  re-signalé sans action depuis le 08-13, 3 cycles consécutifs) — mergée automatiquement
+  (CI verte, merge propre).
+- Rotation : `ClaudeAchatMaison` reste seul non repris ce 5e tour — j'enchaîne.
 
 ### 2026-08-14 — reconciliation (pas un cycle d'audit) — 2e occurrence de la lacune de fiabilité du 2026-08-10
 
