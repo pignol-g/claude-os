@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T05:34Z |
+| `dernier_heartbeat` | 2026-08-14T05:40Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
 
@@ -35,10 +35,20 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-2.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
-| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14.md` |
+| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — candidaturePilote — terminé (2ᵉ cycle du jour)
+- Plan : `audit/candidaturePilote/PLAN-2026-08-14-2.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-14-2.md`
+- PR : aucune côté `candidaturePilote` — travail direct via l'API GitHub (fermeture PR).
+- 1 item traité (Tier 1) : trié les 4 PR jamais catégorisées par la revue #133 (#25/27/29/134,
+  créées avant cette revue). #25 et #27 fermées comme superseded (vérification fraîche,
+  dont un mail Gmail revérifié pour #27) ; #29 et #134 laissées ouvertes (décision Guillaume
+  requise, gated explicitement ou draft incomplet).
+- Rotation : `ClaudeAchatMaison` reste seul non repris ce 4e tour — j'enchaîne.
 
 ### 2026-08-14 — general — terminé (2ᵉ cycle du jour)
 - Plan : `audit/general/PLAN-2026-08-14-2.md`
