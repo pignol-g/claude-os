@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `general` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T15:45Z |
-| `fichier_plan_actif` | `audit/general/PLAN-2026-08-14-4.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T15:47Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -34,11 +34,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-4.md` |
-| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
+| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-4.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-3.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-3.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — general — terminé (4e cycle du jour, 6e tour de rotation)
+- Plan : `audit/general/PLAN-2026-08-14-4.md`
+- Rapport : `audit/general/REPORT-2026-08-14-4.md`
+- PR : https://github.com/pignol-g/general/pull/7 (badge « Photo à date » manquant sur
+  `PROMPT-RECHERCHE_chatgpt-vs-claude_2026-07-21.md`, oublié par le retrofit du cycle
+  précédent) — mergée automatiquement.
+- Rotation : j'enchaîne sans pause sur `candidaturePilote` (3e repo du 6e tour).
 
 ### 2026-08-14 — claude-os — terminé (4e cycle du jour, 6e tour de rotation)
 - Plan : `audit/claude-os/PLAN-2026-08-14-4.md`
