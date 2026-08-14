@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T05:40Z |
+| `dernier_heartbeat` | 2026-08-14T05:42Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
 
@@ -36,9 +36,18 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-2.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
-| `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14.md` |
+| `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — ClaudeAchatMaison — terminé (2ᵉ cycle du jour, fin du 4ᵉ tour complet de rotation)
+- Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14-2.md`
+- Rapport : `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md`
+- PR : aucune — repo inchangé depuis le 2026-08-09, 3 PR ouvertes revérifiées (mergeabilité
+  inchangée), mêmes raisons de non-intervention que les cycles précédents.
+- 🔴 Alerte délai légal de réflexion vs échéance compromis 31/07 inchangée depuis ce matin
+  même (déjà notifiée séparément), pas de nouvelle notification (situation non aggravée).
+- Les 4 repos ont de nouveau `dernier_audit_termine = 2026-08-14` — fin du 4ᵉ tour complet.
 
 ### 2026-08-14 — candidaturePilote — terminé (2ᵉ cycle du jour)
 - Plan : `audit/candidaturePilote/PLAN-2026-08-14-2.md`
