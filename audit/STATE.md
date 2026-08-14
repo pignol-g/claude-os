@@ -10,8 +10,8 @@
 | Champ | Valeur |
 |---|---|
 | `repo_cible_courant` | — |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-14T15:50Z |
+| `statut` | `idle` |
+| `dernier_heartbeat` | 2026-08-14T15:54Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
@@ -39,6 +39,27 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-4.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — fin de série (pas un cycle d'audit) — vérification 7e tour avant conclusion
+
+Après la fin du 6e tour complet (§ci-dessous), vérification du 1er repo du 7e tour
+(`claude-os`) avant de conclure cette série de travail — pas un arrêt au seul motif
+qu'un tour venait de se terminer (cf. §6 SKILL.md, correctif de doctrine appliqué tout
+au long de ce cycle). `verify-dna-consistency.sh` repasse 5/5 propre, HEAD inchangé
+depuis le commit de clôture du cycle précédent (quelques minutes plus tôt) — confirmé
+qu'il n'y a rien de nouveau à traiter sur `claude-os` à ce stade.
+
+**Conclusion de cette série** (6 cycles du jour sur ce firing, 6 tours complets bouclés,
+2 reconciliations, 4 correctifs réels mergés — cf. entrées ci-dessous) : les 4 repos
+viennent d'être revérifiés à moins de 20 minutes d'intervalle chacun, sans delta réel
+possible dans un laps de temps aussi court (aucune activité humaine en parallèle
+détectée sur aucun des 4 repos). Continuer à boucler immédiatement sur un 7e tour
+produirait des cycles vides par construction, pas par manque de recherche — distinct du
+problème que le correctif de doctrine du jour visait à corriger (R&D qui manquait par
+défaut de recherche, pas par absence réelle de delta). `statut` repassé à `idle` :
+la Routine (prochain firing du cron horaire) reprendra normalement depuis cet état,
+sans perte — ce n'est pas un arrêt de `gaudit`, seulement la fin de cette session de
+travail.
 
 ### 2026-08-14 — ClaudeAchatMaison — terminé (6e cycle du jour, fin du 6e tour complet de rotation)
 - Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14-4.md`
