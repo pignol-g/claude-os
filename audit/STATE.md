@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T05:32Z |
+| `dernier_heartbeat` | 2026-08-14T05:34Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
 
@@ -34,11 +34,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-2.md` |
-| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14.md` |
+| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — general — terminé (2ᵉ cycle du jour)
+- Plan : `audit/general/PLAN-2026-08-14-2.md`
+- Rapport : `audit/general/REPORT-2026-08-14-2.md`
+- PR : aucune côté `general` — repo inchangé depuis le 2026-08-07 (5e cycle consécutif),
+  relecture indépendante fichier par fichier, aucun bug ni incohérence trouvé.
+- Rotation : `candidaturePilote`/`ClaudeAchatMaison` ex æquo à 2026-08-14 (granularité jour,
+  pas encore repris ce 4e tour) — j'enchaîne sur `candidaturePilote` (premier de la table).
 
 ### 2026-08-14 — claude-os — terminé (2ᵉ cycle du jour, ouverture du 4ᵉ tour de rotation)
 - Plan : `audit/claude-os/PLAN-2026-08-14-2.md`
