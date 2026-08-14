@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `candidaturePilote` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T15:48Z |
-| `fichier_plan_actif` | `audit/candidaturePilote/PLAN-2026-08-14-4.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T15:49Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -35,10 +35,17 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-4.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-4.md` |
-| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-3.md` |
+| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-4.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-3.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — candidaturePilote — terminé (5e cycle du jour, 6e tour de rotation)
+- Plan : `audit/candidaturePilote/PLAN-2026-08-14-4.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-14-4.md`
+- PR : aucune — repo inchangé au-delà du merge #179 déjà comptabilisé au cycle
+  précédent, ARBITRER/#29/#134/#67 inchangés.
+- Rotation : j'enchaîne sans pause sur `ClaudeAchatMaison` (dernier repo du 6e tour).
 
 ### 2026-08-14 — general — terminé (4e cycle du jour, 6e tour de rotation)
 - Plan : `audit/general/PLAN-2026-08-14-4.md`
