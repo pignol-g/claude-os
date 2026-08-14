@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T05:42Z |
+| `dernier_heartbeat` | 2026-08-14T07:48Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
 
@@ -33,12 +33,25 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-2.md` |
+| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — claude-os — terminé (3e cycle du jour, 5e tour de rotation — 1er cycle post-correctif de doctrine)
+- Plan : `audit/claude-os/PLAN-2026-08-14-3.md`
+- Rapport : `audit/claude-os/REPORT-2026-08-14-3.md`
+- PR : https://github.com/pignol-g/claude-os/pull/57 (script `scripts/verify-dna-
+  consistency.sh` + resync 3 en-têtes de version + bump REF v2.2) — mergée automatiquement.
+- **Retour direct de Guillaume ce jour** : gaudit s'arrêtait après chaque tour complet
+  malgré §7 (3 conditions seulement), et la R&D avait disparu des diagnostics (0 item
+  Tier 2/3 depuis 08-13 sur claude-os/general). `SKILL.md` corrigé (§6/§7 : tour complet
+  ≠ condition d'arrêt ; §3 : R&D = étape dédiée). Ce cycle applique le correctif : enchaîne
+  sans pause après la fin du 4e tour, et documente 3 vraies pistes R&D (Tier 3) au lieu de
+  conclure "rien trouvé" par défaut.
+- Rotation : enchaîne sans pause sur `general` (correctif de doctrine appliqué).
 
 ### 2026-08-14 — ClaudeAchatMaison — terminé (2ᵉ cycle du jour, fin du 4ᵉ tour complet de rotation)
 - Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14-2.md`
