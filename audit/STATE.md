@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `ClaudeAchatMaison` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T15:39Z |
-| `fichier_plan_actif` | `audit/ClaudeAchatMaison/PLAN-2026-08-14-3.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T15:42Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -36,9 +36,24 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-3.md` |
-| `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
+| `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-3.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — ClaudeAchatMaison — terminé (3e cycle du jour, fin du 5e tour complet de rotation)
+- Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14-3.md`
+- Rapport : `audit/ClaudeAchatMaison/REPORT-2026-08-14-3.md`
+- PR : aucune — repo inchangé depuis le 2026-08-09, 3 PR ouvertes revérifiées
+  (mergeabilité inchangée), mêmes raisons de non-intervention que les cycles précédents.
+- R&D menée en étape dédiée (application du correctif de doctrine) — 3 pistes Tier 3
+  documentées (fichier d'échéances structuré, étape 9 "post-acte" SKILL.md, gap de suivi
+  Rignieux/Saint-Vulbas), aucune exécutée (arbitrage Guillaume requis sur les 3).
+- 🔴 Alerte délai légal de réflexion vs échéance compromis 31/07 inchangée depuis le 27/07
+  (18 jours), déjà notifiée séparément le 08-13, pas de nouvelle notification (situation
+  non aggravée).
+- Les 4 repos ont de nouveau `dernier_audit_termine = 2026-08-14` — fin du 5e tour
+  complet. **Pas une condition d'arrêt** (§7 SKILL.md) — j'enchaîne sans pause sur
+  `claude-os` (premier de la table, 6e tour).
 
 ### 2026-08-14 — candidaturePilote — terminé (3e cycle du jour, 5e tour de rotation)
 - Plan : `audit/candidaturePilote/PLAN-2026-08-14-3.md`
