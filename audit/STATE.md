@@ -11,7 +11,7 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T00:40Z |
+| `dernier_heartbeat` | 2026-08-14T00:41Z |
 | `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14) |
 
@@ -35,10 +35,19 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14.md` |
-| `candidaturePilote` | 2026-08-13 | `audit/candidaturePilote/REPORT-2026-08-13.md` |
+| `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14.md` |
 | `ClaudeAchatMaison` | 2026-08-13 | `audit/ClaudeAchatMaison/REPORT-2026-08-13.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — candidaturePilote — terminé
+- Plan : `audit/candidaturePilote/PLAN-2026-08-14.md`
+- Rapport : `audit/candidaturePilote/REPORT-2026-08-14.md`
+- PR : https://github.com/pignol-g/candidaturePilote/pull/176 (chaîne MERGER #40/#46/#125
+  revérifiée et réappliquée, PR fermées comme superseded ; #67 laissée ouverte, info
+  contradictoire) — mergée automatiquement (CI verte, merge propre).
+- Rotation : `ClaudeAchatMaison` reste seul à 2026-08-13, désormais le plus ancien —
+  j'enchaîne.
 
 ### 2026-08-14 — general — terminé
 - Plan : `audit/general/PLAN-2026-08-14.md`
