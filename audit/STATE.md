@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | — |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-14T15:38Z |
-| `fichier_plan_actif` | — |
+| `repo_cible_courant` | `ClaudeAchatMaison` |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-14T15:39Z |
+| `fichier_plan_actif` | `audit/ClaudeAchatMaison/PLAN-2026-08-14-3.md` |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
