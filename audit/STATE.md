@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | — |
-| `statut` | `terminé` |
-| `dernier_heartbeat` | 2026-08-14T15:44Z |
-| `fichier_plan_actif` | — |
+| `repo_cible_courant` | `general` |
+| `statut` | `in_progress` |
+| `dernier_heartbeat` | 2026-08-14T15:45Z |
+| `fichier_plan_actif` | `audit/general/PLAN-2026-08-14-4.md` |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
