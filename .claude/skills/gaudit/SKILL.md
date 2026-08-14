@@ -105,6 +105,23 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
   cherche à accomplir). Écrire `audit/<repo>/PLAN-<date>.md` : items découpés Tier 1
   (correctifs sûrs et à fort impact) / Tier 2 (améliorations) / Tier 3 (R&D, plus
   spéculatif), en étapes atomiques cochables.
+
+  > ⚠️ **La R&D est une étape distincte du bug-hunting, pas un sous-produit.** Constat
+  > (2026-08-14) : passé le premier cycle, les diagnostics ont convergé vers "aucun item
+  > Tier 1/2/3" cycle après cycle sur les repos stables (claude-os, general) — parce que
+  > le diagnostic restait *shaped* comme une chasse au bug (cohérence, liens cassés,
+  > versions) qui, sur un repo sain, ne trouve structurellement rien. Chercher des bugs
+  > et générer des idées R&D sont deux gestes mentaux différents ; le second ne se
+  > produit pas par accident pendant le premier. **Avant de conclure "rien à Tier 2/3",
+  > consacrer un temps dédié à se poser explicitement, à partir de l'objectif du projet
+  > tel que décrit dans son `CLAUDE.md`** (pas un audit générique) : « qu'est-ce qui,
+  > ajouté ou changé, ferait mieux réussir ce que ce projet essaie d'accomplir ? » —
+  > au moins 2-3 pistes concrètes à évaluer, même si elles sont ensuite reportées en
+  > Tier 3 faute d'être exécutables en autonome. Un plan qui conclut "aucun item Tier
+  > 2/3" doit le justifier par cette réflexion explicitement menée (et tracée dans le
+  > plan), jamais par défaut faute d'avoir cherché. Si le repo cible a une skill dédiée
+  > à l'amélioration de son domaine (ex. `audit-veille` pour `candidaturePilote`), s'en
+  > inspirer pour la forme sans se substituer à elle.
   Mettre à jour `STATE.md` : `repo_cible_courant`, `statut = in_progress`,
   `fichier_plan_actif`, `dernier_heartbeat = maintenant`.
 
@@ -170,9 +187,22 @@ S'il reste du budget après un plan terminé : reboucler en (2)/(3) sur le **pro
 repo (rotation par staleness, sauf nouvelle consigne Asana entretemps) — façon `gauto`,
 ne jamais s'arrêter spontanément après un seul plan.
 
+> ⚠️ **Un tour de rotation complet (les 4 repos ont `dernier_audit_termine` = aujourd'hui)
+> n'est PAS une condition d'arrêt.** C'est une illusion de point de contrôle naturel —
+> constaté à plusieurs reprises (08-10, 08-13, deux fois le 08-14) : une session fraîche,
+> sans mémoire du raisonnement des cycles précédents, referme la boucle après un tour
+> complet en écrivant une phrase du type « fin du tour, je m'arrête ici pour cette
+> série », alors qu'aucune des 3 conditions du §7 n'est remplie. **Un tour complet =
+> repartir immédiatement sur un nouveau tour (repo le plus ancien de la table, donc en
+> général le premier repris), sans pause ni narration de clôture.** N'écrire "je
+> m'arrête" (ou toute formulation équivalente : "fin de série", "je termine là") **que**
+> si l'une des 3 conditions du §7 est explicitement remplie — jamais par déduction du
+> nombre de tours bouclés.
+
 ### 7. Arrêt
 
-Trois conditions seulement :
+Trois conditions **seulement** — un tour de rotation complet n'en fait **pas** partie
+(cf. avertissement §6) :
 - (a) Extinction des crédits — rien de spécial à faire, le firing suivant échouera ou ne
   produira rien ; l'état déjà commité n'est jamais perdu.
 - (b) Guillaume écrit `gstop`, ou désactive/supprime la Routine.
