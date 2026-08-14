@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `claude-os` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-08-14T15:43Z |
-| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-08-14-4.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-08-14T15:44Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -33,12 +33,21 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
+| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-4.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-3.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-3.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — claude-os — terminé (4e cycle du jour, 6e tour de rotation)
+- Plan : `audit/claude-os/PLAN-2026-08-14-4.md`
+- Rapport : `audit/claude-os/REPORT-2026-08-14-4.md`
+- PR : https://github.com/pignol-g/claude-os/pull/65 (formalise §2 SKILL.md — détection
+  systématique de désynchronisation Asana↔STATE.md en début de cycle, suite à la 2e
+  occurrence du jour du mode de défaillance du 2026-08-10) — mergée automatiquement.
+- `verify-dna-consistency.sh` : 5/5 checks passent, aucun autre item.
+- Rotation : j'enchaîne sans pause sur `general` (2e repo du 6e tour).
 
 ### 2026-08-14 — ClaudeAchatMaison — terminé (3e cycle du jour, fin du 5e tour complet de rotation)
 - Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14-3.md`
