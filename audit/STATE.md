@@ -11,9 +11,9 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T00:45Z |
+| `dernier_heartbeat` | 2026-08-14T05:32Z |
 | `fichier_plan_actif` | — |
-| `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14) |
+| `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
 étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
@@ -33,12 +33,23 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14.md` |
+| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-2.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — claude-os — terminé (2ᵉ cycle du jour, ouverture du 4ᵉ tour de rotation)
+- Plan : `audit/claude-os/PLAN-2026-08-14-2.md`
+- Rapport : `audit/claude-os/REPORT-2026-08-14-2.md`
+- PR : https://github.com/pignol-g/claude-os/pull/50 (rattrape 12 entrées manquantes au
+  tableau `## Historique` de `CLAUDE-DNA-CC-REF.md`, re-signalées « cosmétiques » 4 cycles
+  de suite sans être corrigées ; vérification approfondie a montré un vrai déficit de
+  traçabilité, corrigé plutôt que re-reporté) — mergée automatiquement (pas de CI, merge
+  propre).
+- Rotation : `general`/`candidaturePilote`/`ClaudeAchatMaison` ex æquo à 2026-08-14 —
+  j'enchaîne sur `general` (premier de la table).
 
 ### 2026-08-14 — ClaudeAchatMaison — terminé (fin du 3ᵉ tour complet de rotation)
 - Plan : `audit/ClaudeAchatMaison/PLAN-2026-08-14.md`
