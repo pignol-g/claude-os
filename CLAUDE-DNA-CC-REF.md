@@ -1,9 +1,11 @@
 # CLAUDE-DNA-CC-REF — Procédures rares (cold)
 
-**Version : v2.1 — 2026-06-13** (renommage dossiers échange `to-<destination>/` + flux `to-os/`)
+**Version : v2.2 — 2026-08-14** (gaudit — rattrape 12 entrées manquantes au tableau
+`## Historique` ci-dessous, jamais synchronisées avec les bumps CORE v2.1→v3.3 ; suite
+v2.1 : renommage dossiers échange `to-<destination>/` + flux `to-os/`)
 
 <!-- Procédures cold : lues à la demande quand un trigger du sommaire CORE est rencontré. -->
-<!-- Version : 2026-05-19 v2.0 -->
+<!-- Version : 2026-08-14 v2.2 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-REF.md -->
 <!-- Référencé depuis : CLAUDE-DNA-CC-CORE.md (sommaire en section 5) -->
@@ -300,6 +302,7 @@ Quand CC ouvre un projet créé sous DNA ≤ v2.4 et que Guillaume veut le mettr
 
 | Version | Date | Changements |
 |---|---|---|
+| v2.2 (REF) | 2026-08-14 | Rattrape 12 entrées manquantes au tableau `## Historique` (v2.1 à v2.4, v2.6 à v3.3 du CORE) — re-signalées « dérive cosmétique » par 4 cycles `gaudit` consécutifs (08-07/10/13/14) sans être corrigées ; vérification approfondie a montré un vrai déficit de traçabilité. En-têtes `<!-- Version -->` de CORE/CHAT/REF, restés désynchronisés de leur ligne visible `**Version**` depuis plusieurs bumps, resynchronisés au même cycle + script `scripts/verify-dna-consistency.sh` ajouté pour prévenir la récidive (PR #50, #57 — cf. `audit/claude-os/REPORT-2026-08-14-3.md`). CORE non touché. |
 | v3.3 (CORE) | 2026-08-07 | Ajout de la section trigger `gprompt` manquante au CORE : le skill existait depuis v3.1 et était référencé dans `CLAUDE.md` comme un des skills implémentant les triggers du CORE, mais sans section dédiée. Corrigé au premier cycle `gaudit` réel sur ce repo (PR #34). REF non touché. |
 | v3.2 (CORE) | 2026-07-22 | Convention Q/R codes : option `(recommandé)` obligatoire quand une réco honnête existe + code `reco` pour appliquer d'un coup toutes les options recommandées d'un tour. Premier passage `gtri` exécuté (lettre de motivation, profil rédactionnel, recherche ChatGPT-vs-Claude transférés vers `general`, profil référencé par pointeur). REF non touché. |
 | v3.1 (CORE) | 2026-07-22 | Nouveau trigger `gtri` — tri et transfert récurrent `claude-os` → repo `general` : critères de classification pour distinguer l'outillage Claude Code (reste dans claude-os) de la connaissance/livrables produits avec l'aide d'une IA quelconque (part vers `general`, repo multi-IA). REF non touché. |

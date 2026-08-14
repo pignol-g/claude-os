@@ -9,7 +9,7 @@ Convention Q/R codes, option `(recommandé)` obligatoire quand une réco honnêt
 transférés vers `general`, profil référencé désormais par pointeur raw URL)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-05-22 v2.1 -->
+<!-- Version : 2026-08-07 v3.3 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->

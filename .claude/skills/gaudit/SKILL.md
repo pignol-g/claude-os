@@ -106,6 +106,15 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
   (correctifs sûrs et à fort impact) / Tier 2 (améliorations) / Tier 3 (R&D, plus
   spéculatif), en étapes atomiques cochables.
 
+  Si le repo cible est **`claude-os`**, lancer `bash scripts/verify-dna-consistency.sh`
+  en tout début de diagnostic — automatise plusieurs checks de cohérence interne
+  (versions CORE/REF/CHAT, bookkeeping `to-chat/`, liens cassés, skills non référencées)
+  qu'un cycle refaisait manuellement à chaque passage et qui ont laissé passer 4 cycles
+  de suite un vrai décalage (cf. §Historique du script et `audit/claude-os/REPORT-
+  2026-08-14-2.md`). Un check qui échoue = candidat Tier 1 direct ; ça libère le temps de
+  diagnostic pour la vraie réflexion R&D plutôt que pour re-dériver ces vérifications à
+  la main.
+
   > ⚠️ **La R&D est une étape distincte du bug-hunting, pas un sous-produit.** Constat
   > (2026-08-14) : passé le premier cycle, les diagnostics ont convergé vers "aucun item
   > Tier 1/2/3" cycle après cycle sur les repos stables (claude-os, general) — parce que
