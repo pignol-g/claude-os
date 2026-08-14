@@ -108,6 +108,33 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
   Mettre à jour `STATE.md` : `repo_cible_courant`, `statut = in_progress`,
   `fichier_plan_actif`, `dernier_heartbeat = maintenant`.
 
+  > **Erreur constatée le 2026-08-14 (à ne pas reproduire)** : plusieurs cycles de suite
+  > ont conclu « rien à corriger » sur un repo après une passe presque exclusivement
+  > tournée vers la chasse aux bugs/incohérences, sans avoir réellement cherché de pistes
+  > Tier 2/3. **La chasse au bug n'est qu'une moitié du mandat `gaudit` — l'autre moitié,
+  > la R&D, doit être un effort actif et distinct, pas un sous-produit qu'on note « si on
+  > en croise ».** Concrètement, à chaque cycle, avant de conclure quoi que ce soit :
+  > 1. Se poser explicitement la question « qu'est-ce que CE projet pourrait faire de plus
+  >    ou de mieux pour son objectif propre ? » (nouvelle capacité, automatisation
+  >    manquante, angle mort méthodologique, source de données inexploitée, frottement
+  >    récurrent visible dans l'historique récent) — indépendamment de l'état de propreté
+  >    du repo (« aucun bug » ne veut pas dire « rien à améliorer »).
+  > 2. Consigner au moins 1 à 3 pistes Tier 2/3 par cycle dans
+  >    `audit/<repo>/RD-IDEES.md` (créer le fichier au premier cycle qui en a besoin,
+  >    **toujours en ajoutant**, jamais en écrasant les entrées précédentes — c'est un
+  >    backlog cumulatif inter-cycles, pas un scratch réinitialisé à chaque passe).
+  >    Format par entrée : date, titre court, description (2-4 lignes : constat + piste),
+  >    statut (`🆕 nouvelle` / `🔁 reconduite` / `✅ implémentée <date>, voir PLAN` /
+  >    `❌ écartée <date>, raison`).
+  > 3. Si une idée déjà présente dans `RD-IDEES.md` est encore pertinente et suffisamment
+  >    cadrée pour être exécutée en toute sécurité (safety interdits respectés, pas de
+  >    décision de fond nécessitant Guillaume), l'ajouter au plan Tier 2/3 du cycle comme
+  >    n'importe quel autre item.
+  > Un plan qui ne contient **aucun** item Tier 2/3 exécuté ET **aucune** nouvelle entrée
+  > `RD-IDEES.md` doit rester l'exception rare, justifiée explicitement dans le `PLAN`
+  > (ex. repo déjà passé au crible R&D récemment, rien de neuf depuis) — pas la norme
+  > silencieuse.
+
 ### 4. Exécuter
 
 Étape par étape, dans l'ordre du plan :
@@ -166,9 +193,21 @@ Quand toutes les étapes du plan sont cochées :
 
 ### 6. Reboucler
 
-S'il reste du budget après un plan terminé : reboucler en (2)/(3) sur le **prochain**
-repo (rotation par staleness, sauf nouvelle consigne Asana entretemps) — façon `gauto`,
-ne jamais s'arrêter spontanément après un seul plan.
+S'il reste du budget après un plan terminé : reboucler **immédiatement** en (2)/(3) sur le
+**prochain** repo (rotation par staleness, sauf nouvelle consigne Asana entretemps) — façon
+`gauto`, ne jamais s'arrêter spontanément après un seul plan.
+
+> **Erreur constatée le 2026-08-14 (à ne pas reproduire)** : un cycle a bouclé un tour
+> complet de rotation (les 4 repos passés, chacun avec `dernier_audit_termine` remis au
+> jour du cycle) puis s'est arrêté spontanément en concluant la session, alors qu'aucune
+> des 3 conditions d'arrêt de §7 n'était remplie (crédits dispo, pas de `gstop`, pas de
+> bouton stop). **Un tour complet de rotation n'est PAS et n'a JAMAIS été une condition
+> d'arrêt.** Le mot « boucle » dans le nom de cette section est littéral : dès qu'un plan
+> est terminé (§5 bouclé), repartir sur-le-champ à l'étape 2/3 pour le repo suivant, y
+> compris quand ce repo suivant boucle sur le 1er de la table (nouveau tour). Il n'y a
+> normalement **aucune** fin de cycle `gaudit` en cours de session hors les 3 conditions de
+> §7 — ni « fin de tour de rotation », ni « j'ai fait le tour des 4 repos », ni « il n'y a
+> plus grand-chose à trouver » ne sont des raisons valables de conclure la session.
 
 ### 7. Arrêt
 

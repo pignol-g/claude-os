@@ -12,6 +12,10 @@ Claude Code Remote (session neuve à chaque déclenchement, sans mémoire de con
     items priorisés Tier 1/2/3, cases faites/à faire).
   - `REPORT-AAAA-MM-JJ.md` — rapport standardisé, généré **uniquement** en fin de cycle
     **terminé** (jamais sur interruption).
+  - `RD-IDEES.md` — backlog R&D **cumulatif inter-cycles** (Tier 2/3) : idées d'amélioration
+    ou de nouvelle fonctionnalité pour ce repo, consignées au fil des cycles plutôt que
+    perdues si non exécutées immédiatement. Toujours complété par ajout, jamais réécrit.
+    Créé au premier cycle qui en a besoin (cf. `SKILL.md` §3).
 
 **Convention** : ces fichiers vivent dans `claude-os` (le repo DNA), pas dans le repo
 audité lui-même — c'est le point de centralisation qui permet à une session totalement
