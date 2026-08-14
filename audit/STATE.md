@@ -11,9 +11,9 @@
 |---|---|
 | `repo_cible_courant` | — |
 | `statut` | `idle` |
-| `dernier_heartbeat` | 2026-08-14T07:48Z |
+| `dernier_heartbeat` | 2026-08-14T13:35Z |
 | `fichier_plan_actif` | — |
-| `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 05:28Z) |
+| `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 10:35Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
 étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
@@ -34,11 +34,74 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
 | `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-3.md` |
-| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-2.md` |
+| `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-3.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-2.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-2.md` |
 
 ## Historique des cycles
+
+### 2026-08-14 — reconciliation (pas un cycle d'audit) — 2e occurrence de la lacune de fiabilité du 2026-08-10
+
+Au démarrage de ce cycle (5e/6e firing du jour), `STATE.md` était lu à `idle`, dernier
+repo clos `claude-os` (3e cycle), heartbeat `07:48Z`. Vérification de la tâche Asana
+consignes (étape 2, systématique) : deux commentaires plus récents que `STATE.md`
+existaient déjà — accusé de réception `general` (10:35:01Z) et clôture `general` 3e
+cycle (10:39:23Z, PR `general#6` mergée, annonçant enchaîner sur `candidaturePilote`).
+Vérifié via `pull_request_read` + `git fetch origin main` (repo `general`) : PR#6 bien
+mergée sur `origin/main` (`0c0a47e`), travail réel et non perdu. Vérifié côté `claude-os`
+(`git fetch origin main`) : `origin/main` = `d9449f9` = dernier commit du cycle `claude-os`
+3e cycle — **aucune trace** du cycle `general` 3e cycle (ni `PLAN-2026-08-14-3.md`, ni
+`REPORT-2026-08-14-3.md`, ni entrée d'historique, ni ligne de rotation). Aucune preuve non
+plus qu'un cycle `candidaturePilote` ait réellement démarré (aucun commentaire Asana
+supplémentaire, aucune PR ouverte côté `candidaturePilote` datée de ce créneau).
+
+**Diagnostic** : même mode de défaillance que l'incident du 2026-08-10 déjà documenté
+ci-dessous (deux chemins d'écriture indépendants — git push `claude-os` vs appels MCP
+GitHub/Asana — dont l'échec du premier n'empêche pas le second de s'exécuter). Le
+correctif §5bis (vérifier que le push a atteint `origin` avant le commentaire Asana de
+clôture), ajouté justement suite à cet incident, n'a pas empêché la récidive : soit il
+n'a pas été appliqué ce cycle-là, soit la session s'est interrompue *avant même* d'arriver
+à l'étape 5bis (après le merge PR + les deux commentaires Asana, mais avant tout commit
+`claude-os`) — auquel cas aucune vérification de §5bis n'aurait pu s'exécuter, le geste
+qu'elle est censée garder n'ayant simplement jamais eu lieu. Le commentaire de clôture
+annonçant la suite (« j'enchaîne sur `candidaturePilote` ») a donc été le dernier acte de
+la session interrompue, sans qu'aucun travail `candidaturePilote` ne s'ensuive.
+
+**Correctif appliqué à ce cycle** : `audit/general/PLAN-2026-08-14-3.md` et
+`audit/general/REPORT-2026-08-14-3.md` reconstruits intégralement à partir du diff mergé
+`general#6` et du texte des commentaires Asana d'époque ; table de rotation ci-dessus mise
+à jour (`general` → `REPORT-2026-08-14-3.md`). Pas de nouvelle notification Guillaume
+distincte pour cet incident (même cause déjà connue et déjà durcie par §5bis ; la
+récidive suggère que le vrai point de fragilité est l'écart entre « derniers appels MCP
+d'une session » et « premier commit `claude-os` du cycle suivant », pas l'ordre interne
+d'un seul cycle — cf. piste R&D ajoutée ci-dessous).
+
+**Piste R&D (Tier 3, à évaluer lors d'un futur cycle `claude-os`)** : envisager
+d'inverser l'ordre §4-6 pour les cycles futurs — committer/pousser `PLAN`+`REPORT`
+côté `claude-os` **avant** de poster le commentaire Asana de clôture (au lieu
+d'après), ce qui est déjà la lettre de §5bis mais visiblement pas toujours ce qui se
+produit en pratique si la session est interrompue entre les deux. Alternative plus
+robuste : committer le `PLAN` avec toutes les cases cochées **dans le même commit** que
+le dernier item exécuté côté repo cible n'est pas possible (deux repos distincts), mais
+rien n'empêche de committer `REPORT`+`STATE.md` **avant** de merger la PR cible plutôt
+qu'après — inverserait le risque (traçabilité `claude-os` toujours à jour même si le
+merge échoue) au prix de documenter parfois un travail pas encore mergé. Non tranché,
+à soumettre en Q/R à Guillaume plutôt qu'à décider seul (changement de séquence du
+protocole lui-même).
+
+### 2026-08-14 — general — terminé (3e cycle du jour, 5e tour de rotation)
+- Plan : `audit/general/PLAN-2026-08-14-3.md` (reconstruit a posteriori, cf. reconciliation
+  ci-dessus)
+- Rapport : `audit/general/REPORT-2026-08-14-3.md` (reconstruit a posteriori)
+- PR : https://github.com/pignol-g/general/pull/6 (convention « ⚠️ Photo à date » pour
+  fichiers de recherche à contenu volatil, badge rétrofitté sur 2 fichiers) — mergée
+  automatiquement le 2026-08-14T10:38:30Z.
+- R&D menée en étape dédiée (application du correctif de doctrine) — 1 item Tier 2 exécuté,
+  0 item Tier 1 (6e cycle consécutif sans bug), reports Tier 3 inchangés (stub profil
+  rédactionnel, pipeline `gtri` inactif 3 semaines).
+- Rotation : `candidaturePilote` annoncé comme prochaine cible par le commentaire Asana de
+  clôture d'époque, mais jamais réellement exécuté (cf. reconciliation ci-dessus) — repris
+  comme cible réelle par le cycle suivant.
 
 ### 2026-08-14 — claude-os — terminé (3e cycle du jour, 5e tour de rotation — 1er cycle post-correctif de doctrine)
 - Plan : `audit/claude-os/PLAN-2026-08-14-3.md`
