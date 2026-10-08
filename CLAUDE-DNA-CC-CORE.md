@@ -1,15 +1,11 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.3 — 2026-08-07** (gaudit, premier cycle réel sur claude-os — ajout de la section
-trigger `gprompt` manquante : le skill existait depuis v3.1 et était référencé dans `CLAUDE.md`
-comme un des skills implémentant les triggers du CORE, mais sans section dédiée ici — suite v3.2 :
-Convention Q/R codes, option `(recommandé)` obligatoire quand une réco honnête existe + code
-`reco` pour appliquer d'un coup toutes les options recommandées d'un tour ; premier passage
-`gtri` exécuté — lettre de motivation, profil rédactionnel et recherche ChatGPT-vs-Claude
-transférés vers `general`, profil référencé désormais par pointeur raw URL)
+**Version : v3.4 — 2026-10-08** (lecture du quota avant toute tâche gourmande : fenêtres 5 h et
+hebdo lues dans les événements de session, consommation annoncée en points de quota — décision
+`quotaDnaA`, projet T7, après un workflow coupé par la limite de session)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-08-07 v3.3 -->
+<!-- Version : 2026-10-08 v3.4 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -79,6 +75,16 @@ Avant toute tâche gourmande :
   - **Haiku** : recherche factuelle simple, lookup ciblé.
 - **Lectures volumineuses (PDF, image, XLSX, fichiers > 300 lignes) = OBLIGATOIREMENT via subagent** (Sonnet/Haiku), jamais Read direct en Opus. Consigne ciblée → résumé compact 200-500 tokens.
 - Sous-agents pour tâches parallèles indépendantes.
+- **Lire le quota avant** (décision `quotaDnaA`, 2026-10-08) : avant toute tâche gourmande (workflow,
+  multi-agents, lecture de gros documents), lire les fenêtres **5 h** et **hebdo**. En CC cloud :
+  `list_events` (MCP claude-code-remote) sur la session courante (id du lien `Claude-Session`)
+  avec `kinds: ["rate_limit_event"]` → `unifiedWindows.five_hour` / `seven_day` (`utilization`,
+  `resetsAt` en epoch). En local : demander à Guillaume la sortie de `/usage`. Annoncer l'état
+  (% utilisé + heure de remise à zéro, heure de Paris) et la consommation prévue **en points de
+  quota**, pas seulement en nombre d'agents. Pendant un long workflow, relire : si la fenêtre 5 h
+  va être épuisée, le dire et proposer (laisser tourner + reprise programmée après la remise à
+  zéro / arrêter). Dépassement payant désactivé (organisation) : limite atteinte = tout bloqué
+  jusqu'à la remise à zéro.
 
 ### Combo réflexion — trigger `gpose`
 Quand Guillaume écrit `gpose` n'importe où dans son message → **invoquer la skill `gpose`**
