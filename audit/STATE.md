@@ -16,8 +16,9 @@
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
-étapes en cours) · `terminé` (dernier plan bouclé, rapport écrit, en attente de rotation
-vers le prochain repo).
+étapes en cours) · `suspendu` (plan interrompu par STOP `gquota`, à reprendre au firing
+suivant — repasser `in_progress` dès la reprise) · `terminé` (dernier plan bouclé, rapport
+écrit, en attente de rotation vers le prochain repo).
 
 **Garde anti-collision** : si `statut = in_progress` et `dernier_heartbeat` a moins de
 ~4h30, un cycle est probablement déjà en cours ailleurs — ne rien faire, s'arrêter

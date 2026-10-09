@@ -107,7 +107,9 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
 ### 3. Reprendre ou démarrer
 
 - **Si un plan est `in_progress` ou `suspendu`** (fichier `audit/<repo>/PLAN-<date>.md` avec
-  des cases non cochées) : **reprendre ce plan**, ne pas repartir de zéro. D'abord vérifier le
+  des cases non cochées ; plan `suspendu` dont toutes les cases sont cochées → aller
+  directement au §5) : **reprendre ce plan**, ne pas repartir de zéro, et repasser tout de
+  suite `statut = in_progress` + heartbeat (commit/push) avant tout travail. D'abord vérifier le
   **delta** depuis le dernier heartbeat sur ce repo (`git log` depuis la date du dernier
   heartbeat côté repo cible) :
   - Des commits humains ou d'une autre session sont apparus entretemps → relire ce qui a
@@ -185,6 +187,9 @@ Quand toutes les étapes du plan sont cochées :
    - **CI verte ET merge propre (pas de conflit)** → `merge_pull_request` directement.
      C'est le **seul** cas où `gaudit` merge sans validation de Guillaume (carve-out
      `CLAUDE-DNA-CC-CORE.md` §Safety interdits, décision 2026-08-07).
+   - **Exception** : une PR qui touche `.claude/skills/gquota/`, `.claude/skills/gpilote/`,
+     `.claude/skills/gaudit/` ou `CLAUDE-DNA-CC-CORE.md` n'est **jamais** mergée
+     automatiquement — ce sont les garde-fous qui bornent la routine elle-même.
    - **CI rouge, ou conflit, ou CI en attente trop longtemps** → **ne pas merger**. La
      PR reste ouverte en attente de validation manuelle, comme pour toute autre skill.
      Ne jamais tenter de résoudre un conflit automatiquement — trop risqué sur des
@@ -277,6 +282,13 @@ la création par prudence ; l'obstacle technique qui justifiait cette prudence e
 réactivation reste, comme toute activation/désactivation de la Routine, une décision de
 Guillaume (cf. paragraphe ci-dessus) — non déclenchée automatiquement par `gaudit` lui-même.
 
+**Correction (2026-10-09)** : les firings des 08-09 et 08-10 venaient de la Routine
+`trig_01MwGAeA3uJGrPs8mFT9uQ53`, créée depuis l'interface claude.ai **avec** le connecteur
+Asana. Une Routine créée depuis une session (`create_trigger`) n'a aucun connecteur : le
+paramètre reste refusé pour l'organisation. Depuis 2026-10-09, gaudit tourne via la routine
+pilote (skill `gpilote`, Routine `trig_01TeYwhzzZtv2q7XqfyHJwQ3`) ; Asana s'ajoute depuis
+l'interface claude.ai, sinon dégradation gracieuse §2.
+
 ## Format du rapport standardisé — `audit/<repo>/REPORT-<date>.md`
 
 ```markdown
@@ -313,9 +325,10 @@ sans exception à `gaudit`**, à une seule exception documentée :
 - Pas de `--no-verify` ni skip de hooks.
 - Pas de modif `.claude/settings.json` ni des hooks `.claude/hooks/`.
 - **Merge de PR** : carve-out scopé à cette seule routine — merge automatique autorisé
-  uniquement si CI verte + merge propre sans conflit (§5). Toute PR en conflit ou CI
-  rouge reste en attente de validation humaine, sans exception, sans tentative de
-  résolution automatique de conflit.
+  uniquement si CI verte + merge propre sans conflit (§5), et jamais pour une PR qui touche
+  `gquota`, `gpilote`, `gaudit` ou le CORE. Toute PR en conflit ou CI rouge reste en
+  attente de validation humaine, sans exception, sans tentative de résolution automatique
+  de conflit.
 
 Toute violation de ce qui précède = arrêt immédiat du cycle + alerte Guillaume (commentaire
 signé sur la tâche Asana consignes expliquant ce qui a été bloqué et pourquoi).

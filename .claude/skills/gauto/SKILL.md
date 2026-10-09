@@ -6,7 +6,7 @@ description: >
   inline), ou dit « pilote seul », « mode autonome », « continue sans moi ». Boucle pilotée
   (analyse état → plan priorisé → découpage atomique → exécution 1 commit+push/étape → MAJ
   REPRISE.md → reboucle), avec persistance/git, économie API et conditions d'arrêt. `gstop`
-  (ou bouton stop, ou fin de crédits) désactive le mode et rebascule en interactif. Les
+  (ou bouton stop, fin de crédits, ou STOP `gquota` en routine) désactive le mode et rebascule en interactif. Les
   SAFETY INTERDITS (pas de merge/force-push/delete-branch/--no-verify/modif hooks) restent
   des garde-fous non négociables rappelés dans le DNA-CORE.
 ---

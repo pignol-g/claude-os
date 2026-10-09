@@ -14,6 +14,11 @@ script décide. Ta réponse finale = **la ligne renvoyée par le script, telle q
 
 ## Procédure
 
+Si tu lis ce fichier sans l'avoir chargé comme skill (session qui a ajouté claude-os en
+cours de route), la variable CLAUDE_SKILL_DIR des commandes ci-dessous n'est pas remplacée :
+utilise à la place le chemin du clone, `<clone claude-os>/.claude/skills/gquota` (en général
+`/home/user/claude-os/.claude/skills/gquota`).
+
 1. Lancer `bash ${CLAUDE_SKILL_DIR}/quota-gate.sh sid`.
    Si la ligne commence par `STOP`, la renvoyer telle quelle et s'arrêter.
 2. Appeler `mcp__claude-code-remote__list_events` avec `session_id` = la valeur obtenue,

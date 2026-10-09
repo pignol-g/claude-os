@@ -1,11 +1,11 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.4 — 2026-10-08** (lecture du quota avant toute tâche gourmande : fenêtres 5 h et
-hebdo lues dans les événements de session, consommation annoncée en points de quota — décision
-`quotaDnaA`, projet T7, après un workflow coupé par la limite de session)
+**Version : v3.5 — 2026-10-09** (routines sous garde-quota : STOP `gquota` devient une condition
+d'arrêt de `gauto`/`gaudit`, et le merge automatique de `gaudit` exclut les PR qui touchent
+`gquota`, `gpilote`, `gaudit` ou ce CORE — skills `gquota` et `gpilote`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-10-08 v3.4 -->
+<!-- Version : 2026-10-09 v3.5 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -112,8 +112,8 @@ Quand Guillaume écrit `gauto` → **invoquer la skill `gauto`** (`.claude/skill
 mode autonome longue durée. Boucle (analyse état → plan priorisé Tier 1/2/3 → étapes atomiques →
 **1 commit + push/étape** → MAJ `REPRISE.md` → reboucle), persistance/git (`fetch + rebase
 origin/main` avant chaque push), économie API (batchs séquentiels, retry doux sur 529, modèles
-légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouton stop, ou fin de
-crédits) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
+légers pour gros Read), `RECAP-AUTO-YYYY-MM-DD.md` par cycle. `gstop` (ou bouton stop, fin de
+crédits, ou STOP `gquota` en routine) = arrêt ; **dernier turn obligatoire** = MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
 commit/push.
 
 ### Combo audit — trigger `gaudit`
@@ -125,7 +125,7 @@ general / candidaturePilote / ClaudeAchatMaison), diagnostic + implémentation, 
 pour tourner comme **Routine Claude Code Remote** (session neuve à chaque firing —
 tout l'état vit dans `claude-os/audit/STATE.md`, jamais en mémoire de conversation).
 Rotation du repo cible par staleness si aucune consigne dans la tâche Asana permanente
-dédiée. Boucle façon `gauto`, mêmes 3 conditions d'arrêt. **Seul carve-out du DNA** :
+dédiée. Boucle façon `gauto`, mêmes conditions d'arrêt (dont STOP `gquota` en routine). **Seul carve-out du DNA** :
 merge de PR automatique autorisé pour cette routine si CI verte + merge propre sans
 conflit (cf. Safety interdits ci-dessous) — sinon PR en attente de validation comme
 partout ailleurs.
@@ -158,7 +158,8 @@ les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
 - Pas de merge PR sans validation explicite Guillaume, **sauf routine `gaudit`** : merge
   automatique autorisé uniquement si (a) CI verte, (b) merge propre / fast-forward sans
-  conflit. En cas de conflit, `gaudit` NE résout PAS automatiquement — la PR reste en
+  conflit, et jamais pour une PR qui touche les skills `gquota`, `gpilote`, `gaudit` ou ce
+  CORE. En cas de conflit, `gaudit` NE résout PAS automatiquement — la PR reste en
   attente de validation manuelle comme pour toute autre skill. Carve-out scopé à cette
   seule routine (décision Guillaume 2026-08-07, cf. skill `gaudit`) — le reste du DNA
   (dont `gauto`) garde l'interdit intact.
