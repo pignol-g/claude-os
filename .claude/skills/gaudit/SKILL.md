@@ -9,7 +9,7 @@ description: >
   écrit `gaudit` n'importe où dans un message, ou dit « audite le projet », « lance
   l'audit », « passe d'audit », ou en exécution planifiée (firing de Routine). Résilient
   à l'interruption (coupure crédits) : tout l'état vit dans `claude-os/audit/`, jamais
-  en mémoire. Boucle façon `gauto` (ne s'arrête que sur extinction de crédits ou arrêt
+  en mémoire. Boucle façon `gauto` (ne s'arrête que sur extinction de crédits, STOP `gquota` ou arrêt
   explicite de Guillaume), avec rotation automatique du repo cible par staleness quand
   aucune consigne n'est donnée. Merge automatique des PR autorisé UNIQUEMENT pour cette
   routine et seulement si CI verte + merge propre sans conflit (carve-out documenté dans
@@ -63,8 +63,8 @@ se chevauche). **S'arrêter immédiatement**, ne rien lire/écrire d'autre. Coû
 c'est précisément ce qui rend un cron horaire sûr sans avoir besoin de connaître le quota
 de crédits restant.
 
-Sinon (statut `idle`/`terminé`, ou `in_progress` mais heartbeat ancien = cycle abandonné) :
-continuer.
+Sinon (statut `idle`/`terminé`/`suspendu`, ou `in_progress` mais heartbeat ancien = cycle
+abandonné) : continuer.
 
 ### 2. Lire la tâche Asana consignes
 
@@ -106,8 +106,10 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
 
 ### 3. Reprendre ou démarrer
 
-- **Si un plan est `in_progress`** (fichier `audit/<repo>/PLAN-<date>.md` avec des cases
-  non cochées) : **reprendre ce plan**, ne pas repartir de zéro. D'abord vérifier le
+- **Si un plan est `in_progress` ou `suspendu`** (fichier `audit/<repo>/PLAN-<date>.md` avec
+  des cases non cochées ; plan `suspendu` dont toutes les cases sont cochées → aller
+  directement au §5) : **reprendre ce plan**, ne pas repartir de zéro, et repasser tout de
+  suite `statut = in_progress` + heartbeat (commit/push) avant tout travail. D'abord vérifier le
   **delta** depuis le dernier heartbeat sur ce repo (`git log` depuis la date du dernier
   heartbeat côté repo cible) :
   - Des commits humains ou d'une autre session sont apparus entretemps → relire ce qui a
@@ -168,6 +170,9 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
 - Respecter integralement les **safety interdits** du DNA-CORE (force-push interdit,
   pas de `--no-verify`, pas de modif hooks/settings, pas de `branch -D`/delete remote)
   — le seul carve-out existant concerne le merge de PR (étape 5), rien d'autre.
+- **Sous garde-quota** (cycle lancé par la routine pilote, cf. skill `gquota`) : invoquer
+  `gquota` avant chaque étape du plan, avant l'étape 5 et avant de reboucler (§6) — jamais
+  entre le merge d'une PR et l'écriture du REPORT/STATE.md. Réponse STOP → §7 (d).
 
 ### 5. Fin de plan — PR et merge conditionnel
 
@@ -182,6 +187,9 @@ Quand toutes les étapes du plan sont cochées :
    - **CI verte ET merge propre (pas de conflit)** → `merge_pull_request` directement.
      C'est le **seul** cas où `gaudit` merge sans validation de Guillaume (carve-out
      `CLAUDE-DNA-CC-CORE.md` §Safety interdits, décision 2026-08-07).
+   - **Exception** : une PR qui touche `.claude/skills/gquota/`, `.claude/skills/gpilote/`,
+     `.claude/skills/gaudit/` ou `CLAUDE-DNA-CC-CORE.md` n'est **jamais** mergée
+     automatiquement — ce sont les garde-fous qui bornent la routine elle-même.
    - **CI rouge, ou conflit, ou CI en attente trop longtemps** → **ne pas merger**. La
      PR reste ouverte en attente de validation manuelle, comme pour toute autre skill.
      Ne jamais tenter de résoudre un conflit automatiquement — trop risqué sur des
@@ -221,24 +229,28 @@ ne jamais s'arrêter spontanément après un seul plan.
 > constaté à plusieurs reprises (08-10, 08-13, deux fois le 08-14) : une session fraîche,
 > sans mémoire du raisonnement des cycles précédents, referme la boucle après un tour
 > complet en écrivant une phrase du type « fin du tour, je m'arrête ici pour cette
-> série », alors qu'aucune des 3 conditions du §7 n'est remplie. **Un tour complet =
+> série », alors qu'aucune des 4 conditions du §7 n'est remplie. **Un tour complet =
 > repartir immédiatement sur un nouveau tour (repo le plus ancien de la table, donc en
 > général le premier repris), sans pause ni narration de clôture.** N'écrire "je
 > m'arrête" (ou toute formulation équivalente : "fin de série", "je termine là") **que**
-> si l'une des 3 conditions du §7 est explicitement remplie — jamais par déduction du
+> si l'une des 4 conditions du §7 est explicitement remplie — jamais par déduction du
 > nombre de tours bouclés.
 
 ### 7. Arrêt
 
-Trois conditions **seulement** — un tour de rotation complet n'en fait **pas** partie
+Quatre conditions **seulement** — un tour de rotation complet n'en fait **pas** partie
 (cf. avertissement §6) :
 - (a) Extinction des crédits — rien de spécial à faire, le firing suivant échouera ou ne
   produira rien ; l'état déjà commité n'est jamais perdu.
 - (b) Guillaume écrit `gstop`, ou désactive/supprime la Routine.
 - (c) Bouton stop pressé.
+- (d) `gquota` répond STOP (cycle sous garde-quota). Ce n'est pas un arrêt spontané : c'est
+  la limite de quota décidée par Guillaume.
 
-Dans les cas (b)/(c) en cours d'exécution : dernier geste = `STATE.md` à jour (heartbeat
-+ progression réelle) + commit/push, même si le plan n'est pas terminé. **Pas** de
+Dans les cas (b)/(c)/(d) en cours d'exécution : dernier geste = `STATE.md` à jour (heartbeat
++ progression réelle) + commit/push, même si le plan n'est pas terminé. En (d), passer
+`statut = suspendu` (pas `in_progress`) pour que le firing suivant reprenne le plan sans
+buter sur la garde §1. **Pas** de
 `REPORT` dans ce cas (rapport = plan terminé uniquement, cf. décision Guillaume).
 
 ## Routine Claude Code Remote
@@ -269,6 +281,13 @@ réserve. Le trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` a été créé puis désact
 la création par prudence ; l'obstacle technique qui justifiait cette prudence est levé, mais sa
 réactivation reste, comme toute activation/désactivation de la Routine, une décision de
 Guillaume (cf. paragraphe ci-dessus) — non déclenchée automatiquement par `gaudit` lui-même.
+
+**Correction (2026-10-09)** : les firings des 08-09 et 08-10 venaient de la Routine
+`trig_01MwGAeA3uJGrPs8mFT9uQ53`, créée depuis l'interface claude.ai **avec** le connecteur
+Asana. Une Routine créée depuis une session (`create_trigger`) n'a aucun connecteur : le
+paramètre reste refusé pour l'organisation. Depuis 2026-10-09, gaudit tourne via la routine
+pilote (skill `gpilote`, Routine `trig_01TeYwhzzZtv2q7XqfyHJwQ3`) ; Asana s'ajoute depuis
+l'interface claude.ai, sinon dégradation gracieuse §2.
 
 ## Format du rapport standardisé — `audit/<repo>/REPORT-<date>.md`
 
@@ -306,9 +325,10 @@ sans exception à `gaudit`**, à une seule exception documentée :
 - Pas de `--no-verify` ni skip de hooks.
 - Pas de modif `.claude/settings.json` ni des hooks `.claude/hooks/`.
 - **Merge de PR** : carve-out scopé à cette seule routine — merge automatique autorisé
-  uniquement si CI verte + merge propre sans conflit (§5). Toute PR en conflit ou CI
-  rouge reste en attente de validation humaine, sans exception, sans tentative de
-  résolution automatique de conflit.
+  uniquement si CI verte + merge propre sans conflit (§5), et jamais pour une PR qui touche
+  `gquota`, `gpilote`, `gaudit` ou le CORE. Toute PR en conflit ou CI rouge reste en
+  attente de validation humaine, sans exception, sans tentative de résolution automatique
+  de conflit.
 
 Toute violation de ce qui précède = arrêt immédiat du cycle + alerte Guillaume (commentaire
 signé sur la tâche Asana consignes expliquant ce qui a été bloqué et pourquoi).
