@@ -94,6 +94,11 @@ archive (décision `anciennesA`, 2026-10-09).
   connecteur (paramètre refusé pour l'organisation) ; Asana a été ajouté depuis l'interface
   claude.ai le 2026-10-09 aux 7 premières Routines, pas encore à celle du vendredi. Sans lui :
   pré-check en repli 24 h, et `t7`/`asana` s'arrêtent en le signalant.
+- **Dépôts (obligatoire)** : une session de Routine n'a accès qu'aux dépôts attachés à la
+  Routine (pas d'`add_repo`, clone refusé ; constaté à l'essai du 2026-10-09). Sources à
+  attacher depuis l'interface : claude-os partout (gquota, gpilote) ; + T7 pour `t7` ;
+  + candidaturePilote pour `asana`, `offre`, `veille`, `gauto` ; + general, candidaturePilote
+  et ClaudeAchatMaison pour `gaudit`. Sans claude-os, gquota est introuvable → STOP.
 - **Effort** : non réglable par l'API sur une Routine ; `effort: max` ne s'applique que si
   la skill est chargée comme skill.
 - **Détection « en cours »** fondée sur `last_run` : une tâche qui plante sans
