@@ -32,7 +32,9 @@ arrêt explicite. `gstop` désactive le mode et rebascule en mode interactif nor
 1. **Analyse** de l'état projet (`REPRISE.md`, INDEX, bien actif, TODO ouverts).
 2. **Plan d'action** priorisé (Tier 1 / 2 / 3 par valeur opérationnelle).
 3. **Découpage** en étapes atomiques.
-4. **Exécution** étape par étape, **1 commit + push par étape significative**.
+4. **Exécution** étape par étape, **1 commit + push par étape significative**. Sous
+   garde-quota (session lancée par la routine pilote, cf. skill `gquota`) : invoquer `gquota`
+   avant chaque étape et avant de reboucler ; STOP → arrêt (d).
 5. **MAJ `REPRISE.md`** à chaque cycle (état ultra-récupérable, comme si la session pouvait
    finir à l'improviste).
 6. **Reboucler en (1)** dès le plan épuisé — ré-analyser, identifier les nouvelles priorités.
@@ -58,11 +60,13 @@ arrêt explicite. `gstop` désactive le mode et rebascule en mode interactif nor
 (priorité 🔴 puis FIFO), traiter, déplacer en `## ✅ Traitées` avec réponse résumée
 (3-5 lignes + lien analyse détaillée si applicable). Compte rendu en fin de session.
 
-## Arrêt (3 conditions)
+## Arrêt (4 conditions)
 
 - (a) Extinction des crédits / session limit atteint.
 - (b) Guillaume écrit `gstop`.
 - (c) Bouton stop CC pressé.
+- (d) `gquota` répond STOP (session sous garde-quota) — limite décidée par Guillaume, pas un
+  arrêt spontané. Noter dans `REPRISE.md` l'étape suivante : la prochaine session repart de là.
 
 Dans tous les cas, **dernier turn obligatoire** : MAJ `REPRISE.md` + `RECAP-AUTO` finalisé +
 commit/push.
