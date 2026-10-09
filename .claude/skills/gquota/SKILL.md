@@ -21,8 +21,12 @@ utilise à la place le chemin du clone, `<clone claude-os>/.claude/skills/gquota
 
 1. Lancer `bash ${CLAUDE_SKILL_DIR}/quota-gate.sh sid`.
    Si la ligne commence par `STOP`, la renvoyer telle quelle et s'arrêter.
-2. Appeler `mcp__claude-code-remote__list_events` avec `session_id` = la valeur obtenue,
-   `kinds: ["rate_limit_event"]`, `limit: 100`.
+2. Charger l'outil d'abord : `ToolSearch` avec la requête
+   `select:mcp__claude-code-remote__list_events` (outil différé : l'appeler sans l'avoir
+   chargé échoue). Puis appeler `mcp__claude-code-remote__list_events` avec
+   `session_id` = la valeur obtenue, `kinds` = le tableau `["rate_limit_event"]` (pas une
+   chaîne), `limit` = le nombre `100`.
+   Erreur à l'appel → corriger et réessayer (2 essais au total) avant de conclure à `x`.
    Si `data` est vide et `has_more` vaut true : rappeler avec `before_id` = `first_id`
    (3 pages au maximum).
 3. Prendre le **dernier** élément de `data` (le plus récent). Sous
