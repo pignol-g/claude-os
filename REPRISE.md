@@ -77,18 +77,23 @@ vendredi 1 min avant la coupure, bilan de la semaine écoulée à chaque prise d
 Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
 hebdomadaire, prompt du pilote, prise de poste).
 
-**État au 2026-10-10 ~11h (Paris)** : PR #80 mergée. Relanceur créé par Guillaume
-(`session_019Gz7iuojn5xBhHTnMbT3Jx`, Routine « Pilote · relance hebdo »
-`trig_01UiLheDTB2Rg67VJjYN9abj`, samedi 09h56). Premier pilote créé
-(`session_013PpYzKzTmZwFst3mH8zzuy`, « Pilote quota · semaine du 2026-10-10 ») **avant** le
-merge : `RELANCE.md` en 404, prise de poste non faite, rien lancé ni touché ; il attend la
-réponse `relancePoste` de Guillaume dans sa session.
+**État au 2026-10-10 11h10 (Paris) — routine pilote en service.** PR #79, #80, #81 mergées.
+- Relanceur : `session_019Gz7iuojn5xBhHTnMbT3Jx` (créé par Guillaume), Routine « Pilote ·
+  relance hebdo » `trig_01UiLheDTB2Rg67VJjYN9abj` (samedi 09h56 Paris).
+- Pilote de la semaine : `session_013PpYzKzTmZwFst3mH8zzuy` (« Pilote quota · semaine du
+  2026-10-10 »), prise de poste faite à 11h09 après réponse `relancePosteA` de Guillaume (le
+  premier tour, lancé avant le merge, avait trouvé `RELANCE.md` en 404 et n'avait rien fait).
+  Routines : « Pilote · réveil nuit » `trig_01YTkY5SX4ZNtAvxiPVwzCCg`, « Pilote · réveil
+  vendredi » `trig_01D178ZKxaU5XKLi2kcjoe3n`, « Pilote · réveil mesure vendredi »
+  `trig_01H9SdxLRAFj75HxT2VuUPjE`.
+- Essai à blanc partiel : gquota appliqué à la main (pas par sous-agent Haiku) → STOP attendu
+  (`hebdo=15.0% jours=0`) ; le pilote s'est arrêté là, sans dérouler le choix (Asana,
+  `get_trigger` non exercés). Premier passage complet à observer : lundi 1h47 (seuil 18,6 %,
+  hebdo déjà à 15 % samedi matin → marge probablement < 5 points, une seule tâche).
 
-**Reste à faire** : (1) Guillaume répond dans la session du pilote « relancePosteA » (fichier
-désormais sur `main`) ; (2) vérifier la prise de poste (3 Routines « Pilote · réveil … »
-créées, essai à blanc, registre) ; (3) premier réveil réel dimanche 1h47 (STOP attendu, seuil
-4,3 %) ; premier GO possible lundi 1h47 (seuil 18,6 %) ; (4) point d'analyse avec Guillaume
-après 1-2 semaines (« bilan pilote »).
+**Reste à faire** : (1) vérifier le premier passage GO (lundi) : outils Asana trouvés,
+`create_session` des tâches, sous-agent gquota ; (2) point d'analyse avec Guillaume après 1-2
+semaines (« bilan pilote »).
 
 ## État courant
 
