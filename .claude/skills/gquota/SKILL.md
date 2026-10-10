@@ -59,7 +59,10 @@ plus « garde économe » → fork Haiku + calcul en script.
   Pas de prorata : mercredi 05h ou 19h = 4 jours ; mercredi 21h = 5.
 - **Seuil** = jours révolus × 100/7 − 10 %. GO seulement si l'hebdo est strictement sous le seuil.
 - STOP si la fenêtre 5 h dépasse 80 %, ou si l'hebdo dépasse 80 %.
-- **Fenêtre de fin de semaine** (vendredi 20h30-20h59) : seuil et plafond 80 % ignorés pour
+- **Jour du reset** (vendredi, de 00h00 à l'ouverture de la fenêtre de fin de semaine) : seuil
+  et plafond hebdo portés à **90 %** (décision `fin90A`) : viser ~90 % consommés par semaine en
+  laissant au moins 10 % à Guillaume pour sa journée du vendredi.
+- **Fenêtre de fin de semaine** (vendredi 20h30-20h59) : seuil et plafond ignorés pour
   consommer le reliquat, fenêtre 5 h toujours vérifiée. **STOP dur à 20h59.**
 - Donnée absente, illisible ou périmée → STOP.
 
@@ -71,9 +74,14 @@ plus « garde économe » → fork Haiku + calcul en script.
 | lun 21h → mar 20h59 | 3 | 32,9 % |
 | mar 21h → mer 20h59 | 4 | 47,1 % |
 | mer 21h → jeu 20h59 | 5 | 61,4 % |
-| jeu 21h → ven 20h29 | 6 | 75,7 % |
+| jeu 21h → jeu 23h59 | 6 | 75,7 % |
+| ven 00h00 → ven 20h29 | 6 (jour du reset) | 90 % (plafond 90 %) |
 | ven 20h30 → 20h58 | fenêtre de fin de semaine | toujours (si 5 h ≤ 80 %) |
 | ven 20h59 → 21h | coupure | jamais |
+
+Heures d'été. Le reset est fixe à vendredi 19h00 UTC : en hiver il tombe à 20h00 heure de
+Paris et tout ce qui le suit est avancé d'une heure (fenêtre 19h30-19h59) ; le script lit
+`resetsAt` et s'adapte seul.
 
 ## Limites connues
 

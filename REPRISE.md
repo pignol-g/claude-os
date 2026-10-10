@@ -69,18 +69,26 @@ avec alternance des tâches — la plus anciennement lancée d'abord — pour qu
 profite pas toujours à la même) et fenêtre du vendredi gardée à 30 min avant le reset (passage
 en UTC 18h31, soit 20h31 l'été / 19h31 l'hiver : le reset est fixe à 19h00 UTC ; Guillaume
 veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine).
-Question `fin90` (relever le seuil la dernière nuit pour viser 90 %) **reportée** : on observe
-d'abord. Indicateurs ajoutés au pilote : journal par passage (gquota + lancements), mesure le
+Décision `fin90A` : le jour du reset (vendredi dès 00h00), seuil et plafond hebdo de gquota à
+90 % (au moins 10 % laissés à Guillaume pour son vendredi), puis solde à 30 min du reset.
+Indicateurs ajoutés au pilote : journal par passage (gquota + lancements), mesure le
 vendredi 1 min avant la coupure, bilan de la semaine écoulée à chaque prise de poste
-(`RELANCE.md` §Analyse). Proposer un réglage à Guillaume après 1-2 semaines de données. Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
+(`RELANCE.md` §Analyse). Faire le point avec Guillaume après 1-2 semaines de données. Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
 Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
 hebdomadaire, prompt du pilote, prise de poste).
 
-**Reste à faire** : (1) Guillaume crée la session « Relanceur pilote » avec le prompt de
-`RELANCE.md` (une seule fois, aucune action périodique ensuite) ; (2) vérifier le premier tour
-du relanceur (Routine « Pilote · relance hebdo » créée, premier pilote créé) puis la prise de
-poste du pilote (Routines « Pilote · réveil » créées, essai à blanc) ; (3) premier réveil réel
-dimanche 1h47 (STOP attendu, seuil 4,3 %) ; premier GO possible lundi 1h47 (seuil 18,6 %).
+**État au 2026-10-10 ~11h (Paris)** : PR #80 mergée. Relanceur créé par Guillaume
+(`session_019Gz7iuojn5xBhHTnMbT3Jx`, Routine « Pilote · relance hebdo »
+`trig_01UiLheDTB2Rg67VJjYN9abj`, samedi 09h56). Premier pilote créé
+(`session_013PpYzKzTmZwFst3mH8zzuy`, « Pilote quota · semaine du 2026-10-10 ») **avant** le
+merge : `RELANCE.md` en 404, prise de poste non faite, rien lancé ni touché ; il attend la
+réponse `relancePoste` de Guillaume dans sa session.
+
+**Reste à faire** : (1) Guillaume répond dans la session du pilote « relancePosteA » (fichier
+désormais sur `main`) ; (2) vérifier la prise de poste (3 Routines « Pilote · réveil … »
+créées, essai à blanc, registre) ; (3) premier réveil réel dimanche 1h47 (STOP attendu, seuil
+4,3 %) ; premier GO possible lundi 1h47 (seuil 18,6 %) ; (4) point d'analyse avec Guillaume
+après 1-2 semaines (« bilan pilote »).
 
 ## État courant
 

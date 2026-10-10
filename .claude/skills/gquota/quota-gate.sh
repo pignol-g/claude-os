@@ -18,7 +18,10 @@
 #   - seuil = jours × 100/7 − 10 (tauxB) ; GO si hebdo < seuil ;
 #   - STOP si hebdo > 80 % ou si fenêtre 5 h > 80 % (sess5hA) ;
 #   - fenêtre burn = 30 min avant le reset (20h30-20h59) : seuil et plafond 80 % ignorés,
-#     fenêtre 5 h toujours vérifiée (fenBurnA) ; STOP dur 1 min avant le reset (20h59).
+#     fenêtre 5 h toujours vérifiée (fenBurnA) ; STOP dur 1 min avant le reset (20h59) ;
+#   - jour du reset (vendredi, de 00h00 heure de Paris à l'ouverture de la fenêtre burn) :
+#     seuil et plafond hebdo portés à 90 % (fin90A), pour viser ~90 % consommés par semaine
+#     en laissant au moins 10 % à Guillaume pour sa journée du vendredi.
 
 set -u
 
@@ -26,6 +29,7 @@ TZ_LOCAL="Europe/Paris"
 TAUX="100/7"        # % de quota hebdo par jour révolu
 MARGE=10            # marge retirée au seuil
 PLAFOND_HEBDO=80
+CIBLE_FIN=90        # seuil et plafond hebdo du jour du reset (fin90A)
 PLAFOND_5H=80
 FENETRE_BURN=1800   # début de la fenêtre burn, en secondes avant le reset (20h30)
 COUPURE=60          # STOP dur, en secondes avant le reset (20h59)
@@ -82,10 +86,17 @@ if [ "$now" -ge $((reset - FENETRE_BURN)) ]; then
   go "fenêtre burn de fin de semaine, arrêt impératif à $fin" "$etat fin=$fin"
 fi
 
-seuil=$(awk -v j="$jours" -v m="$MARGE" "BEGIN{printf \"%.1f\", j*$TAUX - m}")
-etat="$etat seuil=${seuil}% jours=$jours"
+# Jour du reset (fin90A) : depuis minuit heure de Paris, seuil et plafond à CIBLE_FIN.
+if [ "$now" -ge "$(TZ=$TZ_LOCAL date -d "$rdate 00:00:00" +%s)" ]; then
+  seuil="$CIBLE_FIN.0"; plafond=$CIBLE_FIN
+  etat="$etat seuil=${seuil}% jours=$jours dernier_jour"
+else
+  seuil=$(awk -v j="$jours" -v m="$MARGE" "BEGIN{printf \"%.1f\", j*$TAUX - m}")
+  plafond=$PLAFOND_HEBDO
+  etat="$etat seuil=${seuil}% jours=$jours"
+fi
 
 gt "$p5" "$PLAFOND_5H" && stop "fenêtre 5 h > ${PLAFOND_5H} %" "$etat"
-gt "$p7" "$PLAFOND_HEBDO" && stop "hebdo > ${PLAFOND_HEBDO} %" "$etat"
+gt "$p7" "$plafond" && stop "hebdo > ${plafond} %" "$etat"
 lt "$p7" "$seuil" && go "reliquat des jours révolus disponible" "$etat"
 stop "hebdo >= seuil des jours révolus" "$etat"
