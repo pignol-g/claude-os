@@ -61,12 +61,18 @@ seul le prompt initial de `create_session` est exécuté.
 - Coût de base d'une session (prompt système + outils) : ~65-70 k tokens ; réveil trivial
   +~1 k ; un `create_session` +~3 k. Cache 1 h : un réveil toutes les 5 h relit tout à froid.
 
-**Décision à reprendre** : question `rotPilote2` (voir réponse de session du 2026-10-10) —
-relance hebdomadaire par une session de profondeur 0, avec ou sans rotation quotidienne
-chaînée, et allègement du pilote.
+**Décisions du 2026-10-10 (suite)** : `rotPilote2A` (pilote hebdomadaire sans dépôt, recréé
+chaque samedi par une session de profondeur 0), `relanceurA` (session dédiée « Relanceur
+pilote » créée une fois par Guillaume depuis l'app), `cronDimB` (on garde les passages du
+dimanche). Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
+Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
+hebdomadaire, prompt du pilote, prise de poste).
 
-**Reste à faire** (après `rotPilote2`) : créer la session pilote et ses Routines liées, essai à
-blanc, activation ; supprimer ou garder les 2 anciennes Routines « Pilote quota ».
+**Reste à faire** : (1) Guillaume crée la session « Relanceur pilote » avec le prompt de
+`RELANCE.md` (une seule fois, aucune action périodique ensuite) ; (2) vérifier le premier tour
+du relanceur (Routine « Pilote · relance hebdo » créée, premier pilote créé) puis la prise de
+poste du pilote (Routines « Pilote · réveil » créées, essai à blanc) ; (3) premier réveil réel
+dimanche 00h31 (STOP attendu, seuil 4,3 %) ; premier GO possible à partir de lundi 00h31.
 
 ## État courant
 
