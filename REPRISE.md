@@ -33,12 +33,31 @@ seul le prompt initial de `create_session` est exécuté.
 3. « En cours » : sessions lancées suivies par `get_session` (`status_bucket`) ; ids gardés
    dans la conversation du pilote, retrouvables par `list_sessions` (titre « Pilote · … »).
 
-**Reste à faire** : réécrire `gpilote/SKILL.md` (lancement par `create_session`, suivi par
-`get_session`, nom d'outil Asana) ; prompts des tâches (« ajoute le dépôt » au lieu de dépôts
-pré-attachés, Asana par ToolSearch) ; créer la session pilote + la Routine liée ; essai à blanc
-(samedi = STOP attendu « hebdo >= seuil », dimanche = premier GO possible) ; réactiver ; mettre
-à jour `CLAUDE.md` si l'architecture change. Points ouverts : croissance du contexte de la
-session pilote (rotation hebdo ?), coût d'un passage (~50 k tokens de démarrage par session).
+**Fait le 2026-10-10 (session « Reprise chantier routine pilote »)** :
+- `gpilote/SKILL.md` réécrit pour `archi2A` : registre des lancements dans la conversation du
+  pilote (repli `list_sessions`), suivi par `get_session` (`status_bucket`), lancement par
+  `create_session` (prompt + modèle lus par `get_trigger`, source claude-os, titre
+  `Pilote · <clé> · <date>`, tags `pilote`), Asana par ToolSearch (nom à UUID), interdiction
+  de `fire_trigger` sur les tâches. Note dans `gquota` (STOP systématique en session de
+  Routine) ; ligne `gpilote` de `CLAUDE.md` mise à jour.
+- Prompts des 6 Routines de tâches mis à jour (`update_trigger`) : bloc « Session lancée par le
+  pilote » (claude-os déjà cloné ; autres dépôts par `add_repo` access « push » + clone +
+  `register_repo_root` ; skill d'un autre dépôt lue dans son `SKILL.md` si non chargée ;
+  Asana par ToolSearch « asana »).
+
+**Reste à faire** : merge de la PR ; créer la session pilote (`create_session`, Sonnet 5.5,
+source claude-os, prompt initial = consigne permanente + premier tour en essai à blanc) et ses
+2 Routines liées (`persistent_session_id`, crons ci-dessus) ; tester le réveil
+(`fire_trigger` sur la Routine liée : samedi = STOP attendu « hebdo >= seuil ») ; décider de la
+rotation de la session pilote (question `rotPilote`) ; réactiver (= laisser les Routines liées
+actives) ; supprimer ou garder les 2 anciennes Routines « Pilote quota ».
+
+**Point ouvert chiffré — croissance du contexte** : chaque réveil relit toute la conversation
+du pilote (cache froid après 5 h). Ajout estimé par passage : ~10 k tokens sur un STOP (CORE
+réinjecté par le hook `SessionStart` à chaque reprise de conteneur + skill), ~20-25 k sur un
+GO avec lancements. Sur 31 passages/semaine, sans rotation : contexte ~450 k en fin de
+semaine 1, relecture moyenne ~225 k par passage (vs ~50 k pour une session neuve). Rotation
+nécessaire, au moins quotidienne pour rester au niveau d'une session neuve.
 
 ## État courant
 

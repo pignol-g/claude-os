@@ -79,6 +79,9 @@ plus « garde économe » → fork Haiku + calcul en script.
 
 - **CC cloud uniquement** : la source est l'événement `rate_limit_event` de la session. En
   local, `sid` répond STOP (pas de source fiable).
+- **Session créée par `create_session` uniquement** : une session lancée par une Routine
+  (`create_new_session_on_fire`) n'a pas l'outil `list_events`, gquota y répond STOP à chaque
+  appel. Les routines passent donc par le pilote (skill `gpilote`, décision `archi2A`).
 - Le chemin `internal_anthropic_catchall` est un champ interne, il peut changer sans préavis :
   dans ce cas le script répond STOP, jamais GO.
 - La vérification se fait entre deux étapes : une étape déjà lancée n'est pas interrompue.
