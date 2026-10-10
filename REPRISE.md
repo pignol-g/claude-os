@@ -45,19 +45,28 @@ seul le prompt initial de `create_session` est exécuté.
   `register_repo_root` ; skill d'un autre dépôt lue dans son `SKILL.md` si non chargée ;
   Asana par ToolSearch « asana »).
 
-**Reste à faire** : merge de la PR ; créer la session pilote (`create_session`, Sonnet 5.5,
-source claude-os, prompt initial = consigne permanente + premier tour en essai à blanc) et ses
-2 Routines liées (`persistent_session_id`, crons ci-dessus) ; tester le réveil
-(`fire_trigger` sur la Routine liée : samedi = STOP attendu « hebdo >= seuil ») ; décider de la
-rotation de la session pilote (question `rotPilote`) ; réactiver (= laisser les Routines liées
-actives) ; supprimer ou garder les 2 anciennes Routines « Pilote quota ».
+**PR #79 mergée** (2026-10-10, décision `rotPiloteA` + « merge » de Guillaume).
 
-**Point ouvert chiffré — croissance du contexte** : chaque réveil relit toute la conversation
-du pilote (cache froid après 5 h). Ajout estimé par passage : ~10 k tokens sur un STOP (CORE
-réinjecté par le hook `SessionStart` à chaque reprise de conteneur + skill), ~20-25 k sur un
-GO avec lancements. Sur 31 passages/semaine, sans rotation : contexte ~450 k en fin de
-semaine 1, relecture moyenne ~225 k par passage (vs ~50 k pour une session neuve). Rotation
-nécessaire, au moins quotidienne pour rester au niveau d'une session neuve.
+**Essais du 2026-10-10 (sessions jetables Haiku, archivées)** :
+- Réveil par une Routine liée (`create_trigger` + `persistent_session_id`) : **OK**. Le message
+  arrive comme notification de tâche planifiée (« SYSTEM NOTIFICATION - NOT USER INPUT ») ; la
+  session applique la consigne permanente de son prompt initial, y compris une action sortante
+  (`create_session` depuis un réveil : OK).
+- **Profondeur** : une session créée par une session est un niveau plus bas (`lineage.depth`
+  1, puis 2 ; `limit` 8). Conséquence : **`rotPiloteA` tel que décrit est impossible** — un
+  pilote qui crée son remplaçant descend d'un niveau à chaque rotation (~6 rotations max).
+- `/compact` envoyé par une Routine : **non exécuté** (arrive comme texte, pas comme commande).
+- Supprimer une Routine liée à une session ne supprime pas la session (rappel `send_later`
+  supprimé sans effet sur la session courante).
+- Coût de base d'une session (prompt système + outils) : ~65-70 k tokens ; réveil trivial
+  +~1 k ; un `create_session` +~3 k. Cache 1 h : un réveil toutes les 5 h relit tout à froid.
+
+**Décision à reprendre** : question `rotPilote2` (voir réponse de session du 2026-10-10) —
+relance hebdomadaire par une session de profondeur 0, avec ou sans rotation quotidienne
+chaînée, et allègement du pilote.
+
+**Reste à faire** (après `rotPilote2`) : créer la session pilote et ses Routines liées, essai à
+blanc, activation ; supprimer ou garder les 2 anciennes Routines « Pilote quota ».
 
 ## État courant
 
