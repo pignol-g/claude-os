@@ -1,6 +1,6 @@
 ---
 name: gquota
-description: Garde-quota des Routines Claude Code Remote de Guillaume. Répond GO ou STOP selon la fenêtre 5 h et le quota hebdo, pour que la routine ne consomme que le reliquat des jours déjà écoulés de la semaine (reset vendredi 21h Paris) et s'arrête avant le reset. À invoquer au début d'une routine qui l'intègre, puis avant chaque nouvelle étape, ou quand Guillaume écrit `gquota`. Tourne en fork Haiku ; tout le calcul est fait par un script, le modèle ne fait que lire 3 valeurs.
+description: Garde-quota des Routines Claude Code Remote de Guillaume. Répond GO ou STOP selon la fenêtre 5 h et le quota hebdo, pour que la routine ne consomme que le reliquat des jours déjà écoulés de la semaine (reset vendredi 21h Paris) et s'arrête avant le reset. À invoquer au début d'une routine qui l'intègre, puis avant chaque nouvelle étape, ou quand Guillaume écrit `gquota`. Jamais dans une session lancée à la main par Guillaume (décision gquotaPortee) : là, un STOP ne s'applique pas. Tourne en fork Haiku ; tout le calcul est fait par un script, le modèle ne fait que lire 3 valeurs.
 model: haiku
 context: fork
 background: false

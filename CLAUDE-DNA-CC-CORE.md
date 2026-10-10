@@ -1,11 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.5 — 2026-10-09** (routines sous garde-quota : STOP `gquota` devient une condition
-d'arrêt de `gauto`/`gaudit`, et le merge automatique de `gaudit` exclut les PR qui touchent
-`gquota`, `gpilote`, `gaudit` ou ce CORE — skills `gquota` et `gpilote`)
+**Version : v3.6 — 2026-10-10** (portée du garde-quota : `gquota` ne vaut que pour les routines ;
+une session lancée à la main par Guillaume continue tant qu'il le veut — décision `gquotaPortee`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-10-09 v3.5 -->
+<!-- Version : 2026-10-10 v3.6 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -85,6 +84,12 @@ Avant toute tâche gourmande :
   va être épuisée, le dire et proposer (laisser tourner + reprise programmée après la remise à
   zéro / arrêter). Dépassement payant désactivé (organisation) : limite atteinte = tout bloqué
   jusqu'à la remise à zéro.
+- **Portée du garde-quota** (décision `gquotaPortee`, 2026-10-10) : `gquota` (GO/STOP sur le
+  reliquat des jours révolus) et la règle « STOP = arrêt » ne valent **que pour les routines et
+  les sessions autonomes qu'elles lancent** (`gpilote`, `gaudit`, `gauto` en routine). Dans une
+  session **lancée à la main** par Guillaume, ne pas appeler `gquota` et ne jamais s'arrêter sur
+  un STOP : on continue tant qu'il le veut et tant que la limite technique (fenêtre 5 h) le
+  permet. La lecture du quota ci-dessus reste une information à annoncer, jamais un frein.
 
 ### Combo réflexion — trigger `gpose`
 Quand Guillaume écrit `gpose` n'importe où dans son message → **invoquer la skill `gpose`**
