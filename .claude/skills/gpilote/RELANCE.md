@@ -108,9 +108,9 @@ mêmes tâches) :
 Les données sont dans les réponses des sessions « Pilote quota · semaine du … » (archivées
 chaque samedi, toujours lisibles par `list_events` avec `kinds: ["result"]`) : le journal
 cumulé de la dernière réponse de chaque pilote, et le bilan de la première réponse du pilote
-suivant. Questions ouvertes à trancher sur ces données : `fin90` (atteindre ~90 % par
-semaine : la dernière nuit pourrait-elle viser 90 % au lieu de 75,7 % ?), réglage de
-l'alternance, nombre de passages de nuit.
+suivant. À vérifier sur ces données : l'effet de `fin90A` (seuil 90 % le vendredi : l'hebdo
+de la mesure de 20h58 approche-t-il 90 % ?), le réglage de l'alternance, le nombre de passages
+de nuit.
 
 ## Routines
 
