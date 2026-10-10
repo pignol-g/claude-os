@@ -45,19 +45,42 @@ seul le prompt initial de `create_session` est exécuté.
   `register_repo_root` ; skill d'un autre dépôt lue dans son `SKILL.md` si non chargée ;
   Asana par ToolSearch « asana »).
 
-**Reste à faire** : merge de la PR ; créer la session pilote (`create_session`, Sonnet 5.5,
-source claude-os, prompt initial = consigne permanente + premier tour en essai à blanc) et ses
-2 Routines liées (`persistent_session_id`, crons ci-dessus) ; tester le réveil
-(`fire_trigger` sur la Routine liée : samedi = STOP attendu « hebdo >= seuil ») ; décider de la
-rotation de la session pilote (question `rotPilote`) ; réactiver (= laisser les Routines liées
-actives) ; supprimer ou garder les 2 anciennes Routines « Pilote quota ».
+**PR #79 mergée** (2026-10-10, décision `rotPiloteA` + « merge » de Guillaume).
 
-**Point ouvert chiffré — croissance du contexte** : chaque réveil relit toute la conversation
-du pilote (cache froid après 5 h). Ajout estimé par passage : ~10 k tokens sur un STOP (CORE
-réinjecté par le hook `SessionStart` à chaque reprise de conteneur + skill), ~20-25 k sur un
-GO avec lancements. Sur 31 passages/semaine, sans rotation : contexte ~450 k en fin de
-semaine 1, relecture moyenne ~225 k par passage (vs ~50 k pour une session neuve). Rotation
-nécessaire, au moins quotidienne pour rester au niveau d'une session neuve.
+**Essais du 2026-10-10 (sessions jetables Haiku, archivées)** :
+- Réveil par une Routine liée (`create_trigger` + `persistent_session_id`) : **OK**. Le message
+  arrive comme notification de tâche planifiée (« SYSTEM NOTIFICATION - NOT USER INPUT ») ; la
+  session applique la consigne permanente de son prompt initial, y compris une action sortante
+  (`create_session` depuis un réveil : OK).
+- **Profondeur** : une session créée par une session est un niveau plus bas (`lineage.depth`
+  1, puis 2 ; `limit` 8). Conséquence : **`rotPiloteA` tel que décrit est impossible** — un
+  pilote qui crée son remplaçant descend d'un niveau à chaque rotation (~6 rotations max).
+- `/compact` envoyé par une Routine : **non exécuté** (arrive comme texte, pas comme commande).
+- Supprimer une Routine liée à une session ne supprime pas la session (rappel `send_later`
+  supprimé sans effet sur la session courante).
+- Coût de base d'une session (prompt système + outils) : ~65-70 k tokens ; réveil trivial
+  +~1 k ; un `create_session` +~3 k. Cache 1 h : un réveil toutes les 5 h relit tout à froid.
+
+**Décisions du 2026-10-10 (suite)** : `rotPilote2A` (pilote hebdomadaire sans dépôt, recréé
+chaque samedi par une session de profondeur 0), `relanceurA` (session dédiée « Relanceur
+pilote » créée une fois par Guillaume depuis l'app), `cronDimB` (on garde les passages du
+dimanche), puis `nuitB` (passages uniquement la nuit : 1h47, 3h47, 5h47, dimanche-vendredi,
+avec alternance des tâches — la plus anciennement lancée d'abord — pour que la fenêtre 5 h ne
+profite pas toujours à la même) et fenêtre du vendredi gardée à 30 min avant le reset (passage
+en UTC 18h31, soit 20h31 l'été / 19h31 l'hiver : le reset est fixe à 19h00 UTC ; Guillaume
+veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine).
+Question `fin90` (relever le seuil la dernière nuit pour viser 90 %) **reportée** : on observe
+d'abord. Indicateurs ajoutés au pilote : journal par passage (gquota + lancements), mesure le
+vendredi 1 min avant la coupure, bilan de la semaine écoulée à chaque prise de poste
+(`RELANCE.md` §Analyse). Proposer un réglage à Guillaume après 1-2 semaines de données. Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
+Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
+hebdomadaire, prompt du pilote, prise de poste).
+
+**Reste à faire** : (1) Guillaume crée la session « Relanceur pilote » avec le prompt de
+`RELANCE.md` (une seule fois, aucune action périodique ensuite) ; (2) vérifier le premier tour
+du relanceur (Routine « Pilote · relance hebdo » créée, premier pilote créé) puis la prise de
+poste du pilote (Routines « Pilote · réveil » créées, essai à blanc) ; (3) premier réveil réel
+dimanche 1h47 (STOP attendu, seuil 4,3 %) ; premier GO possible lundi 1h47 (seuil 18,6 %).
 
 ## État courant
 
