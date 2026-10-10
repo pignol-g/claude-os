@@ -1,104 +1,44 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-10-10** (garde-quota `gquota` + routine pilote `gpilote`, voir chantier ci-dessous)
+**Dernière session : 2026-10-10** (routine pilote mise en service : `gpilote` + `gquota`, voir ci-dessous)
 
-## Chantier en cours — routine pilote sous garde-quota (reprise 2026-10-10)
+## Routine pilote — en service depuis le 2026-10-10
 
-**À reprendre dans une session neuve** (décision `suiteB`). Décisions déjà prises : `sess5hA`,
-`fenBurnA`, `recheckA`, `tauxB`, `quotaKOA` (skill `gquota`) ; `archiB`, `equiteA`, `ordreA`,
-`anciennesA`, `cronAdaptA`, `hiverA` (skill `gpilote`) ; **`archi2A`, `pauseA`** (ci-dessous).
+Architecture et prompts : `.claude/skills/gpilote/RELANCE.md` ; procédure par passage :
+`gpilote/SKILL.md` ; garde-quota : `gquota/` (PR #75-#82). Décisions : `sess5hA`, `fenBurnA`,
+`recheckA`, `tauxB`, `quotaKOA`, `fin90A` (gquota) ; `archi2A`, `rotPilote2A`, `relanceurA`,
+`cronDimB`, `nuitB`, `anciennesA` (gpilote). `rotPiloteA` abandonnée (profondeur des sessions
+limitée à 8, essai du 2026-10-10).
 
-**Fait et sur `main`** : `gquota` (PR #75, correctif #77), `gpilote` + arrêt (d) « STOP gquota »
-dans `gaudit`/`gauto` + CORE v3.5 (PR #76). 8 Routines créées (ids dans `gpilote/SKILL.md`) :
-« Pilote quota » + « vendredi 19h31 » **désactivées** (`pauseA`) ; 6 tâches sans horaire
-(`run_once_at` 2099), avec Asana et dépôts attachés depuis l'interface.
+- **Relanceur** (profondeur 0, créé par Guillaume) : `session_019Gz7iuojn5xBhHTnMbT3Jx`,
+  Routine « Pilote · relance hebdo » `trig_01UiLheDTB2Rg67VJjYN9abj` (samedi 09h56 Paris) :
+  crée chaque samedi le pilote de la semaine.
+- **Pilote de la semaine** : `session_013PpYzKzTmZwFst3mH8zzuy` (« Pilote quota · semaine du
+  2026-10-10 »), prise de poste faite (essai à blanc partiel : STOP samedi, choix non exercé).
+  Routines : « Pilote · réveil nuit » `trig_01YTkY5SX4ZNtAvxiPVwzCCg` (1h47, 3h47, 5h47 Paris,
+  dim-ven), « Pilote · réveil vendredi » `trig_01D178ZKxaU5XKLi2kcjoe3n` (18h31 UTC, 30 min
+  avant le reset), « Pilote · réveil mesure vendredi » `trig_01H9SdxLRAFj75HxT2VuUPjE`
+  (18h58 UTC, relevé sans lancement). Ces ids changent chaque samedi (nouveau pilote).
+- **Tâches** : 6 Routines sans horaire = stockage du prompt et du modèle (ids dans
+  `gpilote/SKILL.md`), prompts adaptés au lancement par `create_session` le 2026-10-10.
+- **Règles** : gquota (seuil = jours révolus × 14,3 − 10 ; vendredi dès 00h00 : 90 % ;
+  fenêtre de solde 30 min avant le reset, coupure 1 min avant) ; alternance des tâches (la
+  plus anciennement lancée d'abord) ; une tâche du groupe candidaturePilote/claude-os à la
+  fois ; une lourde par passage.
+- **Indicateurs** pour décider (`RELANCE.md` §Analyse) : journal par passage, mesure du
+  vendredi 20h58, bilan de la semaine à chaque prise de poste. Guillaume écrit « bilan
+  pilote » pour une analyse.
 
-**Bloquant constaté par essais réels (2026-10-09/10)** — une session lancée par une Routine
-(`create_new_session_on_fire`) n'a **pas** les outils `mcp__claude-code-remote__*` (ni
-`list_events`, ni `fire_trigger`, ni `add_repo`, ni `create_session`) : `gquota` répond STOP
-« utilization illisible » (sans risque) et le pilote ne peut lancer aucune tâche. Une session
-créée par `create_session` les a tous (quotas lus : `list_events` sur sa propre session), plus
-Asana sous un nom d'outil à UUID (`mcp__ac6899e5-…__get_tasks`, via ToolSearch « asana »).
-Une session ignore les ordres reçus d'une autre session par `send_message` (donnée non fiable) :
-seul le prompt initial de `create_session` est exécuté.
-
-**Architecture retenue (`archi2A`)** :
-1. Pilote = **session dédiée persistante** créée par `create_session` (Sonnet 5.5, source
-   claude-os), réveillée par une Routine liée (`persistent_session_id`), cron
-   `CRON_TZ=Europe/Paris 31 0,5,10,15,20 * * 0-5` + vendredi 19h31.
-2. À chaque passage : `gquota`, choix des tâches (règles actuelles de `gpilote`), puis
-   **`create_session` par tâche** : prompt = `derived_state.prompt` de la Routine de tâche
-   (`get_trigger`, les 6 Routines restent le stockage des prompts), modèle = celui de la
-   Routine, `source_url` = claude-os (skills chargées), autres dépôts par `add_repo`.
-3. « En cours » : sessions lancées suivies par `get_session` (`status_bucket`) ; ids gardés
-   dans la conversation du pilote, retrouvables par `list_sessions` (titre « Pilote · … »).
-
-**Fait le 2026-10-10 (session « Reprise chantier routine pilote »)** :
-- `gpilote/SKILL.md` réécrit pour `archi2A` : registre des lancements dans la conversation du
-  pilote (repli `list_sessions`), suivi par `get_session` (`status_bucket`), lancement par
-  `create_session` (prompt + modèle lus par `get_trigger`, source claude-os, titre
-  `Pilote · <clé> · <date>`, tags `pilote`), Asana par ToolSearch (nom à UUID), interdiction
-  de `fire_trigger` sur les tâches. Note dans `gquota` (STOP systématique en session de
-  Routine) ; ligne `gpilote` de `CLAUDE.md` mise à jour.
-- Prompts des 6 Routines de tâches mis à jour (`update_trigger`) : bloc « Session lancée par le
-  pilote » (claude-os déjà cloné ; autres dépôts par `add_repo` access « push » + clone +
-  `register_repo_root` ; skill d'un autre dépôt lue dans son `SKILL.md` si non chargée ;
-  Asana par ToolSearch « asana »).
-
-**PR #79 mergée** (2026-10-10, décision `rotPiloteA` + « merge » de Guillaume).
-
-**Essais du 2026-10-10 (sessions jetables Haiku, archivées)** :
-- Réveil par une Routine liée (`create_trigger` + `persistent_session_id`) : **OK**. Le message
-  arrive comme notification de tâche planifiée (« SYSTEM NOTIFICATION - NOT USER INPUT ») ; la
-  session applique la consigne permanente de son prompt initial, y compris une action sortante
-  (`create_session` depuis un réveil : OK).
-- **Profondeur** : une session créée par une session est un niveau plus bas (`lineage.depth`
-  1, puis 2 ; `limit` 8). Conséquence : **`rotPiloteA` tel que décrit est impossible** — un
-  pilote qui crée son remplaçant descend d'un niveau à chaque rotation (~6 rotations max).
-- `/compact` envoyé par une Routine : **non exécuté** (arrive comme texte, pas comme commande).
-- Supprimer une Routine liée à une session ne supprime pas la session (rappel `send_later`
-  supprimé sans effet sur la session courante).
-- Coût de base d'une session (prompt système + outils) : ~65-70 k tokens ; réveil trivial
-  +~1 k ; un `create_session` +~3 k. Cache 1 h : un réveil toutes les 5 h relit tout à froid.
-
-**Décisions du 2026-10-10 (suite)** : `rotPilote2A` (pilote hebdomadaire sans dépôt, recréé
-chaque samedi par une session de profondeur 0), `relanceurA` (session dédiée « Relanceur
-pilote » créée une fois par Guillaume depuis l'app), `cronDimB` (on garde les passages du
-dimanche), puis `nuitB` (passages uniquement la nuit : 1h47, 3h47, 5h47, dimanche-vendredi,
-avec alternance des tâches — la plus anciennement lancée d'abord — pour que la fenêtre 5 h ne
-profite pas toujours à la même) et fenêtre du vendredi gardée à 30 min avant le reset (passage
-en UTC 18h31, soit 20h31 l'été / 19h31 l'hiver : le reset est fixe à 19h00 UTC ; Guillaume
-veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine).
-Décision `fin90A` : le jour du reset (vendredi dès 00h00), seuil et plafond hebdo de gquota à
-90 % (au moins 10 % laissés à Guillaume pour son vendredi), puis solde à 30 min du reset.
-Indicateurs ajoutés au pilote : journal par passage (gquota + lancements), mesure le
-vendredi 1 min avant la coupure, bilan de la semaine écoulée à chaque prise de poste
-(`RELANCE.md` §Analyse). Faire le point avec Guillaume après 1-2 semaines de données. Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
-Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
-hebdomadaire, prompt du pilote, prise de poste).
-
-**État au 2026-10-10 11h10 (Paris) — routine pilote en service.** PR #79, #80, #81 mergées.
-- Relanceur : `session_019Gz7iuojn5xBhHTnMbT3Jx` (créé par Guillaume), Routine « Pilote ·
-  relance hebdo » `trig_01UiLheDTB2Rg67VJjYN9abj` (samedi 09h56 Paris).
-- Pilote de la semaine : `session_013PpYzKzTmZwFst3mH8zzuy` (« Pilote quota · semaine du
-  2026-10-10 »), prise de poste faite à 11h09 après réponse `relancePosteA` de Guillaume (le
-  premier tour, lancé avant le merge, avait trouvé `RELANCE.md` en 404 et n'avait rien fait).
-  Routines : « Pilote · réveil nuit » `trig_01YTkY5SX4ZNtAvxiPVwzCCg`, « Pilote · réveil
-  vendredi » `trig_01D178ZKxaU5XKLi2kcjoe3n`, « Pilote · réveil mesure vendredi »
-  `trig_01H9SdxLRAFj75HxT2VuUPjE`.
-- Essai à blanc partiel : gquota appliqué à la main (pas par sous-agent Haiku) → STOP attendu
-  (`hebdo=15.0% jours=0`) ; le pilote s'est arrêté là, sans dérouler le choix (Asana,
-  `get_trigger` non exercés). Premier passage complet à observer : lundi 1h47 (seuil 18,6 %,
-  hebdo déjà à 15 % samedi matin → marge probablement < 5 points, une seule tâche).
-
-**Reste à faire** : (1) vérifier le premier passage GO (lundi) : outils Asana trouvés,
-`create_session` des tâches, sous-agent gquota ; (2) point d'analyse avec Guillaume après 1-2
-semaines (« bilan pilote »).
+**À surveiller** : premier passage GO lundi 12/10 1h47 (seuil 18,6 %, hebdo à 15 % samedi
+matin → marge probablement < 5 points, une seule tâche) — outils Asana trouvés,
+`create_session` des tâches, gquota par sous-agent Haiku (le pilote l'a fait à la main lors
+de l'essai) ; première relance réelle samedi 17/10 09h56 (registre et journal repris,
+Routines du précédent supprimées, bilan). Point d'analyse avec Guillaume après 1-2 semaines.
 
 ## État courant
 
-DNA-CC **v3.3**, DNA-Chat **v2.2**, DNA-REF **v2.1** — inchangés depuis 2026-08-07, aucun bump
-ce cycle. Les 4 repos (`claude-os`, `general`, `candidaturePilote`, `ClaudeAchatMaison`) ont
+DNA-CC **v3.5** (2026-10-09), DNA-Chat **v2.2**, DNA-REF **v2.2** (vérifié par
+`scripts/verify-dna-consistency.sh` le 2026-10-10). Les 4 repos (`claude-os`, `general`, `candidaturePilote`, `ClaudeAchatMaison`) ont
 désormais tous un `dernier_audit_termine` renseigné dans `audit/STATE.md` — la routine `gaudit`
 a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08-09.
 
@@ -129,10 +69,9 @@ a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08
 
 ## Fichiers DNA — état des lieux
 
-- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v3.3, injecté par hook à chaque session CC.
-- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — v2.1 (2026-06-13), procédures cold, curl à la
-  demande. Table historique en retard sur le CORE (v3.3) — évalué cosmétique, sans risque
-  fonctionnel, pas de correctif prévu tant qu'aucun nouvel élément ne le justifie.
+- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v3.5, injecté par hook à chaque session CC.
+- [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — v2.2, procédures cold, curl à la demande ;
+  table historique à jour avec le CORE v3.5.
 - [CLAUDE-DNA-CHAT.md](CLAUDE-DNA-CHAT.md) — v2.2, à coller dans Instructions globales claude.ai.
 
 ## Actions Guillaume en attente
@@ -140,8 +79,8 @@ a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08
 - `chatSyncDNAChatOk` — uploader `CLAUDE-DNA-CHAT.md` v2.2 dans Instructions globales claude.ai
   si pas encore fait depuis le bump du 2026-08-07 (le trigger `gprompt` manquait côté Chat avant
   ce bump).
-- Décider de la réactivation du trigger `trig_01Y6mLjE6VSXYg8WtmdPA9aB` (Routine `gaudit`) — plus
-  d'obstacle technique connu depuis la confirmation MCP ci-dessus.
+- Aucune autre : la Routine `gaudit` d'origine (`trig_01Y6mLjE6VSXYg8WtmdPA9aB`) reste désactivée
+  pour archive (`anciennesA`) ; `gaudit` est désormais lancé par le pilote.
 
 ## Questions ouvertes pour prochaine session
 
@@ -170,5 +109,5 @@ normale doit continuer à le faire au fil de l'eau.
 - `resB` — trancher l'item `INBOX-QUESTIONS.md` du 2026-07-21 (candidaturePilote).
 - `resC` — vérifier l'état réel du dossier prêt `ClaudeAchatMaison` (échéance 31/07 dépassée,
   aucune mise à jour tracée depuis) directement avec Guillaume.
-- `resD` — décider d'activer la Routine `gaudit` pour de bon (`update_trigger enabled:true` sur
-  `trig_01Y6mLjE6VSXYg8WtmdPA9aB`), maintenant que la disponibilité MCP est confirmée.
+- `resD` — « bilan pilote » : lire les journaux des pilotes (`RELANCE.md` §Analyse) et proposer
+  les réglages (alternance, passages de nuit, effet de `fin90A`).
