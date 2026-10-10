@@ -68,7 +68,11 @@ dimanche), puis `nuitB` (passages uniquement la nuit : 1h47, 3h47, 5h47, dimanch
 avec alternance des tâches — la plus anciennement lancée d'abord — pour que la fenêtre 5 h ne
 profite pas toujours à la même) et fenêtre du vendredi gardée à 30 min avant le reset (passage
 en UTC 18h31, soit 20h31 l'été / 19h31 l'hiver : le reset est fixe à 19h00 UTC ; Guillaume
-veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine). Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
+veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine).
+Question `fin90` (relever le seuil la dernière nuit pour viser 90 %) **reportée** : on observe
+d'abord. Indicateurs ajoutés au pilote : journal par passage (gquota + lancements), mesure le
+vendredi 1 min avant la coupure, bilan de la semaine écoulée à chaque prise de poste
+(`RELANCE.md` §Analyse). Proposer un réglage à Guillaume après 1-2 semaines de données. Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
 Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
 hebdomadaire, prompt du pilote, prise de poste).
 

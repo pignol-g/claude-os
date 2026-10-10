@@ -54,6 +54,22 @@ Bloc introuvable : `list_sessions` avec `mine: true`, `limit: 25`, et retenir po
 la session la plus récente dont le titre commence par `Pilote · <clé> ·` ; aucune →
 « jamais lancée ».
 
+## Journal
+
+Indicateurs pour les décisions de Guillaume (consommation de la semaine, fenêtre du vendredi,
+alternance). Chaque passage ajoute une ligne au bloc **Journal de la semaine**, recopié en
+entier (cumulé depuis la prise de poste) à la fin de chaque réponse, juste avant le registre :
+
+```
+Journal de la semaine
+2026-10-12 01:47 STOP hebdo=5.1% 5h=0.0% seuil=4.3% | —
+2026-10-13 01:47 GO hebdo=9.8% 5h=0.0% seuil=18.6% | lancées : gauto, asana
+2026-10-13 03:47 GO hebdo=14.2% 5h=31.0% seuil=18.6% | lancées : t7 | en cours : gauto
+2026-10-16 20:58 MESURE hebdo=86.0% 5h=40.2% fin=20:59
+```
+
+Valeurs recopiées de la ligne gquota (`hebdo=`, `5h=`, `seuil=`, `fin=` s'il y en a).
+
 ## Procédure
 
 1. **Garde-quota** : lancer un sous-agent (`Agent`, `model: haiku`) avec la consigne :
@@ -61,7 +77,8 @@ la session la plus récente dont le titre commence par `Pilote · <clé> ·` ; a
    https://raw.githubusercontent.com/pignol-g/claude-os/main/.claude/skills/gquota/, applique
    la procédure de SKILL.md avec CLAUDE_SKILL_DIR = D, et réponds uniquement par la ligne
    GO … ou STOP … du script. » Pas de ligne GO/STOP exploitable → STOP.
-   STOP → terminer en citant la ligne, suivie du registre inchangé, rien d'autre. GO →
+   STOP → terminer en citant la ligne, puis le journal (avec la ligne de ce passage) et le
+   registre inchangé, rien d'autre. GO →
    garder la ligne pour l'étape 4 et calculer la **marge** = `seuil` − `hebdo` (fenêtre de
    fin de semaine, ligne avec `fin=` : marge illimitée).
 2. **État** : partir du registre. Pour chaque clé dont le dernier statut connu n'est pas
@@ -106,7 +123,13 @@ la session la plus récente dont le titre commence par `Pilote · <clé> ·` ; a
    3. Noter l'id renvoyé dans le registre (`WORKING`). Échec de `create_session` → le
       noter au récap, ne pas réessayer dans ce passage.
 5. **Récap** : une ligne par tâche — lancée / file vide / en cours / pas son tour / pas due /
-   échec de lancement — puis le bloc **Registre pilote** à jour.
+   échec de lancement — puis le **Journal de la semaine** et le bloc **Registre pilote** à jour.
+
+## Mesure
+
+Message « Mesure pilote » (vendredi, 1 min avant la coupure) : faire **seulement** l'étape 1
+(gquota), ajouter au journal une ligne `MESURE` avec les valeurs lues, puis recopier journal et
+registre. Ne rien lancer, quelle que soit la réponse de gquota.
 
 ## Garde-fous
 
