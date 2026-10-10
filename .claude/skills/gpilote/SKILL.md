@@ -1,6 +1,6 @@
 ---
 name: gpilote
-description: Chef d'orchestre des Routines de Guillaume. Tourne dans une session pilote hebdomadaire (Sonnet, sans dépôt), réveillée par ses Routines « Pilote · réveil » et relancée chaque samedi par la session « Relanceur pilote ». À chaque passage, appelle gquota puis décide quelles tâches lancer, de la plus légère à la plus lourde, et lance chacune dans sa propre session (create_session) sans jamais la faire lui-même ; une seule tâche lourde par passage (tourniquet), une seule tâche du groupe candidaturePilote/claude-os à la fois. À invoquer à chaque réveil de la session pilote ou quand Guillaume écrit `gpilote`.
+description: Chef d'orchestre des Routines de Guillaume. Tourne dans une session pilote hebdomadaire (Sonnet, sans dépôt), réveillée la nuit (3 passages) et le vendredi 30 min avant le reset hebdo par ses Routines « Pilote · réveil », relancée chaque samedi par la session « Relanceur pilote ». À chaque passage, appelle gquota puis décide quelles tâches lancer, en alternance (la plus anciennement lancée d'abord), et lance chacune dans sa propre session (create_session) sans jamais la faire lui-même ; une seule tâche lourde par passage (tourniquet), une seule tâche du groupe candidaturePilote/claude-os à la fois. À invoquer à chaque réveil de la session pilote ou quand Guillaume écrit `gpilote`.
 effort: max
 allowed-tools: Bash, Agent, mcp__claude-code-remote__list_events, mcp__claude-code-remote__get_session, mcp__claude-code-remote__list_sessions, mcp__claude-code-remote__get_trigger, mcp__claude-code-remote__create_session
 ---
@@ -18,11 +18,11 @@ relance hebdomadaire et prise de poste : [`RELANCE.md`](RELANCE.md) (lu une fois
 | Clé | Routine (stockage du prompt) | Modèle | Classe | Règle d'éligibilité |
 |---|---|---|---|---|
 | `asana` | `trig_01GrfJRgJPURxDggBnaJK83M` | Sonnet 5.5 | légère | file Asana « pour claude » non vide |
-| `offre` | `trig_01JUSVQ6CLSogoNBnqZpV3rB` | Sonnet 5.5 | groupe, moyenne | due si dernier lancement > 20 h |
-| `veille` | `trig_01QUawXGgfoU7Ps5DPQJifGC` | Sonnet 5.5 | groupe, moyenne | due si dernier lancement > 6 j 12 h |
+| `offre` | `trig_01JUSVQ6CLSogoNBnqZpV3rB` | Sonnet 5.5 | groupe | due si dernier lancement > 20 h |
+| `veille` | `trig_01QUawXGgfoU7Ps5DPQJifGC` | Sonnet 5.5 | groupe | due si dernier lancement > 6 j 12 h |
 | `t7` | `trig_011FpKBMDrYoaUjFmxLaCs42` | Opus 5.5 (ultracode) | lourde | file Asana T7 non vide |
-| `gaudit` | `trig_01TeYwhzzZtv2q7XqfyHJwQ3` | Sonnet 5.5 (ultracode) | groupe, lourde | tourniquet |
-| `gauto` | `trig_01MJT4DgEnjHEb8JmHS1uQ1u` | Opus 4.8 | groupe, lourde | tourniquet |
+| `gaudit` | `trig_01TeYwhzzZtv2q7XqfyHJwQ3` | Sonnet 5.5 (ultracode) | groupe, lourde | toujours |
+| `gauto` | `trig_01MJT4DgEnjHEb8JmHS1uQ1u` | Opus 4.8 | groupe, lourde | toujours |
 
 Les Routines de tâches ne servent qu'à **stocker** le prompt et le modèle : ne jamais les
 déclencher (`fire_trigger` donne une session sans les outils `mcp__claude-code-remote__*`,
@@ -30,8 +30,8 @@ donc un STOP gquota immédiat).
 
 « Groupe » = tâches qui écrivent dans candidaturePilote ou claude-os : **une seule à la fois**
 (collisions sur `cibles-compagnies.json`, `TODO.md`, `REPRISE.md`, `audit/STATE.md`).
-« Lourde » = **une seule par passage**, chacune son tour : c'est ce qui empêche une tâche de
-manger tout le reliquat et de priver les autres.
+« Lourde » = **une seule par passage** : avec l'alternance (étape 3), c'est ce qui empêche une
+tâche de manger tout le reliquat et de priver les autres.
 
 ## Registre
 
@@ -72,23 +72,25 @@ la session la plus récente dont le titre commence par `Pilote · <clé> ·` ; a
    - `BLOCKED` (la session attend une réponse) ou `REVIEW_READY` : pas en cours.
    - **Dernier lancement** = date du registre. Une tâche à cadence (`offre`, `veille`) dont
      la dernière session a fini en `FAILED` redevient due 24 h après.
-3. **Choix**, dans cet ordre (une tâche en cours n'est jamais relancée) :
-   1. **Légère** — `asana` : outil Asana `get_tasks` (ToolSearch « asana » : son nom est
-      `mcp__Asana__get_tasks` ou `mcp__<uuid>__get_tasks` selon la session, même usage ;
-      `opt_fields: name,completed`) sur la section `1208173596025107` (« pour claude »),
-      tâches incomplètes. Au moins une → retenue.
-   2. **Moyenne** — si aucune tâche du groupe n'est en cours : parmi `offre` et `veille`
-      dues, celle dont le retard rapporté à sa cadence est le plus grand → retenue.
-   3. **Lourde** (une seule) — candidates : `t7` si sa file est non vide (même appel sur les
-      sections `1219334593652347` « Claude — en cours » et `1219329114419835` « Demandes pour
-      Claude ») ; `gaudit` et `gauto` seulement si aucune tâche du groupe n'est en cours ni
-      retenue en 3.2. Retenir celle dont le dernier lancement est le plus ancien (jamais
-      lancée = la plus ancienne ; égalité → `t7`, puis `gaudit`).
-   4. **Marge < 5 points** : ne lancer que la première tâche retenue (ordre 3.1 → 3.3), pour
-      que plusieurs sessions parallèles ne dépassent pas ensemble le seuil.
-   - **Asana indisponible** dans la session : `asana` et `t7` restent candidates seulement si
-     leur dernier lancement date de plus de 24 h (elles s'arrêtent seules si leur file est vide).
-4. **Lancement**, pour chaque tâche retenue, dans l'ordre ci-dessus :
+3. **Choix** (une tâche en cours n'est jamais relancée) :
+   1. **Éligibles** : `asana` si sa file est non vide (outil Asana `get_tasks` — ToolSearch
+      « asana » : son nom est `mcp__Asana__get_tasks` ou `mcp__<uuid>__get_tasks` selon la
+      session, même usage ; `opt_fields: name,completed` — sur la section `1208173596025107`
+      « pour claude », tâches incomplètes) ; `offre` et `veille` si dues ; `t7` si sa file est
+      non vide (même appel sur les sections `1219334593652347` « Claude — en cours » et
+      `1219329114419835` « Demandes pour Claude ») ; `gaudit` et `gauto` toujours.
+      Asana indisponible dans la session : `asana` et `t7` éligibles seulement si leur dernier
+      lancement date de plus de 24 h (elles s'arrêtent seules si leur file est vide).
+   2. **Alternance** : examiner les éligibles du dernier lancement le plus ancien au plus
+      récent (jamais lancée = la plus ancienne ; égalité → ordre du tableau). La tâche lancée
+      passe ainsi en dernier au passage suivant : aucune ne démarre toujours en premier, et
+      ce n'est pas toujours la même qui profite de la fenêtre 5 h (décision `nuitB`).
+   3. Dans cet ordre, retenir chaque tâche **sauf** si : elle est du groupe et une tâche du
+      groupe est en cours ou déjà retenue ; elle est lourde et une lourde est déjà retenue
+      dans ce passage.
+   4. **Marge < 5 points** : ne retenir que la première, pour que plusieurs sessions
+      parallèles ne dépassent pas ensemble le seuil.
+4. **Lancement**, pour chaque tâche retenue, dans l'ordre de l'étape 3 :
    1. `get_trigger` sur son `trigger_id` ; relever `derived_state.prompt` et
       `derived_state.model`.
    2. `create_session` avec :

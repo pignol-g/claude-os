@@ -1,6 +1,6 @@
 # gpilote — architecture, relance hebdomadaire, prise de poste
 
-Décisions `archi2A` et `rotPilote2A` (2026-10-10). Fichier lu une fois par semaine (relance et
+Décisions `archi2A`, `rotPilote2A`, `nuitB` et fenêtre du vendredi à 30 min (2026-10-10). Fichier lu une fois par semaine (relance et
 prise de poste) ; la procédure de chaque passage est dans [`SKILL.md`](SKILL.md).
 
 ## Pourquoi cette architecture
@@ -23,7 +23,7 @@ D'où trois étages, de profondeur fixe :
 | Session | Profondeur | Créée par | Réveillée par | Rôle |
 |---|---|---|---|---|
 | « Relanceur pilote » | 0 | Guillaume, une fois, depuis l'app | Routine « Pilote · relance hebdo », samedi 09h56 | crée le pilote de la semaine |
-| « Pilote quota · semaine du … » | 1 | le relanceur | Routines « Pilote · réveil » | passages gpilote (`SKILL.md`) |
+| « Pilote quota · semaine du … » | 1 | le relanceur | Routines « Pilote · réveil » : nuit 1h47, 3h47, 5h47 (dim-ven) + vendredi 30 min avant le reset | passages gpilote (`SKILL.md`) |
 | « Pilote · <clé> · … » | 2 | le pilote | — | une tâche |
 
 Le samedi n'a aucun passage (gquota répondrait STOP : aucun jour révolu) : c'est le jour de la
@@ -85,11 +85,12 @@ mêmes tâches) :
 4. **Créer ses Routines de réveil** (`create_trigger`, sans `persistent_session_id` ni
    `create_new_session_on_fire` : elles réveillent cette session), `prompt` « Passage
    pilote », `initiation` « human_schedule » :
-   - « Pilote · réveil » : `CRON_TZ=Europe/Paris 31 0,5,10,15,20 * * 0-5` (5 passages par
-     jour, sauf le samedi ; le passage de 20h31 le vendredi tombe dans la fenêtre de fin de
-     semaine tant que le reset est à 21h00 heure de Paris) ;
-   - « Pilote · réveil vendredi 19h31 » : `CRON_TZ=Europe/Paris 31 19 * * 5` (décision
-     `hiverA` : couvre la fenêtre si le reset tombe à 20h00 heure de Paris en hiver).
+   - « Pilote · réveil nuit » : `CRON_TZ=Europe/Paris 47 1,3,5 * * 0-5` (3 passages la nuit,
+     pendant que Guillaume dort, du dimanche au vendredi ; pas le samedi : le reset vient de
+     passer, aucun jour révolu, gquota répondrait STOP) ;
+   - « Pilote · réveil vendredi » : `31 18 * * 5` **en UTC** (sans `CRON_TZ`) : le reset hebdo
+     est fixe à vendredi 19h00 UTC, ce passage tombe donc toujours dans la fenêtre de fin de
+     semaine de gquota (30 min avant le reset) — 20h31 à Paris l'été, 19h31 l'hiver.
 5. **Premier pilote** (précédent `aucun`) : essai à blanc — dérouler la Procédure de
    `SKILL.md` même si gquota répond STOP, sans appeler `create_session` (écrire « aurait
    lancé : <clé>, <modèle>, <titre> »).

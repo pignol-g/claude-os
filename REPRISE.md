@@ -64,7 +64,11 @@ seul le prompt initial de `create_session` est exécuté.
 **Décisions du 2026-10-10 (suite)** : `rotPilote2A` (pilote hebdomadaire sans dépôt, recréé
 chaque samedi par une session de profondeur 0), `relanceurA` (session dédiée « Relanceur
 pilote » créée une fois par Guillaume depuis l'app), `cronDimB` (on garde les passages du
-dimanche). Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
+dimanche), puis `nuitB` (passages uniquement la nuit : 1h47, 3h47, 5h47, dimanche-vendredi,
+avec alternance des tâches — la plus anciennement lancée d'abord — pour que la fenêtre 5 h ne
+profite pas toujours à la même) et fenêtre du vendredi gardée à 30 min avant le reset (passage
+en UTC 18h31, soit 20h31 l'été / 19h31 l'hiver : le reset est fixe à 19h00 UTC ; Guillaume
+veut garder du quota pour ses tâches manuelles, objectif ~90 % consommés par semaine). Implémenté : `gpilote/SKILL.md` (procédure par passage, gquota par sous-agent
 Haiku, lu par curl) + `gpilote/RELANCE.md` (architecture, prompt du relanceur, relance
 hebdomadaire, prompt du pilote, prise de poste).
 
@@ -72,7 +76,7 @@ hebdomadaire, prompt du pilote, prise de poste).
 `RELANCE.md` (une seule fois, aucune action périodique ensuite) ; (2) vérifier le premier tour
 du relanceur (Routine « Pilote · relance hebdo » créée, premier pilote créé) puis la prise de
 poste du pilote (Routines « Pilote · réveil » créées, essai à blanc) ; (3) premier réveil réel
-dimanche 00h31 (STOP attendu, seuil 4,3 %) ; premier GO possible à partir de lundi 00h31.
+dimanche 1h47 (STOP attendu, seuil 4,3 %) ; premier GO possible lundi 1h47 (seuil 18,6 %).
 
 ## État courant
 
