@@ -7,6 +7,11 @@ allowed-tools: Bash, mcp__claude-code-remote__list_events, mcp__claude-code-remo
 
 # gpilote — chef d'orchestre des routines
 
+> **En refonte (décision `archi2A`, 2026-10-10) — ne pas réactiver les Routines pilote.**
+> Une session lancée par une Routine n'a pas les outils `mcp__claude-code-remote__*` : ni
+> lecture des quotas, ni `fire_trigger`. Architecture cible et reste à faire : `REPRISE.md`
+> (chantier « routine pilote »).
+
 Le pilote **décide et lance**, il ne fait aucune tâche lui-même. Session courte : ne lis
 aucun autre fichier que celui-ci et ceux qu'il cite, n'explore aucun repo.
 

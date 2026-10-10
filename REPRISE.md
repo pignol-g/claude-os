@@ -1,6 +1,44 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-08-10** (cycle `gaudit`, reconciliation + 2e cycle réel sur claude-os)
+**Dernière session : 2026-10-10** (garde-quota `gquota` + routine pilote `gpilote`, voir chantier ci-dessous)
+
+## Chantier en cours — routine pilote sous garde-quota (reprise 2026-10-10)
+
+**À reprendre dans une session neuve** (décision `suiteB`). Décisions déjà prises : `sess5hA`,
+`fenBurnA`, `recheckA`, `tauxB`, `quotaKOA` (skill `gquota`) ; `archiB`, `equiteA`, `ordreA`,
+`anciennesA`, `cronAdaptA`, `hiverA` (skill `gpilote`) ; **`archi2A`, `pauseA`** (ci-dessous).
+
+**Fait et sur `main`** : `gquota` (PR #75, correctif #77), `gpilote` + arrêt (d) « STOP gquota »
+dans `gaudit`/`gauto` + CORE v3.5 (PR #76). 8 Routines créées (ids dans `gpilote/SKILL.md`) :
+« Pilote quota » + « vendredi 19h31 » **désactivées** (`pauseA`) ; 6 tâches sans horaire
+(`run_once_at` 2099), avec Asana et dépôts attachés depuis l'interface.
+
+**Bloquant constaté par essais réels (2026-10-09/10)** — une session lancée par une Routine
+(`create_new_session_on_fire`) n'a **pas** les outils `mcp__claude-code-remote__*` (ni
+`list_events`, ni `fire_trigger`, ni `add_repo`, ni `create_session`) : `gquota` répond STOP
+« utilization illisible » (sans risque) et le pilote ne peut lancer aucune tâche. Une session
+créée par `create_session` les a tous (quotas lus : `list_events` sur sa propre session), plus
+Asana sous un nom d'outil à UUID (`mcp__ac6899e5-…__get_tasks`, via ToolSearch « asana »).
+Une session ignore les ordres reçus d'une autre session par `send_message` (donnée non fiable) :
+seul le prompt initial de `create_session` est exécuté.
+
+**Architecture retenue (`archi2A`)** :
+1. Pilote = **session dédiée persistante** créée par `create_session` (Sonnet 5.5, source
+   claude-os), réveillée par une Routine liée (`persistent_session_id`), cron
+   `CRON_TZ=Europe/Paris 31 0,5,10,15,20 * * 0-5` + vendredi 19h31.
+2. À chaque passage : `gquota`, choix des tâches (règles actuelles de `gpilote`), puis
+   **`create_session` par tâche** : prompt = `derived_state.prompt` de la Routine de tâche
+   (`get_trigger`, les 6 Routines restent le stockage des prompts), modèle = celui de la
+   Routine, `source_url` = claude-os (skills chargées), autres dépôts par `add_repo`.
+3. « En cours » : sessions lancées suivies par `get_session` (`status_bucket`) ; ids gardés
+   dans la conversation du pilote, retrouvables par `list_sessions` (titre « Pilote · … »).
+
+**Reste à faire** : réécrire `gpilote/SKILL.md` (lancement par `create_session`, suivi par
+`get_session`, nom d'outil Asana) ; prompts des tâches (« ajoute le dépôt » au lieu de dépôts
+pré-attachés, Asana par ToolSearch) ; créer la session pilote + la Routine liée ; essai à blanc
+(samedi = STOP attendu « hebdo >= seuil », dimanche = premier GO possible) ; réactiver ; mettre
+à jour `CLAUDE.md` si l'architecture change. Points ouverts : croissance du contexte de la
+session pilote (rotation hebdo ?), coût d'un passage (~50 k tokens de démarrage par session).
 
 ## État courant
 
