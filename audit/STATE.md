@@ -9,10 +9,10 @@
 
 | Champ | Valeur |
 |---|---|
-| `repo_cible_courant` | `claude-os` |
-| `statut` | `in_progress` |
-| `dernier_heartbeat` | 2026-10-13T03:55Z |
-| `fichier_plan_actif` | `audit/claude-os/PLAN-2026-10-13.md` |
+| `repo_cible_courant` | — |
+| `statut` | `terminé` |
+| `dernier_heartbeat` | 2026-10-13T04:05Z |
+| `fichier_plan_actif` | — |
 | `consignes_asana` | lues (aucune consigne, cf. commentaire d'accusé de réception 2026-08-14 15:33Z) |
 
 **Statuts possibles** : `idle` (rien en cours) · `in_progress` (plan en cours d'exécution,
@@ -34,12 +34,17 @@ la tâche Asana permanente (gid `1217287685113494`, projet « Claude », section
 
 | Repo | Dernier audit terminé | Dernier rapport |
 |---|---|---|
-| `claude-os` | 2026-08-14 | `audit/claude-os/REPORT-2026-08-14-4.md` |
+| `claude-os` | 2026-10-13 | `audit/claude-os/REPORT-2026-10-13.md` |
 | `general` | 2026-08-14 | `audit/general/REPORT-2026-08-14-4.md` |
 | `candidaturePilote` | 2026-08-14 | `audit/candidaturePilote/REPORT-2026-08-14-4.md` |
 | `ClaudeAchatMaison` | 2026-08-14 | `audit/ClaudeAchatMaison/REPORT-2026-08-14-4.md` |
 
 ## Historique des cycles
+
+### 2026-10-13 — claude-os — terminé (lancé par le pilote)
+- Plan : `audit/claude-os/PLAN-2026-10-13.md`
+- Rapport : `audit/claude-os/REPORT-2026-10-13.md`
+- Dérive CLAUDE.md corrigée + check 6 dans `verify-dna-consistency.sh`. Prochain : `general`.
 
 ### 2026-08-14 — fin de série (pas un cycle d'audit) — vérification 7e tour avant conclusion
 
