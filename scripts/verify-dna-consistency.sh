@@ -85,6 +85,20 @@ for f in CLAUDE-DNA-CC-CORE.md CLAUDE-DNA-CHAT.md CLAUDE-DNA-CC-REF.md; do
     fi
 done
 
+echo "== 6. Ordres de grandeur annoncés dans CLAUDE.md (nombre de skills, lignes CORE/REF) =="
+n_disk=$(ls -d .claude/skills/*/ | wc -l | tr -d ' ')
+n_doc=$(grep -m1 -oE '[0-9]+ skills' CLAUDE.md | grep -oE '[0-9]+')
+if [ "$n_doc" = "$n_disk" ]; then ok "CLAUDE.md annonce $n_doc skills = $n_disk sur disque"
+else warn "CLAUDE.md annonce '${n_doc:-?} skills' mais $n_disk dossiers dans .claude/skills/"; fi
+for f in CLAUDE-DNA-CC-CORE.md CLAUDE-DNA-CC-REF.md; do
+    real=$(wc -l < "$f" | tr -d ' ')
+    claim=$(grep -m1 "\`$f\`\*\* (~" CLAUDE.md | grep -oE '~[0-9]+' | tr -d '~')
+    if [ -z "$claim" ]; then warn "$f : '(~N lignes)' introuvable dans CLAUDE.md"
+    elif [ $((real*100)) -lt $((claim*75)) ] || [ $((real*100)) -gt $((claim*125)) ]; then
+        warn "$f : CLAUDE.md annonce ~$claim lignes, réel $real (écart > 25 %)"
+    else ok "$f : ~$claim lignes annoncées, $real réelles"; fi
+done
+
 echo
 if [ "$FAIL" -eq 0 ]; then
     echo "✅ Tous les checks de cohérence DNA passent."
