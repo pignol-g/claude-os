@@ -1,6 +1,21 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-10-10** (routine pilote mise en service : `gpilote` + `gquota`, voir ci-dessous)
+**Dernière session : 2026-10-20** (merge de PR automatique, tous repos sauf `T7` — CORE v3.7 ; routine pilote mise en service le 2026-10-10)
+
+## Merge de PR automatique — depuis le 2026-10-20
+
+Décision Guillaume `mergeAuto` (CORE **v3.7**) : tous les repos sauf `T7` — Claude merge lui-même
+chaque PR qu'il ouvre, résout les conflits seul, n'avertit que sur arbitrage de fond. Persistée
+dans le `CLAUDE.md` de `claude-os`, `general`, `ClaudeAchatMaison` et `candidaturePilote` (PR
+claude-os#86, ClaudeAchatMaison#65, general#19, candidaturePilote#319, toutes mergées) ; skills
+`gauto` et `gaudit` alignées.
+
+- `candidaturePilote` a du code et une CI (`veille.yml`) : CI verte exigée avant merge quand la PR
+  touche `scripts/veille/**`.
+- Garde-fou conservé **en routine** : une PR qui touche `gquota`, `gpilote`, `gaudit` ou le CORE
+  n'est pas mergée automatiquement (décision du 2026-10-09).
+- **Reste à faire, plus tard (pas avant que Guillaume le demande)** : purger les PR déjà en
+  attente, tous repos sauf `T7` — voir `TODO.md`.
 
 ## Routine pilote — en service depuis le 2026-10-10
 
@@ -37,8 +52,8 @@ Routines du précédent supprimées, bilan). Point d'analyse avec Guillaume apr�
 
 ## État courant
 
-DNA-CC **v3.5** (2026-10-09), DNA-Chat **v2.2**, DNA-REF **v2.2** (vérifié par
-`scripts/verify-dna-consistency.sh` le 2026-10-10). Les 4 repos (`claude-os`, `general`, `candidaturePilote`, `ClaudeAchatMaison`) ont
+DNA-CC **v3.7** (2026-10-20), DNA-Chat **v2.2**, DNA-REF **v2.2** (vérifié par
+`scripts/verify-dna-consistency.sh` le 2026-10-20). Les 4 repos (`claude-os`, `general`, `candidaturePilote`, `ClaudeAchatMaison`) ont
 désormais tous un `dernier_audit_termine` renseigné dans `audit/STATE.md` — la routine `gaudit`
 a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08-09.
 
@@ -63,15 +78,16 @@ a bouclé son premier tour complet de rotation entre le 2026-08-07 et le 2026-08
 - **`CLAUDE-DNA-ASANA.md`** — module autonome dédié à l'organisation Asana « nous 3 », référencé
   depuis le CORE §6.
 - **`gaudit`** — skill d'audit de projet autonome et résilient (`.claude/skills/gaudit/` +
-  `audit/STATE.md`). Premier tour de rotation complet bouclé (voir ci-dessus). Carve-out merge
-  auto de PR documenté dans le CORE, appliqué sans incident sur les 5 PR gaudit mergées à ce jour
-  (claude-os#34, #36 ; general#5 ; candidaturePilote#166 ; ClaudeAchatMaison#37).
+  `audit/STATE.md`). Premier tour de rotation complet bouclé (voir ci-dessus). Merge auto de PR
+  appliqué sans incident sur les 5 PR gaudit mergées à ce jour (claude-os#34, #36 ; general#5 ;
+  candidaturePilote#166 ; ClaudeAchatMaison#37) ; depuis le 2026-10-20 ce n'est plus un carve-out
+  de `gaudit` mais la règle générale `mergeAuto` (CORE v3.7).
 
 ## Fichiers DNA — état des lieux
 
-- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v3.5, injecté par hook à chaque session CC.
+- [CLAUDE-DNA-CC-CORE.md](CLAUDE-DNA-CC-CORE.md) — v3.7, injecté par hook à chaque session CC.
 - [CLAUDE-DNA-CC-REF.md](CLAUDE-DNA-CC-REF.md) — v2.2, procédures cold, curl à la demande ;
-  table historique à jour avec le CORE v3.5.
+  table historique à jour avec le CORE v3.7.
 - [CLAUDE-DNA-CHAT.md](CLAUDE-DNA-CHAT.md) — v2.2, à coller dans Instructions globales claude.ai.
 
 ## Actions Guillaume en attente
