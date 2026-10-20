@@ -1,10 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.6 — 2026-10-10** (portée du garde-quota : `gquota` ne vaut que pour les routines ;
-une session lancée à la main par Guillaume continue tant qu'il le veut — décision `gquotaPortee`)
+**Version : v3.7 — 2026-10-20** (merge de PR automatique pour tous les repos sauf `T7`, conflits
+résolus en autonomie — décision `mergeAuto`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-10-10 v3.6 -->
+<!-- Version : 2026-10-20 v3.7 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -130,10 +130,9 @@ general / candidaturePilote / ClaudeAchatMaison), diagnostic + implémentation, 
 pour tourner comme **Routine Claude Code Remote** (session neuve à chaque firing —
 tout l'état vit dans `claude-os/audit/STATE.md`, jamais en mémoire de conversation).
 Rotation du repo cible par staleness si aucune consigne dans la tâche Asana permanente
-dédiée. Boucle façon `gauto`, mêmes conditions d'arrêt (dont STOP `gquota` en routine). **Seul carve-out du DNA** :
-merge de PR automatique autorisé pour cette routine si CI verte + merge propre sans
-conflit (cf. Safety interdits ci-dessous) — sinon PR en attente de validation comme
-partout ailleurs.
+dédiée. Boucle façon `gauto`, mêmes conditions d'arrêt (dont STOP `gquota` en routine). Merge de PR automatique comme partout
+(règle `mergeAuto`, cf. Safety interdits ci-dessous), sauf PR touchant `gquota`, `gpilote`,
+`gaudit` ou ce CORE, qui attend Guillaume en routine.
 
 ### Combo recherche — trigger `grech`
 
@@ -161,13 +160,18 @@ remplacée par pointeur raw URL si référencée ailleurs dans le DNA), commits 
 les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
-- Pas de merge PR sans validation explicite Guillaume, **sauf routine `gaudit`** : merge
-  automatique autorisé uniquement si (a) CI verte, (b) merge propre / fast-forward sans
-  conflit, et jamais pour une PR qui touche les skills `gquota`, `gpilote`, `gaudit` ou ce
-  CORE. En cas de conflit, `gaudit` NE résout PAS automatiquement — la PR reste en
-  attente de validation manuelle comme pour toute autre skill. Carve-out scopé à cette
-  seule routine (décision Guillaume 2026-08-07, cf. skill `gaudit`) — le reste du DNA
-  (dont `gauto`) garde l'interdit intact.
+- **Merge de PR : automatique, tous repos sauf `T7`** (décision Guillaume 2026-10-20,
+  `mergeAuto`). Claude merge lui-même chaque PR qu'il ouvre, à chaque fois, sans attendre
+  qu'on le lui dise ni demander (au pire une ligne « mergé »). Repos Markdown/doctrine sans
+  CI : rien à attendre ; si un repo a une CI, elle doit être verte. **Conflit** : le
+  résoudre seul (fichiers d'état type `REPRISE.md` : garder tous les blocs) puis merger ;
+  n'avertir Guillaume que si le conflit impose un arbitrage de fond (deux versions
+  incompatibles d'une même décision ou d'une même valeur de donnée). **Limites** :
+  (a) repo `T7` (contient du code) : jamais de merge sans validation explicite Guillaume —
+  idem tout futur repo avec du code ou une CI : demander avant ; (b) en routine (`gaudit`,
+  sessions lancées par `gpilote`), une PR qui touche les skills `gquota`, `gpilote`,
+  `gaudit` ou ce CORE n'est pas mergée automatiquement (garde-fous qui bornent la routine
+  elle-même, décision 2026-10-09) ; (c) jamais de push direct sur `main`.
 - Pas de force-push (jamais)
 - Pas de `git branch -D` ni delete branch remote
 - Pas de `--no-verify` ni skip hooks

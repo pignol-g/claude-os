@@ -7,8 +7,9 @@ description: >
   (analyse état → plan priorisé → découpage atomique → exécution 1 commit+push/étape → MAJ
   REPRISE.md → reboucle), avec persistance/git, économie API et conditions d'arrêt. `gstop`
   (ou bouton stop, fin de crédits, ou STOP `gquota` en routine) désactive le mode et rebascule en interactif. Les
-  SAFETY INTERDITS (pas de merge/force-push/delete-branch/--no-verify/modif hooks) restent
-  des garde-fous non négociables rappelés dans le DNA-CORE.
+  SAFETY INTERDITS (pas de force-push/delete-branch/--no-verify/modif hooks) restent
+  des garde-fous non négociables rappelés dans le DNA-CORE ; les PR se mergent seules
+  (sauf repo `T7`, règle `mergeAuto`).
 ---
 
 # gauto / gstop — mode autonome longue durée
@@ -75,7 +76,8 @@ commit/push.
 
 Rappelés aussi dans le DNA-CORE (garde-fous non déportables) :
 
-- Pas de merge PR sans validation explicite de Guillaume.
+- Merge de PR : automatique sauf repo `T7` (règle `mergeAuto` du CORE, conflits résolus en
+  autonomie) ; sur `T7`, jamais sans validation explicite de Guillaume.
 - Pas de force-push (jamais).
 - Pas de `git branch -D` ni delete de branche remote.
 - Pas de `--no-verify` ni skip de hooks.
