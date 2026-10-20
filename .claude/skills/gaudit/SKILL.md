@@ -11,10 +11,10 @@ description: >
   à l'interruption (coupure crédits) : tout l'état vit dans `claude-os/audit/`, jamais
   en mémoire. Boucle façon `gauto` (ne s'arrête que sur extinction de crédits, STOP `gquota` ou arrêt
   explicite de Guillaume), avec rotation automatique du repo cible par staleness quand
-  aucune consigne n'est donnée. Merge automatique des PR autorisé UNIQUEMENT pour cette
-  routine et seulement si CI verte + merge propre sans conflit (carve-out documenté dans
-  `CLAUDE-DNA-CC-CORE.md` §Safety interdits) — en cas de conflit, jamais de résolution
-  automatique, la PR repart en attente de validation manuelle.
+  aucune consigne n'est donnée. Merge automatique des PR (règle générale `mergeAuto`,
+  `CLAUDE-DNA-CC-CORE.md` §Safety interdits) : CI verte si le repo en a une, conflits
+  résolus en autonomie (Guillaume prévenu seulement si arbitrage de fond), sauf PR touchant
+  `gquota`, `gpilote`, `gaudit` ou le CORE, qui reste en attente de validation manuelle.
 ---
 
 # gaudit — audit de projet autonome, résilient, multi-session
@@ -169,7 +169,7 @@ signé `[Claude] ` accusant réception (texte brut, pas de `html_text`, cf. conv
   pas besoin d'atomicité entre les deux repos.
 - Respecter integralement les **safety interdits** du DNA-CORE (force-push interdit,
   pas de `--no-verify`, pas de modif hooks/settings, pas de `branch -D`/delete remote)
-  — le seul carve-out existant concerne le merge de PR (étape 5), rien d'autre.
+  — le merge de PR suit la règle `mergeAuto` (étape 5), rien d'autre n'est assoupli.
 - **Sous garde-quota** (cycle lancé par la routine pilote, cf. skill `gquota`) : invoquer
   `gquota` avant chaque étape du plan, avant l'étape 5 et avant de reboucler (§6) — jamais
   entre le merge d'une PR et l'écriture du REPORT/STATE.md. Réponse STOP → §7 (d).
@@ -184,16 +184,20 @@ Quand toutes les étapes du plan sont cochées :
    de CI configurée, considérer la condition CI comme satisfaite par défaut (rien à
    attendre).
 3. Vérifier la mergeabilité (`pull_request_read` — `mergeable_state`/`mergeable`).
-   - **CI verte ET merge propre (pas de conflit)** → `merge_pull_request` directement.
-     C'est le **seul** cas où `gaudit` merge sans validation de Guillaume (carve-out
-     `CLAUDE-DNA-CC-CORE.md` §Safety interdits, décision 2026-08-07).
+   - **CI verte (ou repo sans CI) ET pas de conflit** → `merge_pull_request` directement
+     (règle générale `mergeAuto`, `CLAUDE-DNA-CC-CORE.md` §Safety interdits, décision
+     2026-10-20 — elle remplace le carve-out propre à `gaudit` du 2026-08-07).
+   - **Conflit** → le résoudre en autonomie (fusionner la branche par défaut dans la
+     branche `gaudit/...` ; jamais de force-push), puis merger. Seule limite : un fichier
+     de données/état dont les deux versions divergent sur une valeur (ex. JSON sources de
+     vérité) est un arbitrage de fond — ne pas merger, laisser la PR ouverte et le
+     signaler à Guillaume.
    - **Exception** : une PR qui touche `.claude/skills/gquota/`, `.claude/skills/gpilote/`,
      `.claude/skills/gaudit/` ou `CLAUDE-DNA-CC-CORE.md` n'est **jamais** mergée
-     automatiquement — ce sont les garde-fous qui bornent la routine elle-même.
-   - **CI rouge, ou conflit, ou CI en attente trop longtemps** → **ne pas merger**. La
-     PR reste ouverte en attente de validation manuelle, comme pour toute autre skill.
-     Ne jamais tenter de résoudre un conflit automatiquement — trop risqué sur des
-     fichiers de données/état (ex. JSON sources de vérité).
+     automatiquement par la routine — ce sont les garde-fous qui bornent la routine
+     elle-même (décision 2026-10-09, conservée).
+   - **CI rouge, ou CI en attente trop longtemps** → **ne pas merger**. La PR reste
+     ouverte en attente de validation manuelle.
 4. Écrire `audit/<repo>/REPORT-<date>.md` (voir format ci-dessous) — **uniquement à ce
    stade, jamais sur interruption**.
 5. Mettre à jour `STATE.md` : `statut = terminé`, ajouter une ligne dans la table de
@@ -318,17 +322,16 @@ l'interface claude.ai, sinon dégradation gracieuse §2.
 ## Safety interdits
 
 Rappelés dans `CLAUDE-DNA-CC-CORE.md` (garde-fous non déportables) — **tous s'appliquent
-sans exception à `gaudit`**, à une seule exception documentée :
+sans exception à `gaudit`** :
 
 - Pas de force-push (jamais).
 - Pas de `git branch -D` ni delete de branche remote.
 - Pas de `--no-verify` ni skip de hooks.
 - Pas de modif `.claude/settings.json` ni des hooks `.claude/hooks/`.
-- **Merge de PR** : carve-out scopé à cette seule routine — merge automatique autorisé
-  uniquement si CI verte + merge propre sans conflit (§5), et jamais pour une PR qui touche
-  `gquota`, `gpilote`, `gaudit` ou le CORE. Toute PR en conflit ou CI rouge reste en
-  attente de validation humaine, sans exception, sans tentative de résolution automatique
-  de conflit.
+- **Merge de PR** : règle générale `mergeAuto` (merge automatique, conflits résolus en
+  autonomie, §5) ; limites propres à la routine : jamais pour une PR qui touche `gquota`,
+  `gpilote`, `gaudit` ou le CORE, ni sur CI rouge ou conflit d'arbitrage de fond — la PR
+  attend alors Guillaume.
 
 Toute violation de ce qui précède = arrêt immédiat du cycle + alerte Guillaume (commentaire
 signé sur la tâche Asana consignes expliquant ce qui a été bloqué et pourquoi).
