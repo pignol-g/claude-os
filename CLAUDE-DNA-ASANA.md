@@ -1,6 +1,6 @@
 # CLAUDE-DNA-ASANA — Doctrine d'usage Asana de Guillaume (système « nous 3 »)
 
-**Version : v1.0 — 2026-06-23**
+**Version : v1.1 — 2026-10-26**
 
 <!-- Module autonome de la famille CLAUDE-DNA. Décrit comment Guillaume, Claude -->
 <!-- et Asana travaillent ensemble sur l'ENSEMBLE des projets (pas que Pilote). -->
@@ -103,6 +103,7 @@ Pilote…), pas seulement Pilote.
 - **Pas d'emoji décoratif** (règle DNA générale). Les préfixes de section sont textuels.
 - **Lier les sessions** : toute tâche issue d'un travail Claude porte en notes le lien `claude.ai/code/session_…`.
 - **Dédoublonnage** : une intention = une seule tâche. Avant de créer, vérifier l'existant.
+- **Création de tâche = capture légère** : la créer sans la traiter (dédoublonner, placer, relier aux tâches voisines, notes courtes ; ni recherche ni pièce jointe lourde sans accord). Règle complète, hors projet `T7` : CORE §« Création de tâche » (`captureLegere`) — pointeur, jamais copié.
 - **Q/R codes** (cf. CORE) pour tout choix posé à Guillaume.
 - **Ne jamais clôturer un Dossier ou une Ressource** ; on ne ferme que des Actions.
 
@@ -133,3 +134,4 @@ Décidée le 2026-06-23. Avancement tenu à jour ici.
 | Version | Date | Changements |
 |---|---|---|
 | v1.0 | 2026-06-23 | Création. Formalise le système « nous 3 » (Guillaume/Claude/Asana), les 3 types d'objets, la loi anti-divergence, le périmètre MCP, le rythme hebdo, le QG, la cible de refonte. |
+| v1.1 | 2026-10-26 | §7 : pointeur vers la règle « création de tâche = capture légère » (CORE v3.8, décision `captureLegere`). |
