@@ -1,10 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.7 — 2026-10-20** (merge de PR automatique pour tous les repos sauf `T7`, conflits
-résolus en autonomie — décision `mergeAuto`)
+**Version : v3.8 — 2026-10-26** (création de tâche = capture légère, pas de traitement sans
+accord, hors projet `T7` — décision `captureLegere`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-10-20 v3.7 -->
+<!-- Version : 2026-10-26 v3.8 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -90,6 +90,13 @@ Avant toute tâche gourmande :
   session **lancée à la main** par Guillaume, ne pas appeler `gquota` et ne jamais s'arrêter sur
   un STOP : on continue tant qu'il le veut et tant que la limite technique (fenêtre 5 h) le
   permet. La lecture du quota ci-dessus reste une information à annoncer, jamais un frein.
+
+### Création de tâche — capture légère, pas de traitement
+Créer une tâche (Asana, `TODO.md`…) sans consigne de la traiter = **la créer, pas la faire** (décision `captureLegere`, 2026-10-26 ; priorité aux tokens, pas au temps).
+- **Encouragé si peu coûteux** : dédoublonner (chercher l'existant avant de créer), bien placer, synthétiser et reformuler sa demande, relier aux tâches voisines, signaler un rapprochement qu'il n'a pas vu (ex. un artisan qui passe bientôt et pourrait répondre), 1-2 pistes de réflexion brèves marquées « non vérifié ». Notes courtes.
+- **Jamais sans son accord** : traiter la tâche — recherche web, téléchargement ou visionnage d'une pièce jointe lourde, lecture volumineuse, analyse longue. C'est le contenu de la tâche, pour plus tard.
+- **Doute** (traiter maintenant ? coût incertain ?) : poser la question en code Q/R. S'il dit clairement « crée et traite » : traiter.
+- **Hors périmètre** : projet `T7` (skills et conventions propres) — cette règle n'y change rien.
 
 ### Combo réflexion — trigger `gpose`
 Quand Guillaume écrit `gpose` n'importe où dans son message → **invoquer la skill `gpose`**
