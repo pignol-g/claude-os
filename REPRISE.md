@@ -1,6 +1,18 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-10-20** (merge de PR automatique, tous repos sauf `T7` — CORE v3.7 ; routine pilote mise en service le 2026-10-10)
+**Dernière session : 2026-10-28** (skill `asana-revue`, trigger `grevue` — CORE v3.9 ; merge de PR automatique, tous repos sauf `T7`, depuis le 2026-10-20 ; routine pilote mise en service le 2026-10-10)
+
+## Skill `asana-revue` — depuis le 2026-10-28
+
+Décision `skillRevueA` : revue de toutes les tâches Asana hors `T7`, à la demande (trigger `grevue`,
+dictée « j'ai revu tâche Asana »). Skill : `.claude/skills/asana-revue/SKILL.md` (v0.1). Mémoire
+(ancre, décisions fermes, questions en suspens, carnet de préférences avec durées réelles) : repo
+`general`, `perso/revue-asana/` (PR claude-os#91, general#26).
+
+- Première revue complète faite le 2026-10-28 (≈ 400 tâches, ≈ 1 h 30 en interactif) ; l'ancre est
+  dans `general/perso/revue-asana/ETAT.md`. La prochaine revue commence par demander les durées réelles.
+- **Reste à faire** : v0.2 (modes quotidien puis hebdomadaire, après 3 revues manuelles), mesurer la
+  durée d'une revue avec cache, ménage de l'inbox Asana (~200 tâches) — voir `TODO.md`.
 
 ## Merge de PR automatique — depuis le 2026-10-20
 
