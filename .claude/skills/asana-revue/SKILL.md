@@ -116,7 +116,11 @@ commentés, dates replanifiées, brouillons Gmail).
 - `search_tasks` est réservé aux comptes premium (`payment_required`) : utiliser `get_tasks`, `get_my_tasks`, `search_objects`.
 - `completed_since` exige un datetime ISO (« now » est rejeté) ; une date lointaine = tâches non terminées seulement.
 - Commentaires et changements d'échéance font bouger `modified_at` : poser l'ancre **après** mes écritures,
-  sinon le delta suivant me renvoie mes propres modifications.
+  sinon le delta suivant me renvoie mes propres modifications. Une écriture faite **après** l'ancre est
+  listée dans `ETAT.md` (§ « Écritures postérieures à l'ancre ») pour être ignorée au prochain delta.
+- Cocher une tâche **récurrente** (`recurrence` non nul dans `get_task`) crée aussitôt l'occurrence suivante
+  (cas « Badge garage », 2026-10-28) : lire `recurrence` avant de proposer une coche ; pour arrêter la série,
+  supprimer la dernière occurrence avec l'accord de Guillaume, ne pas la recocher.
 - Mes commentaires apparaissent sous le nom « Guillaume » : seul `[Claude] ` les distingue ; ils ne sont pas
   éditables, une erreur se corrige par un commentaire rectificatif (relire avant de poster).
 - Gmail : résultats en ligne seulement, pièces jointes illisibles ; corriger un brouillon avec `update_draft`
