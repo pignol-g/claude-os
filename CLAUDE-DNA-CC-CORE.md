@@ -1,10 +1,10 @@
 # CLAUDE-DNA-CC-CORE — Règles actives (hot)
 
-**Version : v3.8 — 2026-10-26** (création de tâche = capture légère, pas de traitement sans
-accord, hors projet `T7` — décision `captureLegere`)
+**Version : v3.9 — 2026-10-28** (trigger `grevue` : revue des tâches Asana hors projet `T7`,
+skill `asana-revue` — décision `skillRevueA`)
 
 <!-- MASTER FILE — Destiné à Claude Code. Hot rules injectées à chaque session par le hook. -->
-<!-- Version : 2026-10-26 v3.8 -->
+<!-- Version : 2026-10-28 v3.9 -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL sync : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CC-CORE.md -->
 <!-- Drive local : /Users/pignolet/Library/CloudStorage/GoogleDrive-guillaume.pignolet25@gmail.com/Mon Drive/Claude/claude-os/CLAUDE-DNA-CC-CORE.md -->
@@ -165,6 +165,18 @@ personnelle) → chaque candidat proposé en **Q/R** (`triA` transférer / `triB
 dans `general/<catégorie>/` avec en-tête de provenance, source supprimée de claude-os (ou
 remplacée par pointeur raw URL si référencée ailleurs dans le DNA), commits séparés dans
 les deux repos, trace dans `general/_TRANSFERTS-LOG.md`.
+
+### Combo revue — trigger `grevue`
+
+Quand Guillaume écrit `grevue` (dictée : « j'ai revu », « j'ai revu tâche Asana ») ou demande
+« fais la revue de mes tâches » / « fais-moi un planning pour 1h30 » → **invoquer la skill
+`asana-revue`** (`.claude/skills/asana-revue/SKILL.md`) : revue de **toutes** ses tâches Asana
+**hors projet `T7`**, en delta depuis la précédente (ancre + carnet de préférences dans
+`general/perso/revue-asana/`), preuves à bas coût (commentaires `[Claude]`, Gmail, Drive,
+Agenda) → à cocher / doutes de priorité / questions sans réponse → planning à **deux voies**
+chiffrées (ses mains par canal / mon travail autonome). Questions en français complet, jamais
+de code seul ; brouillons Gmail seulement ; je ne coche jamais. À la demande uniquement
+(décision `skillRevueA`).
 
 **Safety interdits** (garde-fous NON déportables — rappelés ici en dur, toute violation = arrêt + alerte Guillaume) :
 - **Merge de PR : automatique, tous repos sauf `T7`** (décision Guillaume 2026-10-20,

@@ -1,6 +1,6 @@
 # CLAUDE-DNA-ASANA — Doctrine d'usage Asana de Guillaume (système « nous 3 »)
 
-**Version : v1.1 — 2026-10-26**
+**Version : v1.2 — 2026-10-28**
 
 <!-- Module autonome de la famille CLAUDE-DNA. Décrit comment Guillaume, Claude -->
 <!-- et Asana travaillent ensemble sur l'ENSEMBLE des projets (pas que Pilote). -->
@@ -83,6 +83,7 @@ et archive les projets** (c'est aussi sain que ce soit sa main sur le destructif
 | **Lundi — Planning** | Claude | Poste le plan de la semaine : Actions dues, livrables produits, décisions à prendre. Dans le projet « Organisation ». |
 | **Quotidien** | Guillaume | Ouvre « Mes tâches » → les Actions du jour (rappels mobile). |
 | **Vendredi/dimanche — Compte-rendu** | Claude | Récap hebdo par projet actif, en status update (« Aperçu »). |
+| **À la demande — Revue** | Claude | `grevue` (skill `asana-revue`) : revue en delta de toutes les tâches hors `T7`, tâches à cocher proposées (Guillaume valide), planning à deux voies chiffrées. Mode quotidien/hebdomadaire = plus tard. |
 
 Le rythme couvre **tous les projets vivants** (Bébé, Départ d'InAdvans, Vie/Santé,
 Pilote…), pas seulement Pilote.
@@ -135,3 +136,4 @@ Décidée le 2026-06-23. Avancement tenu à jour ici.
 |---|---|---|
 | v1.0 | 2026-06-23 | Création. Formalise le système « nous 3 » (Guillaume/Claude/Asana), les 3 types d'objets, la loi anti-divergence, le périmètre MCP, le rythme hebdo, le QG, la cible de refonte. |
 | v1.1 | 2026-10-26 | §7 : pointeur vers la règle « création de tâche = capture légère » (CORE v3.8, décision `captureLegere`). |
+| v1.2 | 2026-10-28 | §5 : ligne « À la demande — Revue » (trigger `grevue`, skill `asana-revue`, CORE v3.9, décision `skillRevueA`). |
