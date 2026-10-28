@@ -10,6 +10,6 @@ Asana). Ce n'est **pas** du code applicatif — c'est de la configuration-as-doc
 - **`CLAUDE-DNA-CHAT.md`** — variante autonome pour claude.ai.
 - **`CLAUDE-DNA-ASANA.md`** — workflow Guillaume + Claude + Asana.
 - **`.claude/skills/`** — skills implémentant les triggers `g*` du DNA (`gauto`, `gaudit`,
-  `gpilote`, `gpose`, `gprompt`, `gquota`, `grech`, `gtri`, `asana-pass`).
+  `gpilote`, `gpose`, `gprompt`, `gquota`, `grech`, `gtri`, `asana-pass`, `asana-revue`).
 
 Détails complets : [`CLAUDE.md`](CLAUDE.md).
