@@ -5,7 +5,7 @@
 ## ⏳ À faire / en cours
 
 - [ ] Skill `gdoc` v0.2 : l'arriéré par passes de 20–25 fichiers (Guillaume copie d'abord le dossier Dropbox dans la boîte Drive) ; mise à jour de la skill avec les coûts réels de chaque passe — la passe test de 20 fichiers a été appliquée le 2026-11-06 (2026-11-06)
-- [ ] Skill `fiches-twinjet` : mesurer le coût réel de la prochaine fiche (congés ou desiderata), puis décider d'un fork Haiku comme `gquota` ; autres formulaires de `documents webcrm/` (note de frais PNT…) : même méthode, à la demande de Guillaume (2026-11-06)
+- [ ] Skill `fiches-twinjet` : fork Haiku comme `gquota` — décision `congesForkB` (2026-11-06) : pas maintenant, attendre la mesure du coût réel. 1re mesure (desiderata 9-10 janvier 2027, via l'appel Skill) : 4 appels (Skill, `download_link`, commande, `SendUserFile`), sortie du script ≈ 330 octets ; à comparer avec une fiche de congés avant de décider. Autres formulaires de `documents webcrm/` (note de frais PNT…) : même méthode, à la demande de Guillaume (2026-11-06)
 - [ ] DNA privé et canal Chat ↔ Code : étude dans `general/perso/securite/` (privé), en attente du choix de Guillaume (`dnaPrive`, `canal`) ; ensuite, session dédiée « refonte de `claude-os` » (2026-11-06)
 
 ## ⏸️ Plus tard / idées
