@@ -56,8 +56,9 @@ analyser les PDF.** Un congé ou un week-end = une fiche.
   uniquement (le script refuse le reste) ; demande au plus tard le 05 du mois pour le mois suivant
   (le script avertit sans bloquer : le redire à Guillaume) ; envoi par mail au RDOS avec copie à la
   gestion (adresses dans la note), ou par courrier.
-- Pas de brouillon Gmail avec le PDF en pièce jointe : il passerait en base64 par le modèle
-  (des centaines de milliers de tokens). Un brouillon sans pièce jointe reste possible.
+- Pas de brouillon Gmail (décision `desidMailB`, 2026-11-06 : il serait dans le Gmail perso et non
+  dans l'adresse Twin Jet ; avec le PDF en pièce jointe il passerait en base64 par le modèle, des
+  centaines de milliers de tokens). Ne pas le reproposer.
 
 ## Règles
 
