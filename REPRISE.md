@@ -5,9 +5,10 @@
 ## Skill `fiches-twinjet` — depuis le 2026-11-06
 
 Demande de Guillaume : fiches de congés Twin Jet plus vite et à moindre coût en tokens. Skill :
-`.claude/skills/fiches-twinjet/` (`SKILL.md` + `remplir_conges.py`, v0.1 ; procédure et script seuls,
-ce repo est public : jamais de PDF ni de signature). Pas de trigger `g*` (CORE inchangé) : elle se
-déclenche sur la demande (« fiche de congé »).
+`.claude/skills/fiches-twinjet/` (`SKILL.md`, `remplir_conges.py`, `remplir_desiderata.py`, `outils.py`,
+v0.2 ; procédure et scripts seuls, ce repo est public : jamais de PDF, de signature ni d'adresse mail).
+Pas de trigger `g*` (CORE inchangé) : elle se déclenche sur la demande (« fiche de congé », « demande
+de desiderata »).
 
 - Principe : le script ajoute les dates du/au, la croix du type d'absence (congés payés par défaut) et
   la date de la demande au modèle Dropbox déjà pré-rempli et signé (positions mesurées une fois sur la
@@ -17,8 +18,15 @@ déclenche sur la demande (« fiche de congé »).
 - Validée le 2026-11-06 : fiches 21/12/26 et 30/12/26 au 03/01/27 (congés payés), résultat identique au
   pixel près à celles que Guillaume a validées ; quatre types d'absence testés ; garde-fous testés
   (mauvais modèle, lien Dropbox déjà consommé, date invalide avant tout téléchargement).
-- **Reste à faire** : fiche desiderata (Guillaume doit déposer le modèle pré-rempli) ; mesurer le coût
-  réel à la prochaine demande, puis décider d'un fork Haiku comme `gquota` — voir `TODO.md`.
+- v0.2 (même jour) : fiche de desiderata — le modèle déposé par Guillaume est un PDF à champs (Acrobat) ;
+  `remplir_desiderata.py` remplace date de la demande, du, au, soit et motif, garde nom, escale et
+  signature (annotation Ink), laisse la section Responsable vide. Règles de la fiche et de la note de
+  service CST033 : week-end (samedi, dimanche) seulement, refusé sinon ; demande au plus tard le 05
+  du mois pour le mois suivant, signalé sans bloquer ; spécification `we:JJ/MM`. Les congés ont été
+  re-testés au pixel après la refactorisation en `outils.py`. Pas de brouillon Gmail avec pièce jointe
+  (base64 via le modèle = centaines de milliers de tokens).
+- **Reste à faire** : mesurer le coût réel à la prochaine fiche, puis décider d'un fork Haiku comme
+  `gquota` ; autres formulaires de `documents webcrm/` (note de frais PNT…) à la demande — voir `TODO.md`.
 
 ## Skill `gdoc` — depuis le 2026-11-06
 

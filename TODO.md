@@ -5,7 +5,7 @@
 ## ⏳ À faire / en cours
 
 - [ ] Skill `gdoc` v0.2 : l'arriéré par passes de 20–25 fichiers (Guillaume copie d'abord le dossier Dropbox dans la boîte Drive) ; mise à jour de la skill avec les coûts réels de chaque passe — la passe test de 20 fichiers a été appliquée le 2026-11-06 (2026-11-06)
-- [ ] Skill `fiches-twinjet` : ajouter la fiche desiderata quand Guillaume dépose le modèle pré-rempli (même méthode : mesurer les champs une fois, `remplir_desiderata.py` à côté du script de congés) ; mesurer le coût réel de la prochaine fiche de congés, puis décider d'un fork Haiku comme `gquota` (2026-11-06)
+- [ ] Skill `fiches-twinjet` : mesurer le coût réel de la prochaine fiche (congés ou desiderata), puis décider d'un fork Haiku comme `gquota` ; autres formulaires de `documents webcrm/` (note de frais PNT…) : même méthode, à la demande de Guillaume (2026-11-06)
 - [ ] DNA privé et canal Chat ↔ Code : étude dans `general/perso/securite/` (privé), en attente du choix de Guillaume (`dnaPrive`, `canal`) ; ensuite, session dédiée « refonte de `claude-os` » (2026-11-06)
 
 ## ⏸️ Plus tard / idées
@@ -18,6 +18,7 @@
 
 ## ✅ Fait (archive courte — élaguer régulièrement)
 
+- [x] Skill `fiches-twinjet` v0.2 : fiche de desiderata (PDF à champs, week-end seulement, échéance du 05 signalée, signature conservée) + briques communes `outils.py` — demande de Guillaume du 2026-11-06 (2026-11-06)
 - [x] Skill `fiches-twinjet` v0.1 : fiches de congés Twin Jet par script (modèle Dropbox pré-rempli et signé, positions figées, auto-contrôle ; de ≈ 28 appels d'analyse à la main à 3-4) — demande de Guillaume du 2026-11-06, pas de trigger `g*` donc CORE inchangé (2026-11-06)
 - [x] Skill `asana-revue` v0.1 (trigger `grevue`, CORE v3.9, ASANA v1.2) : revue en delta de toutes les tâches Asana hors `T7`, planning à deux voies, état et carnet de préférences dans `general/perso/revue-asana/` — décision `skillRevueA` (2026-10-28)
 - [x] Merge de PR automatique, tous repos sauf `T7` — règle `mergeAuto` (CORE v3.7), persistée dans le `CLAUDE.md` de chaque projet (2026-10-20)
