@@ -75,6 +75,9 @@ claude-os#86, ClaudeAchatMaison#65, general#19, candidaturePilote#319, toutes me
   touche `scripts/veille/**`.
 - Garde-fou conservé **en routine** : une PR qui touche `gquota`, `gpilote`, `gaudit` ou le CORE
   n'est pas mergée automatiquement (décision du 2026-10-09).
+- Décision `prAboA` (2026-11-06) : une PR mergée aussitôt n'est pas suivie (pas de `subscribe_pr_activity`) ;
+  économie d'environ 5 000 tokens par PR. Persistée dans le `CLAUDE.md` de `claude-os` seulement ; les
+  autres repos en `mergeAuto` (`general`, `ClaudeAchatMaison`, `candidaturePilote`) ne l'ont pas encore.
 - **Reste à faire, plus tard (pas avant que Guillaume le demande)** : purger les PR déjà en
   attente, tous repos sauf `T7` — voir `TODO.md`.
 
