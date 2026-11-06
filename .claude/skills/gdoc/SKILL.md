@@ -39,7 +39,12 @@ seulement, aucun nom de document, aucun identifiant.
    n'est pas dans la session : `add_repo`.
 2. `ToolSearch` : Drive (`search_files`, `read_file_content`, `update_file`, `create_file`,
    `get_file_metadata`) ; Dropbox seulement si Guillaume le demande.
-3. Annoncer en une ligne l'état (à ranger / prêts pour le coffre / dernière passe).
+3. **Connecteur Drive** : avant d'écrire, s'assurer que ses outils d'écriture (Update File,
+   Create File) sont réglés sur « toujours autorisé » (claude.ai → Personnaliser → Connecteurs ;
+   c'est le connecteur, pas le mode de la session, qui demande l'autorisation). Sinon chaque
+   appel d'une passe déclenche une demande (24 à la première passe). Partage et Corbeille
+   restent sur « demander ».
+4. Annoncer en une ligne l'état (à ranger / prêts pour le coffre / dernière passe).
 
 ## Rappel dur (détail dans le README)
 
@@ -48,11 +53,14 @@ date + lieu de naissance, original (PDF, scan, photo). **Le niveau suit le conte
 sensible trouvé**, pas le nom du fichier ; doute = niveau plus sévère. N2 = fiche minimale,
 aucun contenu ni chiffre. Noms d'origine masqués dans le registre (suite de 5 chiffres ou plus
 → `…`). Mot de passe en clair dans un PDF : le signaler à Guillaume, ne jamais le recopier.
+Un texte extrait d'un acte, d'un contrat ou d'un compromis (page par page ou en texte intégral)
+vaut un original : même interdit.
 
 ## Paliers de lecture (le coût vient de ce qu'on lit)
 
-Estimation à recaler à chaque passe : 2 à 4 k tokens par fichier lu ; les longs contrats
-dominent.
+Mesuré à la première passe : ≈ 0,8 k tokens par fichier court lu (texte océrisé du Drive),
+≈ 2 k pour une carte grise ou une facture de plusieurs pages ; les longs contrats dominent. À
+recaler à chaque passe.
 
 | Palier | Quand | Coût |
 |---|---|---|
@@ -78,12 +86,22 @@ fichiers, récents d'abord, sauf demande.
    d'un repo (synthèse de notice…) va dans `_syntheses-claude/` (hors passe, hors coffre, hors
    registre) ; tout autre : « à exporter en PDF avant le coffre ». *Sous-dossiers de la
    boîte* : les lister et demander.
-3. **Classer** selon les paliers : niveau, domaine/sous-dossier, nom final, fiche.
+3. **Classer** selon les paliers : niveau, domaine/sous-dossier, nom final, fiche. **La date du
+   nom est celle imprimée sur le document** (émission d'une facture, d'une carte grise, d'un
+   courrier), à défaut la date de dépôt. Les métadonnées Drive trompent (date de scan ou de
+   dépôt) : 5 noms sur 20 ont dû être corrigés à la première passe ; lire au moins le haut du
+   document quand le nom ne donne pas la date. Une pièce scannée peut être une **ancienne
+   version** (adresse, validité) : le noter dans le registre et le dire à Guillaume.
 4. **Tableau de validation** (n°, fichier actuel, nom final, dossier, niveau, fiche,
    remarque). **Rien ne bouge avant le OK de Guillaume**, qui peut corriger ligne par ligne.
-5. **Appliquer** (après OK) : créer les dossiers manquants de `_prets-coffre/` ; renommer +
-   déplacer en un seul appel `update_file` (`title` + `parentId`) ; écrire le registre (une
-   édition par domaine), l'INDEX (compteurs, prochain ID, échéances, journal de passe).
+5. **Appliquer** (après OK) : créer les dossiers manquants de `_prets-coffre/` (`create_file`
+   sans contenu, `contentMimeType: application/vnd.google-apps.folder`, `parentId`) ; renommer
+   + déplacer en un seul appel `update_file` (`title` + `parentId`) ; vérifier par la réponse
+   de l'appel (`parentId`, `title`) plutôt que par une nouvelle liste (la recherche Drive ne
+   rend que ≈ 5 fichiers par page) ; écrire le registre (une édition par domaine), l'INDEX
+   (compteurs, prochain ID, échéances, journal de passe). Appel interrompu ou rejeté en cours
+   de route : contrôler l'état réel (`get_file_metadata`) avant de relancer, car l'appel a pu
+   s'exécuter (constaté : 1 sur 7).
 6. **Reporter les faits utiles** là où ils ont un propriétaire (règle « une information, un
    seul propriétaire » : un kilométrage dans le dossier du véhicule, un réglage dans le
    dossier de la maison) ; le registre ne garde que le pointeur. Vérifier d'abord que le fait
@@ -104,6 +122,9 @@ fichiers, récents d'abord, sauf demande.
 - Dropbox : hors périmètre tant que l'arriéré n'est pas dans le Drive (`docBoiteA`). Sur
   demande : `download_link` puis lecture, avec alerte de coût (un scan Dropbox ressort vide
   côté connecteur ; pas d'OCR dans le conteneur cloud).
+- Ce que Claude lit reste dans la transcription de la session : après une passe qui a lu des
+  pièces avec identifiants, le dire à Guillaume (il peut supprimer la session ; réglage de
+  confidentialité de claude.ai).
 - Questions à Guillaume : énoncé complet + réponses en clair + recommandation ; un code Q/R en
   plus, jamais seul.
 
@@ -114,4 +135,5 @@ fichiers, récents d'abord, sauf demande.
   échéances, passage en Routine (avec `gquota`), indexation du coffre existant (session
   locale à part, coffre déverrouillé, décision séparée), arriéré Dropbox.
 - Après chaque passe, mettre cette skill à jour avec ce que l'application réelle a appris
-  (première passe : 2026-11-06).
+  (première passe, 2026-11-06 : connecteur à régler, date du nom, vérification par la réponse,
+  appel interrompu, anciennes versions de pièces).

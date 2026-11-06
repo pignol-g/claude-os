@@ -5,19 +5,22 @@
 ## Skill `gdoc` — depuis le 2026-11-06
 
 Décisions `docPorteeA` / `docNiveau2A` / `docBoiteA` : rangement des documents (trigger `gdoc`, CORE
-**v3.10**). Skill : `.claude/skills/gdoc/SKILL.md` (v0.1, procédure seule : ce repo est public).
+**v3.10**). Skill : `.claude/skills/gdoc/SKILL.md` (v0.2, procédure seule : ce repo est public).
 Données, conventions et registre : repo `general`, `documents/` (privé).
 
 - Circuit : dépôt dans la boîte Drive → passe (tableau de validation, rien ne bouge avant l'OK) →
   `_prets-coffre/<domaine>/` → Guillaume transfère vers le coffre chiffré ; le registre (niveaux
   N0/N1/N2, jamais de secret ni d'original) est la seule vue que Claude a du coffre.
-- Passe test du 2026-11-06 sur 20 fichiers récents : tableau proposé, **en attente de validation**
-  (rien renommé ni déplacé dans le Drive à ce stade).
-- Audit lecture seule du 2026-11-06 des 3 repos : aucun identifiant détecté dans le texte ni dans
-  l'historique ; quelques PDF suivis dans deux repos privés sont à sortir vers le coffre (détail dans
-  `general/documents/INDEX.md`, privé). Question de fond posée à Guillaume : `secuPlan`.
-- **Reste à faire** : valider la passe test, puis l'arriéré par passes de 20–25 fichiers ; l'arriéré
-  du dossier Dropbox est à copier dans le Drive par Guillaume — voir `TODO.md`.
+- Passe test du 2026-11-06 sur 20 fichiers récents : **validée puis appliquée** (17 rangés dans
+  `_prets-coffre/`, 3 synthèses mises à part, registre D-0001 à D-0017). Leçons intégrées à la skill
+  (v0.2) : connecteur Drive à régler avant d'écrire, date du nom = date imprimée, vérification par la
+  réponse de l'appel, appel interrompu. Coût et détail : journal de `general/documents/INDEX.md`
+  (privé).
+- Sécurité (décisions `secuSysteme` B, `secuHistorique` B) : trace, guide des clés d'accès, plan de
+  purge et étude du DNA privé / canal Chat ↔ Code dans `general/perso/securite/` (privé). Rien
+  d'exécuté côté purge : en attente de son accord (`purge`).
+- **Reste à faire** : l'arriéré par passes de 20–25 fichiers (le dossier Dropbox est à copier dans le
+  Drive par Guillaume) ; choix `dnaPrive` et `canal` — voir `TODO.md`.
 
 ## Skill `asana-revue` — depuis le 2026-10-28
 
