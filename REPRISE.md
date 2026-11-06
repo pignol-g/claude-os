@@ -1,6 +1,24 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-11-06** (skill `gdoc`, trigger `gdoc` — CORE v3.10 ; skill `asana-revue`, trigger `grevue` — CORE v3.9 ; merge de PR automatique, tous repos sauf `T7`, depuis le 2026-10-20 ; routine pilote mise en service le 2026-10-10)
+**Dernière session : 2026-11-06** (skill `fiches-twinjet` ; skill `gdoc`, trigger `gdoc` — CORE v3.10 ; skill `asana-revue`, trigger `grevue` — CORE v3.9 ; merge de PR automatique, tous repos sauf `T7`, depuis le 2026-10-20 ; routine pilote mise en service le 2026-10-10)
+
+## Skill `fiches-twinjet` — depuis le 2026-11-06
+
+Demande de Guillaume : fiches de congés Twin Jet plus vite et à moindre coût en tokens. Skill :
+`.claude/skills/fiches-twinjet/` (`SKILL.md` + `remplir_conges.py`, v0.1 ; procédure et script seuls,
+ce repo est public : jamais de PDF ni de signature). Pas de trigger `g*` (CORE inchangé) : elle se
+déclenche sur la demande (« fiche de congé »).
+
+- Principe : le script ajoute les dates du/au, la croix du type d'absence (congés payés par défaut) et
+  la date de la demande au modèle Dropbox déjà pré-rempli et signé (positions mesurées une fois sur la
+  fiche « été 2026 »). Parcours : `download_link` → une commande → `SendUserFile` (3-4 appels, contre
+  ≈ 28 pour l'analyse à la main du 2026-11-06). Le connecteur Dropbox ne crée que du texte : les PDF
+  sont joints dans la conversation, Guillaume les range dans `demandes de congés/`.
+- Validée le 2026-11-06 : fiches 21/12/26 et 30/12/26 au 03/01/27 (congés payés), résultat identique au
+  pixel près à celles que Guillaume a validées ; quatre types d'absence testés ; garde-fous testés
+  (mauvais modèle, lien Dropbox déjà consommé, date invalide avant tout téléchargement).
+- **Reste à faire** : fiche desiderata (Guillaume doit déposer le modèle pré-rempli) ; mesurer le coût
+  réel à la prochaine demande, puis décider d'un fork Haiku comme `gquota` — voir `TODO.md`.
 
 ## Skill `gdoc` — depuis le 2026-11-06
 
