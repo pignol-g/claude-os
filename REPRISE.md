@@ -1,6 +1,23 @@
 # REPRISE — claude-os
 
-**Dernière session : 2026-10-28** (skill `asana-revue`, trigger `grevue` — CORE v3.9 ; merge de PR automatique, tous repos sauf `T7`, depuis le 2026-10-20 ; routine pilote mise en service le 2026-10-10)
+**Dernière session : 2026-11-06** (skill `gdoc`, trigger `gdoc` — CORE v3.10 ; skill `asana-revue`, trigger `grevue` — CORE v3.9 ; merge de PR automatique, tous repos sauf `T7`, depuis le 2026-10-20 ; routine pilote mise en service le 2026-10-10)
+
+## Skill `gdoc` — depuis le 2026-11-06
+
+Décisions `docPorteeA` / `docNiveau2A` / `docBoiteA` : rangement des documents (trigger `gdoc`, CORE
+**v3.10**). Skill : `.claude/skills/gdoc/SKILL.md` (v0.1, procédure seule : ce repo est public).
+Données, conventions et registre : repo `general`, `documents/` (privé).
+
+- Circuit : dépôt dans la boîte Drive → passe (tableau de validation, rien ne bouge avant l'OK) →
+  `_prets-coffre/<domaine>/` → Guillaume transfère vers le coffre chiffré ; le registre (niveaux
+  N0/N1/N2, jamais de secret ni d'original) est la seule vue que Claude a du coffre.
+- Passe test du 2026-11-06 sur 20 fichiers récents : tableau proposé, **en attente de validation**
+  (rien renommé ni déplacé dans le Drive à ce stade).
+- Audit lecture seule du 2026-11-06 des 3 repos : aucun identifiant détecté dans le texte ni dans
+  l'historique ; quelques PDF suivis dans deux repos privés sont à sortir vers le coffre (détail dans
+  `general/documents/INDEX.md`, privé). Question de fond posée à Guillaume : `secuPlan`.
+- **Reste à faire** : valider la passe test, puis l'arriéré par passes de 20–25 fichiers ; l'arriéré
+  du dossier Dropbox est à copier dans le Drive par Guillaume — voir `TODO.md`.
 
 ## Skill `asana-revue` — depuis le 2026-10-28
 
