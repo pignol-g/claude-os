@@ -27,21 +27,16 @@ Lecture : pypdf (matrice de chaque formulaire = coin du champ) et pdfplumber (gl
 Coordonnées en points PDF, origine en bas à gauche, A4 = 595 x 842.
 """
 import argparse
-import datetime
 import functools
 import io
-import logging
 import os
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
 from collections import Counter
 
-# pypdf déverse des pages d'avertissements sur les polices CFF du modèle (fontTools absent) :
-# inutiles ici, et chaque ligne affichée coûte des tokens au modèle qui lit la sortie.
-logging.getLogger("pypdf").setLevel(logging.CRITICAL)
+sys.dont_write_bytecode = True  # pas de __pycache__ dans le dépôt
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python3 -I ne le fait pas
+from outils import aujourd_hui, jm, lire_date, lire_plage, modele_local  # noqa: E402
 
 try:
     from pypdf import PdfReader, PdfWriter
@@ -67,58 +62,9 @@ TYPES = {  # clé : (rang de la case, libellé, suffixe du nom de fichier)
     "sans-solde": (2, "Congés sans solde", " sans solde"),
     "familial": (3, "Congés pour évènement familiaux (justificatif à joindre)", " évènement familial"),
 }
-MOIS = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
-        "septembre", "octobre", "novembre", "décembre")
-
-
-# --- Dates -----------------------------------------------------------------------------------
-def aujourd_hui():
-    try:
-        from zoneinfo import ZoneInfo
-        return datetime.datetime.now(ZoneInfo("Europe/Paris")).date()
-    except Exception:  # base de fuseaux absente : date locale
-        return datetime.date.today()
-
-
-def lire_date(texte, plancher):
-    """JJ/MM/AAAA, JJ/MM/AA, AAAA-MM-JJ ou JJ/MM (année absente : 1re occurrence >= plancher)."""
-    t = texte.strip()
-    try:
-        m = re.fullmatch(r"(\d{4})-(\d{1,2})-(\d{1,2})", t)
-        if m:
-            return datetime.date(int(m[1]), int(m[2]), int(m[3]))
-        m = re.fullmatch(r"(\d{1,2})/(\d{1,2})(?:/(\d{4}|\d{2}))?", t)
-        if not m:
-            raise ValueError("format attendu JJ/MM, JJ/MM/AA, JJ/MM/AAAA ou AAAA-MM-JJ")
-        jour, mois, an = int(m[1]), int(m[2]), m[3]
-        if an is not None:
-            return datetime.date(int(an) + (2000 if len(an) == 2 else 0), mois, jour)
-        for annee in range(plancher.year, plancher.year + 8):
-            try:
-                d = datetime.date(annee, mois, jour)
-            except ValueError:  # 29/02 hors année bissextile
-                continue
-            if d >= plancher:
-                return d
-        raise ValueError("date impossible")
-    except ValueError as e:
-        raise ValueError(f"date illisible {texte!r} : {e}") from None
-
-
-def lire_conge(spec, ref):
-    morceaux = re.split(r"\s*(?:\.\.|→|\s+au\s+)\s*", spec.strip())
-    if len(morceaux) > 2:
-        raise ValueError(f"congé illisible {spec!r} : une seule plage « début..fin » attendue")
-    debut = lire_date(morceaux[0], ref)
-    fin = lire_date(morceaux[1], debut) if len(morceaux) == 2 else debut
-    if fin < debut:
-        raise ValueError(f"congé {spec!r} : le dernier jour précède le premier")
-    return debut, fin
 
 
 def libelle(d1, d2):
-    def jm(d):
-        return f"{d.day} {MOIS[d.month - 1]}"
     if d1 == d2:
         return f"{jm(d1)} {d1.year}"
     if d1.year != d2.year:
@@ -159,15 +105,6 @@ def verifier_modele(chemin):
                  "pas une fiche déjà remplie comme « été 2026 »).")
     if not a_une_image(page):
         print("ATTENTION : aucune signature (image) détectée dans le modèle — modèle non signé ?")
-
-
-def telecharger(url, dossier):
-    destination = os.path.join(dossier, "modele.pdf")
-    r = subprocess.run(["curl", "-sS", "-f", "-L", "-o", destination, url], capture_output=True, text=True)
-    if r.returncode != 0:
-        sys.exit("Téléchargement impossible (lien expiré ou déjà utilisé : redemander download_link) : "
-                 + r.stderr.strip()[:200])
-    return destination
 
 
 # --- Écriture --------------------------------------------------------------------------------
@@ -243,7 +180,7 @@ def main():
     aujourd = aujourd_hui()
     try:
         demande = lire_date(a.demande, aujourd).strftime("%d/%m/%Y") if a.demande else aujourd.strftime("%d/%m/%Y")
-        plages = [lire_conge(s, aujourd) for s in a.conges]
+        plages = [lire_plage(s, aujourd) for s in a.conges]
     except ValueError as e:
         sys.exit(f"Erreur : {e}")
     rang, nom_type, suffixe = TYPES[a.type]
@@ -259,10 +196,8 @@ def main():
         sys.exit("Erreur : --sortie et (--modele-url ou --modele) sont requis hors --dry-run.")
 
     os.makedirs(a.sortie, exist_ok=True)
-    tmp = tempfile.mkdtemp(prefix="modele-conges-")  # dossier neuf, hors dépôt, supprimé à la fin
     echecs = 0
-    try:
-        modele = a.modele or telecharger(a.modele_url, tmp)
+    with modele_local(a.modele, a.modele_url) as modele:
         verifier_modele(modele)
         for d1, d2 in plages:
             du, au = d1.strftime("%d/%m/%y"), d2.strftime("%d/%m/%y")
@@ -274,8 +209,6 @@ def main():
                 print(f"ECHEC  {sortie} : " + " ; ".join(anomalies))
             else:
                 print(f"OK  {sortie}")
-    finally:
-        shutil.rmtree(tmp, ignore_errors=True)
     if a.type == "familial":
         print("Rappel : congé pour évènement familial = justificatif à joindre à la fiche.")
     sys.exit(1 if echecs else 0)
