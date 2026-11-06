@@ -23,8 +23,9 @@ de desiderata »).
   signature (annotation Ink), laisse la section Responsable vide. Règles de la fiche et de la note de
   service CST033 : week-end (samedi, dimanche) seulement, refusé sinon ; demande au plus tard le 05
   du mois pour le mois suivant, signalé sans bloquer ; spécification `we:JJ/MM`. Les congés ont été
-  re-testés au pixel après la refactorisation en `outils.py`. Pas de brouillon Gmail avec pièce jointe
-  (base64 via le modèle = centaines de milliers de tokens).
+  re-testés au pixel après la refactorisation en `outils.py`. Décision `desidMailB` : pas de brouillon
+  Gmail (envoi depuis l'adresse Twin Jet, pas le Gmail perso ; pièce jointe en base64 = centaines de
+  milliers de tokens).
 - **Reste à faire** : mesurer le coût réel à la prochaine fiche, puis décider d'un fork Haiku comme
   `gquota` ; autres formulaires de `documents webcrm/` (note de frais PNT…) à la demande — voir `TODO.md`.
 
