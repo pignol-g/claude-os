@@ -26,7 +26,9 @@ de desiderata »).
   re-testés au pixel après la refactorisation en `outils.py`. Décision `desidMailB` : pas de brouillon
   Gmail (envoi depuis l'adresse Twin Jet, pas le Gmail perso ; pièce jointe en base64 = centaines de
   milliers de tokens).
-- **Reste à faire** : mesurer le coût réel à la prochaine fiche, puis décider d'un fork Haiku comme
+- Premier vrai appel via la skill (desiderata 9-10 janvier 2027, motif mariage) : fiche livrée sans accroc,
+  4 appels. Décision `congesForkB` : pas de fork Haiku pour l'instant.
+- **Reste à faire** : mesurer le coût réel de quelques fiches de plus, puis décider d'un fork Haiku comme
   `gquota` ; autres formulaires de `documents webcrm/` (note de frais PNT…) à la demande — voir `TODO.md`.
 
 ## Skill `gdoc` — depuis le 2026-11-06
