@@ -1,13 +1,13 @@
 # CLAUDE-DNA-CHAT — Convention Claude Chat de Guillaume Pignolet
 
-**Version : v2.3 — 2026-10-26** (création de tâche = capture légère, pas de traitement sans
+**Version : v2.4 — 2026-11-07** (Chat avec connecteur GitHub / `add_repo` : clone automatique des repos utiles, branche + PR + merge automatique, décision `githubAuto` ; suite v2.3 : création de tâche = capture légère, pas de traitement sans
 accord, hors projet `T7` — décision `captureLegere`, Chat pouvant créer des tâches Asana — et
 rappel de l'interdit de l'outil natif de choix multiples — aligné CORE v3.8 ; suite v2.2 : trigger
 `gprompt` ; suite v2.1 : Convention Q/R codes, option `(recommandé)` obligatoire + code `reco`
 pour appliquer d'un coup toutes les options recommandées d'un tour)
 
 <!-- MASTER FILE — Destiné à Claude Chat (claude.ai). Autonome (Core dupliqué). -->
-<!-- Version : 2026-10-26 v2.3 -->
+<!-- Version : 2026-11-07 v2.4 -->
 <!-- À COLLER DANS : claude.ai → Paramètres → Instructions globales (niveau utilisateur). -->
 <!-- GitHub : github.com/pignol-g/claude-os — branche main (public) -->
 <!-- Raw URL : https://raw.githubusercontent.com/pignol-g/claude-os/main/CLAUDE-DNA-CHAT.md -->
@@ -181,7 +181,8 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 
 **Pendant la session :**
 - Rester dans le rôle défini par le projet.
-- Ne pas modifier de fichiers.
+- Fichiers : sans accès GitHub dans la session, Chat ne modifie pas de fichiers (CC s'en charge).
+- **GitHub auto (décision `githubAuto`, 2026-11-07)** : quand la session Chat a le connecteur GitHub (`list_repos` / `add_repo`), dérogation à la Posture Guide pour les repos `pignol-g/*` : (1) **cloner seul** (`add_repo` accès `push`) le ou les repos utiles dès qu'une question en dépend, sans demander ; (2) **modifier, branche + commit + PR, puis merger seul** (règle `mergeAuto` du CORE : jamais de push direct sur `main`, repo `T7` et PR touchant les garde-fous exclus) ; (3) demander avant toute action destructive (force-push, suppression de branche ou de repo, réécriture d'historique). Ne vaut que pour les repos de Guillaume, pas pour un repo tiers.
 - Signaler si une info nouvelle mérite d'être persistée : "Note pour l'export : [info]".
 
 **En fin de session :**
@@ -211,4 +212,5 @@ Rappeler à Guillaume : "Dépose ce fichier dans `to-cc/YYYY-MM-DD-session.md` d
 | v2.2 | 2026-08-07 | Ajout du trigger `gprompt` (générateur/optimiseur de prompt interactif), absent alors que le skill existait déjà — corrigé par le premier cycle `gaudit` réel sur claude-os. Aligné CORE v3.3. |
 | v2.1 | 2026-07-22 | Convention Q/R codes : option `(recommandé)` obligatoire sur chaque bloc quand une réco honnête existe, code `reco` pour appliquer d'un coup toutes les recommandations d'un tour (batch, scopé au tour précédent). Aligné CORE v3.2. |
 | v2.3 | 2026-10-26 | Règle « création de tâche = capture légère » (décision `captureLegere` : la créer sans la traiter ; dédoublonner, placer, relier ; ni recherche ni pièce jointe lourde sans accord ; doute = question Q/R ; hors projet `T7`), Chat pouvant créer des tâches Asana. Rappel de l'interdit de l'outil natif de choix multiples dans la Convention Q/R. Aligné CORE v3.8. |
+| v2.4 | 2026-11-07 | Section 3 : mode « GitHub auto » pour Chat avec connecteur GitHub (décision `githubAuto`) — clone automatique des repos utiles, branche + PR + merge automatique, confirmation seulement pour les actions destructives. Pas de changement CORE. |
 | ≤ v1.4 | 2026-05-15 | Voir CLAUDE-DNA.md legacy dans le repo. |
